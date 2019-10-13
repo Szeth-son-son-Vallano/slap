@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ctrl_NewSort_Output.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ctrl_NewSort_Output.Designer.cs">
+      <DependentUpon>ctrl_NewSort_Output.cs</DependentUpon>
+    </Compile>
     <Compile Include="ctrl_NewSort_Input.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -63,6 +69,9 @@
     <Compile Include="Resources\RoundedButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <EmbeddedResource Include="ctrl_NewSort_Output.resx">
+      <DependentUpon>ctrl_NewSort_Output.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ctrl_NewSort_Input.resx">
       <DependentUpon>ctrl_NewSort_Input.cs</DependentUpon>
     </EmbeddedResource>

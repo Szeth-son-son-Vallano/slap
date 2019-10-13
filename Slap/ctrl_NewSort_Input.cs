@@ -21,9 +21,11 @@ namespace Slap
             pb_DND_ParcelList.AllowDrop = true;
             pb_DND_RouteList.AllowDrop = true;
             Reset();
+
+            //ctrl_NewSort_Output1.Hide();
         }
 
-        // reset
+        // reset function
         private void Reset()
         {
             lbl_ErrorMessage.Text = "";
@@ -35,7 +37,7 @@ namespace Slap
         }
 
         // Functions to Load files (Drag and Drop and Open File Dialog)
-        private void checkParcelList(string[] fileNames)
+        private void checkParcelListFileType(string[] fileNames)
         {
             if (fileNames.Length > 0)
             {
@@ -60,7 +62,7 @@ namespace Slap
             }
         }
 
-        private void checkRouteList(string[] fileNames)
+        private void checkRouteListFileType(string[] fileNames)
         {
             if (fileNames.Length > 0)
             {
@@ -91,7 +93,7 @@ namespace Slap
             if (data != null)
             {
                 var fileNames = data as string[];
-                checkParcelList(fileNames);
+                checkParcelListFileType(fileNames);
             }
         }
 
@@ -101,7 +103,7 @@ namespace Slap
             if (data != null)
             {
                 string[] fileNames = data as string[];
-                checkRouteList(fileNames);
+                checkRouteListFileType(fileNames);
             }
         }
 
@@ -117,25 +119,25 @@ namespace Slap
 
         private void pb_DND_ParcelList_Click(object sender, EventArgs e)
         {
-            DialogResult dialog = openFileDialog1.ShowDialog();
-            if (dialog == DialogResult.OK)
+            DialogResult result = openFileDialog1.ShowDialog();
+            if (result == DialogResult.OK)
             {
                 string[] fileNames = new string[1];
                 fileNames[0] = openFileDialog1.FileName;
 
-                checkParcelList(fileNames);
+                checkParcelListFileType(fileNames);
             }
         }
 
         private void pb_DND_RouteList_Click(object sender, EventArgs e)
         {
-            DialogResult dialog = openFileDialog1.ShowDialog();
-            if (dialog == DialogResult.OK)
+            DialogResult result = openFileDialog1.ShowDialog();
+            if (result == DialogResult.OK)
             {
                 string[] fileNames = new string[1];
                 fileNames[0] = openFileDialog1.FileName;
 
-                checkRouteList(fileNames);
+                checkRouteListFileType(fileNames);
             }
         }
 
@@ -144,8 +146,8 @@ namespace Slap
         {
             if (parcelListReady && routeListReady)
             {
-                // . . .
                 lbl_ErrorMessage.Text = "";
+                ctrl_NewSort_Output1.Show();
             }
             else
             {

@@ -39,6 +39,7 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.btn_Clear = new BrbVideoManager.Controls.RoundedButton();
             this.btn_Sort = new BrbVideoManager.Controls.RoundedButton();
+            this.ctrl_NewSort_Output1 = new Slap.ctrl_NewSort_Output();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DND_RouteList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DND_ParcelList)).BeginInit();
             this.SuspendLayout();
@@ -179,10 +180,18 @@
             this.btn_Sort.UseVisualStyleBackColor = false;
             this.btn_Sort.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_Sort_MouseDown);
             // 
+            // ctrl_NewSort_Output1
+            // 
+            this.ctrl_NewSort_Output1.Location = new System.Drawing.Point(0, 0);
+            this.ctrl_NewSort_Output1.Name = "ctrl_NewSort_Output1";
+            this.ctrl_NewSort_Output1.Size = new System.Drawing.Size(1200, 700);
+            this.ctrl_NewSort_Output1.TabIndex = 11;
+            // 
             // ctrl_NewSort_Input
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.ctrl_NewSort_Output1);
             this.Controls.Add(this.lbl_ErrorMessage);
             this.Controls.Add(this.lbl_RouteList);
             this.Controls.Add(this.lbl_ParcelList);
@@ -212,5 +221,6 @@
         private System.Windows.Forms.Label lbl_ParcelList;
         private System.Windows.Forms.Label lbl_ErrorMessage;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private ctrl_NewSort_Output ctrl_NewSort_Output1;
     }
 }
