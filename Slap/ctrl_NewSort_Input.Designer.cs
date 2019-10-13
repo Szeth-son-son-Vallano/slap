@@ -145,7 +145,7 @@
             this.btn_Clear.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Red;
             this.btn_Clear.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red;
             this.btn_Clear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Clear.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.btn_Clear.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
             this.btn_Clear.ForeColor = System.Drawing.Color.White;
             this.btn_Clear.Location = new System.Drawing.Point(476, 601);
             this.btn_Clear.Name = "btn_Clear";
@@ -169,7 +169,7 @@
             this.btn_Sort.FlatAppearance.MouseDownBackColor = System.Drawing.Color.BlueViolet;
             this.btn_Sort.FlatAppearance.MouseOverBackColor = System.Drawing.Color.BlueViolet;
             this.btn_Sort.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Sort.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.btn_Sort.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
             this.btn_Sort.ForeColor = System.Drawing.Color.White;
             this.btn_Sort.Location = new System.Drawing.Point(476, 526);
             this.btn_Sort.Name = "btn_Sort";
