@@ -37,12 +37,12 @@ namespace Slap
         }
 
         // Functions to Load files (Drag and Drop and Open File Dialog)
-        private void checkParcelListFileType(string[] fileNames)
+        private void checkParcelListFileType(string[] fileData)
         {
-            if (fileNames.Length > 0)
+            if (fileData.Length > 0)
             {
                 char[] separator = { '\\', '/' };
-                string[] strList = fileNames[0].Split(separator);
+                string[] strList = fileData[0].Split(separator);
                 string fileName = strList[strList.GetUpperBound(0)];
 
                 string[] fileType = fileName.Split('.');
@@ -62,12 +62,12 @@ namespace Slap
             }
         }
 
-        private void checkRouteListFileType(string[] fileNames)
+        private void checkRouteListFileType(string[] fileData)
         {
-            if (fileNames.Length > 0)
+            if (fileData.Length > 0)
             {
                 char[] separator = { '\\', '/' };
-                string[] strList = fileNames[0].Split(separator);
+                string[] strList = fileData[0].Split(separator);
                 string fileName = strList[strList.GetUpperBound(0)];
 
                 string[] fileType = fileName.Split('.');
@@ -92,8 +92,8 @@ namespace Slap
             var data = e.Data.GetData(DataFormats.FileDrop);
             if (data != null)
             {
-                var fileNames = data as string[];
-                checkParcelListFileType(fileNames);
+                var fileData = data as string[];
+                checkParcelListFileType(fileData);
             }
         }
 
@@ -102,8 +102,8 @@ namespace Slap
             var data = e.Data.GetData(DataFormats.FileDrop);
             if (data != null)
             {
-                string[] fileNames = data as string[];
-                checkRouteListFileType(fileNames);
+                string[] fileData = data as string[];
+                checkRouteListFileType(fileData);
             }
         }
 
@@ -122,10 +122,10 @@ namespace Slap
             DialogResult result = openFileDialog1.ShowDialog();
             if (result == DialogResult.OK)
             {
-                string[] fileNames = new string[1];
-                fileNames[0] = openFileDialog1.FileName;
+                string[] fileData = new string[1];
+                fileData[0] = openFileDialog1.FileName;
 
-                checkParcelListFileType(fileNames);
+                checkParcelListFileType(fileData);
             }
         }
 
@@ -134,10 +134,10 @@ namespace Slap
             DialogResult result = openFileDialog1.ShowDialog();
             if (result == DialogResult.OK)
             {
-                string[] fileNames = new string[1];
-                fileNames[0] = openFileDialog1.FileName;
+                string[] fileData = new string[1];
+                fileData[0] = openFileDialog1.FileName;
 
-                checkRouteListFileType(fileNames);
+                checkRouteListFileType(fileData);
             }
         }
 
