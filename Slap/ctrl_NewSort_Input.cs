@@ -22,7 +22,7 @@ namespace Slap
             pb_DND_RouteList.AllowDrop = true;
             Reset();
 
-            //ctrl_NewSort_Output1.Hide();
+            ctrl_NewSort_Output1.Hide();
         }
 
         // reset function
