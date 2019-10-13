@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace Slap
 {
@@ -14,6 +15,7 @@ namespace Slap
     {
         private Boolean parcelListReady = false;
         private Boolean routeListReady = false;
+        private string[] ParcelData, RouteData;
 
         public ctrl_NewSort_Input()
         {
@@ -22,6 +24,8 @@ namespace Slap
             pb_DND_RouteList.AllowDrop = true;
             Reset();
 
+            dataGridView1.Hide();
+            richTextBox1.Hide();
             //ctrl_NewSort_Output1.Hide();
         }
 
@@ -39,6 +43,8 @@ namespace Slap
         // Functions to Load files (Drag and Drop and Open File Dialog)
         private void checkParcelListFileType(string[] fileData)
         {
+            //ParcelData = fileData;
+            
             if (fileData.Length > 0)
             {
                 char[] separator = { '\\', '/' };
@@ -64,6 +70,8 @@ namespace Slap
 
         private void checkRouteListFileType(string[] fileData)
         {
+            RouteData = fileData;
+
             if (fileData.Length > 0)
             {
                 char[] separator = { '\\', '/' };
@@ -89,30 +97,89 @@ namespace Slap
 
         private void pb_DND_ParcelList_DragDrop(object sender, DragEventArgs e)
         {
-            var data = e.Data.GetData(DataFormats.FileDrop);
+            string[] data = e.Data.GetData(DataFormats.FileDrop) as string[];
+
+            //foreach(string line in data)
+            //{
+            //    richTextBox1.Text += File.ReadAllText(line);
+            //}
+            
+            checkParcelListFileType(data);
+
             if (data != null)
             {
-                var fileData = data as string[];
-                checkParcelListFileType(fileData);
+                string txtData = "";
+                foreach(string line in data)
+                {
+                    txtData = File.ReadAllText(line);
+                }
+
+
+                DataTable dataTable = new DataTable();
+
+                string[] txtDataLines = txtData.Split('\n');
+                richTextBox1.Text = txtDataLines.Length.ToString();
+                foreach(string line in txtDataLines)
+                {
+                    richTextBox1.Text += line;
+                }
+
+                // first line to create header
+                string[] headerLabels = txtDataLines[0].Split(',');
+
+                foreach (string headerWord in headerLabels)
+                {
+                    dataTable.Columns.Add(new DataColumn(headerWord));
+                }
+
+
+                // for data
+                for (int row = 1; row < txtDataLines.Length; row++)
+                {
+                    string[] dataWords = txtDataLines[row].Split(',');
+                    DataRow dataRow = dataTable.NewRow();
+                    int col = 0;
+                    foreach (string headerWord in headerLabels)
+                    {
+                        try
+                        {
+                            if (dataWords[col] == null || dataWords[col] == "")
+                            {
+                                dataRow[headerWord] = null;
+                                col++;
+                            }
+                            else
+                            {
+                                dataRow[headerWord] = dataWords[col];
+                                col++;
+                            }
+                        }
+                        catch (Exception exception)
+                        {
+                            dataRow[headerWord] = null;
+                        }
+                    }
+
+                    dataTable.Rows.Add(dataRow);
+                }
+
+                // load data table into data grid view
+                dataGridView1.DataSource = dataTable;
             }
         }
 
         private void pb_DND_RouteList_DragDrop(object sender, DragEventArgs e)
         {
-            var data = e.Data.GetData(DataFormats.FileDrop);
-            if (data != null)
-            {
-                string[] fileData = data as string[];
-                checkRouteListFileType(fileData);
-            }
+            string[] data = (string[])e.Data.GetData(DataFormats.FileDrop);
+            checkRouteListFileType(data);
         }
 
-        private void pb_DND_RouteList_DragEnter(object sender, DragEventArgs e)
+        private void pb_DND_ParcelList_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Copy;
         }
 
-        private void pb_DND_ParcelList_DragEnter(object sender, DragEventArgs e)
+        private void pb_DND_RouteList_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Copy;
         }
@@ -147,7 +214,10 @@ namespace Slap
             if (parcelListReady && routeListReady)
             {
                 lbl_ErrorMessage.Text = "";
-                ctrl_NewSort_Output1.Show();
+                
+                dataGridView1.Show();
+                richTextBox1.Show();
+                //ctrl_NewSort_Output1.Show();
             }
             else
             {

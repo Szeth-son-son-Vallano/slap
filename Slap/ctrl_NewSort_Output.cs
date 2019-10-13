@@ -7,18 +7,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace Slap
 {
     public partial class ctrl_NewSort_Output : UserControl
     {
-        private Boolean parcelListReady = false;
-        private Boolean routeListReady = false;
+        private string[] ParcelData, RouteData;
 
         public ctrl_NewSort_Output()
         {
             InitializeComponent();
             Reset();
+        }
+
+        public void addParcelData(string[] parcelData)
+        {
+            ParcelData = parcelData;
+        }
+
+        public void addRouteData(string[] routeData)
+        {
+            RouteData = routeData;
         }
 
         // reset
@@ -31,6 +41,7 @@ namespace Slap
         // New Sort and Clear buttons
         private void btn_Download_MouseDown(object sender, MouseEventArgs e)
         {
+            Sort();
         }
 
         private void btn_Back_MouseDown(object sender, MouseEventArgs e)
@@ -82,6 +93,43 @@ namespace Slap
         private void pb_DL_SortPlan_MouseUp(object sender, MouseEventArgs e)
         {
             pb_DL_SortPlan.Image = Properties.Resources.filePurple;
+        }
+
+        // Sorting Method
+        private void Sort()
+        {
+            DataTable dataTable = new DataTable();
+            textBox1.Text = ParcelData.Length.ToString();
+
+            if (ParcelData.Length > 0)
+            {
+                // first line to create header
+                string[] headerLabels = ParcelData[0].Split(',');
+
+                foreach (string headerWord in headerLabels)
+                {
+                    dataTable.Columns.Add(new DataColumn(headerWord));
+                }
+
+                // for data
+                for (int row = 2; row < ParcelData.Length; row++)
+                {
+                    string[] dataWords = ParcelData[row].Split(',');
+                    DataRow dataRow = dataTable.NewRow();
+                    int col = 0;
+                    foreach (string headerWord in headerLabels)
+                    {
+                        dataRow[headerWord] = dataWords[col++];
+                    }
+
+                    dataTable.Rows.Add(dataRow);
+
+                }
+
+                // load data table into data grid view
+                dgv_FileData.DataSource = dataTable;
+            }
+
         }
     }
 }
