@@ -7,18 +7,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace Slap
 {
     public partial class ctrl_NewSort_Output : UserControl
     {
-        private Boolean parcelListReady = false;
-        private Boolean routeListReady = false;
+        private string[] ParcelData, RouteData;
 
         public ctrl_NewSort_Output()
         {
             InitializeComponent();
             Reset();
+        }
+
+        public void addData(string[] parcelData, string[] routeData)
+        {
+            ParcelData = parcelData;
+            RouteData = routeData;
         }
 
         // reset
@@ -31,6 +37,7 @@ namespace Slap
         // New Sort and Clear buttons
         private void btn_Download_MouseDown(object sender, MouseEventArgs e)
         {
+            Sort();
         }
 
         private void btn_Back_MouseDown(object sender, MouseEventArgs e)
@@ -82,6 +89,65 @@ namespace Slap
         private void pb_DL_SortPlan_MouseUp(object sender, MouseEventArgs e)
         {
             pb_DL_SortPlan.Image = Properties.Resources.filePurple;
+        }
+
+        // Sorting Method
+        private void Sort()
+        {
+            if (ParcelData != null)
+            {
+                string txtData = "";
+                foreach (string line in ParcelData)
+                {
+                    txtData = File.ReadAllText(line);
+                }
+
+                DataTable dataTable = new DataTable();
+
+                string[] txtDataLines = txtData.Split('\n');
+
+                // first line to create header
+                string[] headerLabels = txtDataLines[0].Split(',');
+
+                foreach (string headerWord in headerLabels)
+                {
+                    dataTable.Columns.Add(new DataColumn(headerWord));
+                }
+
+
+                // for data
+                for (int row = 1; row < txtDataLines.Length; row++)
+                {
+                    string[] dataWords = txtDataLines[row].Split(',');
+                    DataRow dataRow = dataTable.NewRow();
+                    int col = 0;
+                    foreach (string headerWord in headerLabels)
+                    {
+                        try
+                        {
+                            if (dataWords[col] == null || dataWords[col] == "")
+                            {
+                                dataRow[headerWord] = null;
+                                col++;
+                            }
+                            else
+                            {
+                                dataRow[headerWord] = dataWords[col];
+                                col++;
+                            }
+                        }
+                        catch (Exception exception)
+                        {
+                            dataRow[headerWord] = null;
+                        }
+                    }
+
+                    dataTable.Rows.Add(dataRow);
+                }
+
+                // load data table into data grid view
+                dgv_FileData.DataSource = dataTable;
+            }
         }
     }
 }

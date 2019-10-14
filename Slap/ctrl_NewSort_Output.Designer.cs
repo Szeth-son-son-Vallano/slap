@@ -38,14 +38,15 @@
             this.lbl_FloorPlan = new System.Windows.Forms.Label();
             this.pb_DL_SortPlan = new System.Windows.Forms.PictureBox();
             this.pb_DL_FloorPlan = new System.Windows.Forms.PictureBox();
+            this.dgv_FileData = new System.Windows.Forms.DataGridView();
             this.btn_Back = new BrbVideoManager.Controls.RoundedButton();
             this.btn_Download = new BrbVideoManager.Controls.RoundedButton();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_RouteList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_ParcelList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_SortPlan)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_FloorPlan)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_FileData)).BeginInit();
             this.SuspendLayout();
             // 
             // pb_DL_RouteList
@@ -148,6 +149,20 @@
             this.pb_DL_FloorPlan.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pb_DL_FloorPlan_MouseDown);
             this.pb_DL_FloorPlan.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pb_DL_FloorPlan_MouseUp);
             // 
+            // dgv_FileData
+            // 
+            this.dgv_FileData.AllowUserToAddRows = false;
+            this.dgv_FileData.AllowUserToDeleteRows = false;
+            this.dgv_FileData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_FileData.Location = new System.Drawing.Point(50, 50);
+            this.dgv_FileData.Name = "dgv_FileData";
+            this.dgv_FileData.ReadOnly = true;
+            this.dgv_FileData.RowHeadersWidth = 51;
+            this.dgv_FileData.RowTemplate.Height = 24;
+            this.dgv_FileData.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgv_FileData.Size = new System.Drawing.Size(750, 450);
+            this.dgv_FileData.TabIndex = 14;
+            // 
             // btn_Back
             // 
             this.btn_Back.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -196,24 +211,20 @@
             this.btn_Download.UseVisualStyleBackColor = false;
             this.btn_Download.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_Download_MouseDown);
             // 
-            // dataGridView1
+            // textBox1
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(50, 50);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(750, 450);
-            this.dataGridView1.TabIndex = 14;
+            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.textBox1.Location = new System.Drawing.Point(850, 550);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(250, 26);
+            this.textBox1.TabIndex = 15;
             // 
             // ctrl_NewSort_Output
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.dgv_FileData);
             this.Controls.Add(this.lbl_SortPlan);
             this.Controls.Add(this.lbl_FloorPlan);
             this.Controls.Add(this.pb_DL_SortPlan);
@@ -230,8 +241,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_ParcelList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_SortPlan)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_FloorPlan)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgv_FileData)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -248,6 +260,7 @@
         private System.Windows.Forms.Label lbl_FloorPlan;
         private System.Windows.Forms.PictureBox pb_DL_SortPlan;
         private System.Windows.Forms.PictureBox pb_DL_FloorPlan;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dgv_FileData;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }

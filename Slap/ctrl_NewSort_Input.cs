@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace Slap
 {
@@ -14,6 +15,7 @@ namespace Slap
     {
         private Boolean parcelListReady = false;
         private Boolean routeListReady = false;
+        private string[] ParcelData, RouteData;
 
         public ctrl_NewSort_Input()
         {
@@ -34,6 +36,11 @@ namespace Slap
             lbl_ParcelListFile.Text = "Drag and Drop";
             pb_DND_RouteList.Image = Properties.Resources.fileGrayFrame;
             lbl_RouteListFile.Text = "Drag and Drop";
+
+            parcelListReady = false;
+            routeListReady = false;
+            ParcelData = null;
+            RouteData = null;
         }
 
         // Functions to Load files (Drag and Drop and Open File Dialog)
@@ -52,6 +59,7 @@ namespace Slap
                     lbl_ParcelListFile.Text = fileName;
                     pb_DND_ParcelList.Image = Properties.Resources.filePurpleFrame;
                     parcelListReady = true;
+                    ParcelData = fileData;
                 }
                 else
                 {
@@ -77,6 +85,7 @@ namespace Slap
                     lbl_RouteListFile.Text = fileName;
                     pb_DND_RouteList.Image = Properties.Resources.filePurpleFrame;
                     routeListReady = true;
+                    RouteData = fileData;
                 }
                 else
                 {
@@ -89,30 +98,22 @@ namespace Slap
 
         private void pb_DND_ParcelList_DragDrop(object sender, DragEventArgs e)
         {
-            var data = e.Data.GetData(DataFormats.FileDrop);
-            if (data != null)
-            {
-                var fileData = data as string[];
-                checkParcelListFileType(fileData);
-            }
+            string[] data = e.Data.GetData(DataFormats.FileDrop) as string[];
+            checkParcelListFileType(data);
         }
 
         private void pb_DND_RouteList_DragDrop(object sender, DragEventArgs e)
         {
-            var data = e.Data.GetData(DataFormats.FileDrop);
-            if (data != null)
-            {
-                string[] fileData = data as string[];
-                checkRouteListFileType(fileData);
-            }
+            string[] data = (string[])e.Data.GetData(DataFormats.FileDrop);
+            checkRouteListFileType(data);
         }
 
-        private void pb_DND_RouteList_DragEnter(object sender, DragEventArgs e)
+        private void pb_DND_ParcelList_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Copy;
         }
 
-        private void pb_DND_ParcelList_DragEnter(object sender, DragEventArgs e)
+        private void pb_DND_RouteList_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.Copy;
         }
@@ -147,7 +148,11 @@ namespace Slap
             if (parcelListReady && routeListReady)
             {
                 lbl_ErrorMessage.Text = "";
+
+                ctrl_NewSort_Output1.addData(ParcelData, RouteData);
                 ctrl_NewSort_Output1.Show();
+
+                Reset();
             }
             else
             {
