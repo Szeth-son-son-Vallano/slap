@@ -24,9 +24,7 @@ namespace Slap
             pb_DND_RouteList.AllowDrop = true;
             Reset();
 
-            dataGridView1.Hide();
-            richTextBox1.Hide();
-            //ctrl_NewSort_Output1.Hide();
+            ctrl_NewSort_Output1.Hide();
         }
 
         // reset function
@@ -38,13 +36,16 @@ namespace Slap
             lbl_ParcelListFile.Text = "Drag and Drop";
             pb_DND_RouteList.Image = Properties.Resources.fileGrayFrame;
             lbl_RouteListFile.Text = "Drag and Drop";
+
+            parcelListReady = false;
+            routeListReady = false;
+            ParcelData = null;
+            RouteData = null;
         }
 
         // Functions to Load files (Drag and Drop and Open File Dialog)
         private void checkParcelListFileType(string[] fileData)
         {
-            //ParcelData = fileData;
-            
             if (fileData.Length > 0)
             {
                 char[] separator = { '\\', '/' };
@@ -58,6 +59,7 @@ namespace Slap
                     lbl_ParcelListFile.Text = fileName;
                     pb_DND_ParcelList.Image = Properties.Resources.filePurpleFrame;
                     parcelListReady = true;
+                    ParcelData = fileData;
                 }
                 else
                 {
@@ -70,8 +72,6 @@ namespace Slap
 
         private void checkRouteListFileType(string[] fileData)
         {
-            RouteData = fileData;
-
             if (fileData.Length > 0)
             {
                 char[] separator = { '\\', '/' };
@@ -85,6 +85,7 @@ namespace Slap
                     lbl_RouteListFile.Text = fileName;
                     pb_DND_RouteList.Image = Properties.Resources.filePurpleFrame;
                     routeListReady = true;
+                    RouteData = fileData;
                 }
                 else
                 {
@@ -98,74 +99,7 @@ namespace Slap
         private void pb_DND_ParcelList_DragDrop(object sender, DragEventArgs e)
         {
             string[] data = e.Data.GetData(DataFormats.FileDrop) as string[];
-
-            //foreach(string line in data)
-            //{
-            //    richTextBox1.Text += File.ReadAllText(line);
-            //}
-            
             checkParcelListFileType(data);
-
-            if (data != null)
-            {
-                string txtData = "";
-                foreach(string line in data)
-                {
-                    txtData = File.ReadAllText(line);
-                }
-
-
-                DataTable dataTable = new DataTable();
-
-                string[] txtDataLines = txtData.Split('\n');
-                richTextBox1.Text = txtDataLines.Length.ToString();
-                foreach(string line in txtDataLines)
-                {
-                    richTextBox1.Text += line;
-                }
-
-                // first line to create header
-                string[] headerLabels = txtDataLines[0].Split(',');
-
-                foreach (string headerWord in headerLabels)
-                {
-                    dataTable.Columns.Add(new DataColumn(headerWord));
-                }
-
-
-                // for data
-                for (int row = 1; row < txtDataLines.Length; row++)
-                {
-                    string[] dataWords = txtDataLines[row].Split(',');
-                    DataRow dataRow = dataTable.NewRow();
-                    int col = 0;
-                    foreach (string headerWord in headerLabels)
-                    {
-                        try
-                        {
-                            if (dataWords[col] == null || dataWords[col] == "")
-                            {
-                                dataRow[headerWord] = null;
-                                col++;
-                            }
-                            else
-                            {
-                                dataRow[headerWord] = dataWords[col];
-                                col++;
-                            }
-                        }
-                        catch (Exception exception)
-                        {
-                            dataRow[headerWord] = null;
-                        }
-                    }
-
-                    dataTable.Rows.Add(dataRow);
-                }
-
-                // load data table into data grid view
-                dataGridView1.DataSource = dataTable;
-            }
         }
 
         private void pb_DND_RouteList_DragDrop(object sender, DragEventArgs e)
@@ -214,10 +148,11 @@ namespace Slap
             if (parcelListReady && routeListReady)
             {
                 lbl_ErrorMessage.Text = "";
-                
-                dataGridView1.Show();
-                richTextBox1.Show();
-                //ctrl_NewSort_Output1.Show();
+
+                ctrl_NewSort_Output1.addData(ParcelData, RouteData);
+                ctrl_NewSort_Output1.Show();
+
+                Reset();
             }
             else
             {

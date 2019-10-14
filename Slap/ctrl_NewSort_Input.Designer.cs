@@ -37,13 +37,11 @@
             this.lbl_ParcelList = new System.Windows.Forms.Label();
             this.lbl_ErrorMessage = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.btn_Clear = new BrbVideoManager.Controls.RoundedButton();
             this.btn_Sort = new BrbVideoManager.Controls.RoundedButton();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.ctrl_NewSort_Output1 = new Slap.ctrl_NewSort_Output();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DND_RouteList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DND_ParcelList)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // lbl_ParcelListFile
@@ -134,16 +132,6 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(58, 45);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(492, 452);
-            this.dataGridView1.TabIndex = 12;
-            // 
             // btn_Clear
             // 
             this.btn_Clear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -192,20 +180,18 @@
             this.btn_Sort.UseVisualStyleBackColor = false;
             this.btn_Sort.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_Sort_MouseDown);
             // 
-            // richTextBox1
+            // ctrl_NewSort_Output1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(657, 45);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(504, 452);
-            this.richTextBox1.TabIndex = 13;
-            this.richTextBox1.Text = "";
+            this.ctrl_NewSort_Output1.Location = new System.Drawing.Point(0, 0);
+            this.ctrl_NewSort_Output1.Name = "ctrl_NewSort_Output1";
+            this.ctrl_NewSort_Output1.Size = new System.Drawing.Size(1200, 700);
+            this.ctrl_NewSort_Output1.TabIndex = 11;
             // 
             // ctrl_NewSort_Input
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.richTextBox1);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.ctrl_NewSort_Output1);
             this.Controls.Add(this.lbl_ErrorMessage);
             this.Controls.Add(this.lbl_RouteList);
             this.Controls.Add(this.lbl_ParcelList);
@@ -219,7 +205,6 @@
             this.Size = new System.Drawing.Size(1200, 700);
             ((System.ComponentModel.ISupportInitialize)(this.pb_DND_RouteList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DND_ParcelList)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -236,7 +221,6 @@
         private System.Windows.Forms.Label lbl_ParcelList;
         private System.Windows.Forms.Label lbl_ErrorMessage;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private ctrl_NewSort_Output ctrl_NewSort_Output1;
     }
 }

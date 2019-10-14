@@ -21,13 +21,9 @@ namespace Slap
             Reset();
         }
 
-        public void addParcelData(string[] parcelData)
+        public void addData(string[] parcelData, string[] routeData)
         {
             ParcelData = parcelData;
-        }
-
-        public void addRouteData(string[] routeData)
-        {
             RouteData = routeData;
         }
 
@@ -98,38 +94,60 @@ namespace Slap
         // Sorting Method
         private void Sort()
         {
-            DataTable dataTable = new DataTable();
-            textBox1.Text = ParcelData.Length.ToString();
-
-            if (ParcelData.Length > 0)
+            if (ParcelData != null)
             {
+                string txtData = "";
+                foreach (string line in ParcelData)
+                {
+                    txtData = File.ReadAllText(line);
+                }
+
+                DataTable dataTable = new DataTable();
+
+                string[] txtDataLines = txtData.Split('\n');
+
                 // first line to create header
-                string[] headerLabels = ParcelData[0].Split(',');
+                string[] headerLabels = txtDataLines[0].Split(',');
 
                 foreach (string headerWord in headerLabels)
                 {
                     dataTable.Columns.Add(new DataColumn(headerWord));
                 }
 
+
                 // for data
-                for (int row = 2; row < ParcelData.Length; row++)
+                for (int row = 1; row < txtDataLines.Length; row++)
                 {
-                    string[] dataWords = ParcelData[row].Split(',');
+                    string[] dataWords = txtDataLines[row].Split(',');
                     DataRow dataRow = dataTable.NewRow();
                     int col = 0;
                     foreach (string headerWord in headerLabels)
                     {
-                        dataRow[headerWord] = dataWords[col++];
+                        try
+                        {
+                            if (dataWords[col] == null || dataWords[col] == "")
+                            {
+                                dataRow[headerWord] = null;
+                                col++;
+                            }
+                            else
+                            {
+                                dataRow[headerWord] = dataWords[col];
+                                col++;
+                            }
+                        }
+                        catch (Exception exception)
+                        {
+                            dataRow[headerWord] = null;
+                        }
                     }
 
                     dataTable.Rows.Add(dataRow);
-
                 }
 
                 // load data table into data grid view
                 dgv_FileData.DataSource = dataTable;
             }
-
         }
     }
 }
