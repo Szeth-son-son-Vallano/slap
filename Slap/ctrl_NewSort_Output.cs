@@ -14,6 +14,7 @@ namespace Slap
     public partial class ctrl_NewSort_Output : UserControl
     {
         private string[] ParcelData, RouteData;
+        private Parcel[] parcelArray;
 
         public ctrl_NewSort_Output()
         {
@@ -37,7 +38,7 @@ namespace Slap
         // New Sort and Clear buttons
         private void btn_Download_MouseDown(object sender, MouseEventArgs e)
         {
-
+            displayArray();
         }
 
         private void btn_Back_MouseDown(object sender, MouseEventArgs e)
@@ -92,28 +93,35 @@ namespace Slap
         }
 
         // Sorting Method
-        public void Sort()
+        public bool Sort()
         {
             if (ParcelData != null)
             {
                 string txtData = "";
                 foreach (string line in ParcelData)
                 {
-                    txtData = File.ReadAllText(line);
+                    try
+                    {
+                        txtData = File.ReadAllText(line);
+                    }
+                    catch (Exception e)
+                    {
+                        return false;
+                    }
                 }
 
-                DataTable dataTable = new DataTable();
-
-                string[] txtDataLines = txtData.Split('\n');
-
                 // first line to create header
+                string[] txtDataLines = txtData.Split('\n');
                 string[] headerLabels = txtDataLines[0].Split(',');
+
+                parcelArray = new Parcel[txtDataLines.Length - 1];
+
+                DataTable dataTable = new DataTable();
 
                 foreach (string headerWord in headerLabels)
                 {
                     dataTable.Columns.Add(new DataColumn(headerWord));
                 }
-
 
                 // for data
                 for (int row = 1; row < txtDataLines.Length; row++)
@@ -121,6 +129,10 @@ namespace Slap
                     string[] dataWords = txtDataLines[row].Split(',');
                     DataRow dataRow = dataTable.NewRow();
                     int col = 0;
+
+                    string AWB = "", ConsigneePostal = "", DestLocCd = "";
+                    double KiloWgt = 0.0;
+
                     foreach (string headerWord in headerLabels)
                     {
                         try
@@ -133,8 +145,28 @@ namespace Slap
                             else
                             {
                                 dataRow[headerWord] = dataWords[col];
+
+                                switch (headerWord)
+                                {
+                                    case "AWB":
+                                        AWB = dataWords[col];
+                                        break;
+                                    case "DestLocCd":
+                                        DestLocCd = dataWords[col]; 
+                                        break;
+                                    case "ConsigneePostal":
+                                        ConsigneePostal = dataWords[col]; 
+                                        break;
+                                    case "KiloWgt":
+                                        KiloWgt = Convert.ToDouble(dataWords[col]);
+                                        break;
+                                }
+
                                 col++;
                             }
+
+                            Parcel parcel = new Parcel(AWB, DestLocCd, ConsigneePostal, KiloWgt);
+                            parcelArray[row-1] = parcel;
                         }
                         catch (Exception e)
                         {
@@ -148,6 +180,30 @@ namespace Slap
                 // load data table into data grid view
                 dgv_FileData.DataSource = dataTable;
             }
+
+            return true;
+        }
+
+        private void displayArray()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new DataColumn("AWB"));
+            dt.Columns.Add(new DataColumn("DestLocCd"));
+            dt.Columns.Add(new DataColumn("ConsigneePostal"));
+            dt.Columns.Add(new DataColumn("KiloWgt"));
+
+            for (int i = 0; i < parcelArray.Length; i++)
+            {
+                DataRow dr = dt.NewRow();
+                dr["AWB"] = parcelArray[i].getAWB();
+                dr["DestLocCd"] = parcelArray[i].getDestLocCd();
+                dr["ConsigneePostal"] = parcelArray[i].getConsigneePostal();
+                dr["KiloWgt"] = parcelArray[i].getKiloWeight();
+
+                dt.Rows.Add(dr);
+            }
+
+            dgv_FileData.DataSource = dt;
         }
     }
 }

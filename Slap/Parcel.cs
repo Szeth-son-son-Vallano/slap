@@ -79,5 +79,16 @@ namespace Slap
         {
             return kiloWeight;
         }
+
+        public double getEstimateVol()
+        {
+            return estimateVol;
+        }
+
+        public double calculateEstimateVol(double avgDensity)
+        {
+            double estimateVolResult = kiloWeight * avgDensity;
+            return estimateVolResult;
+        }
     }
 }

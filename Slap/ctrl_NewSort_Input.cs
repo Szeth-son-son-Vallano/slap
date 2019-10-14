@@ -152,10 +152,16 @@ namespace Slap
                 lbl_ErrorMessage.Text = "";
 
                 ctrl_NewSort_Output1.addData(ParcelData, RouteData);
-                ctrl_NewSort_Output1.Sort();
-                ctrl_NewSort_Output1.Show();
-
-                Reset();
+                bool successfulRead = ctrl_NewSort_Output1.Sort();
+                if (successfulRead)
+                {
+                    ctrl_NewSort_Output1.Show();
+                    Reset();
+                }
+                else
+                {
+                    lbl_ErrorMessage.Text = "Please close the loaded files to allow for file reading";
+                }
             }
             else
             {
