@@ -30,6 +30,7 @@ namespace Slap
         // reset function
         private void Reset()
         {
+            // reset UI display
             lbl_ErrorMessage.Text = "";
 
             pb_DND_ParcelList.Image = Properties.Resources.fileGrayFrame;
@@ -37,6 +38,7 @@ namespace Slap
             pb_DND_RouteList.Image = Properties.Resources.fileGrayFrame;
             lbl_RouteListFile.Text = "Drag and Drop";
 
+            // reset parcel data and route data
             parcelListReady = false;
             routeListReady = false;
             ParcelData = null;
@@ -56,16 +58,16 @@ namespace Slap
 
                 if (fileType[fileType.GetUpperBound(0)] == "csv")
                 {
-                    lbl_ParcelListFile.Text = fileName;
-                    pb_DND_ParcelList.Image = Properties.Resources.filePurpleFrame;
                     parcelListReady = true;
                     ParcelData = fileData;
+                    lbl_ParcelListFile.Text = fileName;
+                    pb_DND_ParcelList.Image = Properties.Resources.filePurpleFrame;
                 }
                 else
                 {
+                    parcelListReady = false;
                     lbl_ParcelListFile.Text = "File type not accepted";
                     pb_DND_ParcelList.Image = Properties.Resources.fileRedFrame;
-                    parcelListReady = false;
                 }
             }
         }
@@ -82,16 +84,16 @@ namespace Slap
 
                 if (fileType[fileType.GetUpperBound(0)] == "csv")
                 {
-                    lbl_RouteListFile.Text = fileName;
-                    pb_DND_RouteList.Image = Properties.Resources.filePurpleFrame;
                     routeListReady = true;
                     RouteData = fileData;
+                    lbl_RouteListFile.Text = fileName;
+                    pb_DND_RouteList.Image = Properties.Resources.filePurpleFrame;
                 }
                 else
                 {
+                    routeListReady = false;
                     lbl_RouteListFile.Text = "File type not accepted";
                     pb_DND_RouteList.Image = Properties.Resources.fileRedFrame;
-                    routeListReady = false;
                 }
             }
         }
@@ -150,6 +152,7 @@ namespace Slap
                 lbl_ErrorMessage.Text = "";
 
                 ctrl_NewSort_Output1.addData(ParcelData, RouteData);
+                ctrl_NewSort_Output1.Sort();
                 ctrl_NewSort_Output1.Show();
 
                 Reset();

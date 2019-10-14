@@ -37,7 +37,7 @@ namespace Slap
         // New Sort and Clear buttons
         private void btn_Download_MouseDown(object sender, MouseEventArgs e)
         {
-            Sort();
+
         }
 
         private void btn_Back_MouseDown(object sender, MouseEventArgs e)
@@ -92,7 +92,7 @@ namespace Slap
         }
 
         // Sorting Method
-        private void Sort()
+        public void Sort()
         {
             if (ParcelData != null)
             {
@@ -136,7 +136,7 @@ namespace Slap
                                 col++;
                             }
                         }
-                        catch (Exception exception)
+                        catch (Exception e)
                         {
                             dataRow[headerWord] = null;
                         }
