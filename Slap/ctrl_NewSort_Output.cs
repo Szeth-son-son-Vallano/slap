@@ -115,6 +115,15 @@ namespace Slap
 
                 // first line to create header
                 string[] txtDataLines = txtData.Split('\n');
+
+                // to remove occurence of empty last line
+                if (txtDataLines[txtDataLines.Length - 1] == "")
+                {
+                    string[] temp = new string[txtDataLines.Length - 1];
+                    Array.Copy(txtDataLines, 0, temp, 0, txtDataLines.Length - 1);
+                    txtDataLines = temp;
+                }
+
                 string[] headerLabels = txtDataLines[0].Split(',');
 
                 parcelArray = new Parcel[txtDataLines.Length - 1];
@@ -204,12 +213,12 @@ namespace Slap
             return true;
         }
 
-        private int clickSwitcher = 0;
         private void displayArray()
         {
             DataTable dt = new DataTable();
             dt.Columns.Add(new DataColumn("AWB"));
             dt.Columns.Add(new DataColumn("SelectCd"));
+            dt.Columns.Add(new DataColumn("Cleared"));
             dt.Columns.Add(new DataColumn("DestLocCd"));
             dt.Columns.Add(new DataColumn("ConsigneePostal"));
             dt.Columns.Add(new DataColumn("KiloWgt"));
@@ -219,6 +228,7 @@ namespace Slap
                 DataRow dr = dt.NewRow();
                 dr["AWB"] = parcelArray[i].getAWB();
                 dr["SelectCd"] = parcelArray[i].getSelectCd();
+                dr["Cleared"] = parcelArray[i].getClearedStatus();
                 dr["DestLocCd"] = parcelArray[i].getDestLocCd();
                 dr["ConsigneePostal"] = parcelArray[i].getConsigneePostal();
                 dr["KiloWgt"] = parcelArray[i].getKiloWeight();
@@ -228,11 +238,7 @@ namespace Slap
 
             dgv_FileData.DataSource = dt;
 
-            if (clickSwitcher % 2 == 1)
-            {
-                displayAllDestLocCd();
-            }
-            clickSwitcher++;
+            //displayAllDestLocCd();
         }
 
         private void displayAllDestLocCd()
