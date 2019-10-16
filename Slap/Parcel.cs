@@ -19,6 +19,8 @@ namespace Slap
 
         private double estimateVol;
 
+        private bool clearedStatus;
+
         // constructors
         public Parcel()
         {
@@ -31,6 +33,8 @@ namespace Slap
             kiloWeight = 0.0;
 
             estimateVol = 0.0;
+
+            clearedStatus = false;
         }
 
         public Parcel(string AWB, string selectCd, string destLocCd, string consigneePostal, double kiloWeight)
@@ -44,6 +48,8 @@ namespace Slap
             this.kiloWeight = kiloWeight;
 
             estimateVol = 0.0;
+
+            checkClearedStatus(selectCd);
         }
 
         // setter methods
@@ -93,10 +99,32 @@ namespace Slap
             return estimateVol;
         }
 
+        public bool getClearedStatus()
+        {
+            return clearedStatus;
+        }
+
+        // other methods
         public double calculateEstimateVol(double avgDensity)
         {
             double estimateVolResult = kiloWeight * avgDensity;
             return estimateVolResult;
+        }
+
+        private void checkClearedStatus(string selectCd)
+        {
+            string[] clearedCodes = { "DIA", "DT", "PL", "DR" };
+
+            string[] codes = selectCd.Split(',');
+
+            foreach(string code in codes)
+            {
+                if (clearedCodes.Contains(code))
+                {
+                    clearedStatus = true;
+                    break;
+                }
+            }
         }
     }
 }
