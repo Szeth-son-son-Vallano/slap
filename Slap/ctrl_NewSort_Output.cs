@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using Microsoft.VisualBasic.FileIO;
+using System.Text.RegularExpressions;
 
 namespace Slap
 {
@@ -97,6 +99,7 @@ namespace Slap
         {
             if (ParcelData != null)
             {
+                // extract all data from the file
                 string txtData = "";
                 foreach (string line in ParcelData)
                 {
@@ -123,14 +126,26 @@ namespace Slap
                     dataTable.Columns.Add(new DataColumn(headerWord));
                 }
 
-                // for data
+                // second line onwards to process data
+                // to be able to read data encapsulated by ""
+                Regex CSVParser = new Regex(",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
+                
                 for (int row = 1; row < txtDataLines.Length; row++)
                 {
-                    string[] dataWords = txtDataLines[row].Split(',');
+                    string[] dataWords = CSVParser.Split(txtDataLines[row]);
+
+                    // clean up the fields (remove " and leading spaces)
+                    for (int i = 0; i < dataWords.Length; i++)
+                    {
+                        dataWords[i] = dataWords[i].TrimStart(' ', '"');
+                        dataWords[i] = dataWords[i].TrimEnd('"');
+                    }
+
+                    // read the column data of each row
                     DataRow dataRow = dataTable.NewRow();
                     int col = 0;
 
-                    string AWB = "", ConsigneePostal = "", DestLocCd = "";
+                    string AWB = "", SelectCd = "", DestLocCd = "", ConsigneePostal = "";
                     double KiloWgt = 0.0;
 
                     foreach (string headerWord in headerLabels)
@@ -151,11 +166,14 @@ namespace Slap
                                     case "AWB":
                                         AWB = dataWords[col];
                                         break;
+                                    case "SelectCd":
+                                        SelectCd = dataWords[col];
+                                        break;
                                     case "DestLocCd":
-                                        DestLocCd = dataWords[col]; 
+                                        DestLocCd = dataWords[col];
                                         break;
                                     case "ConsigneePostal":
-                                        ConsigneePostal = dataWords[col]; 
+                                        ConsigneePostal = dataWords[col];
                                         break;
                                     case "KiloWgt":
                                         KiloWgt = Convert.ToDouble(dataWords[col]);
@@ -165,8 +183,9 @@ namespace Slap
                                 col++;
                             }
 
-                            Parcel parcel = new Parcel(AWB, DestLocCd, ConsigneePostal, KiloWgt);
-                            parcelArray[row-1] = parcel;
+                            // Add the Parcel to the Parcel Array
+                            Parcel parcel = new Parcel(AWB, SelectCd, DestLocCd, ConsigneePostal, KiloWgt);
+                            parcelArray[row - 1] = parcel;
                         }
                         catch (Exception e)
                         {
@@ -174,6 +193,7 @@ namespace Slap
                         }
                     }
 
+                    // add data row into data table
                     dataTable.Rows.Add(dataRow);
                 }
 
@@ -184,10 +204,12 @@ namespace Slap
             return true;
         }
 
+        private int clickSwitcher = 0;
         private void displayArray()
         {
             DataTable dt = new DataTable();
             dt.Columns.Add(new DataColumn("AWB"));
+            dt.Columns.Add(new DataColumn("SelectCd"));
             dt.Columns.Add(new DataColumn("DestLocCd"));
             dt.Columns.Add(new DataColumn("ConsigneePostal"));
             dt.Columns.Add(new DataColumn("KiloWgt"));
@@ -196,11 +218,46 @@ namespace Slap
             {
                 DataRow dr = dt.NewRow();
                 dr["AWB"] = parcelArray[i].getAWB();
+                dr["SelectCd"] = parcelArray[i].getSelectCd();
                 dr["DestLocCd"] = parcelArray[i].getDestLocCd();
                 dr["ConsigneePostal"] = parcelArray[i].getConsigneePostal();
                 dr["KiloWgt"] = parcelArray[i].getKiloWeight();
 
                 dt.Rows.Add(dr);
+            }
+
+            dgv_FileData.DataSource = dt;
+
+            if (clickSwitcher % 2 == 1)
+            {
+                displayAllDestLocCd();
+            }
+            clickSwitcher++;
+        }
+
+        private void displayAllDestLocCd()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new DataColumn("DestLocCd"));
+
+            for (int i = 0; i < parcelArray.Length; i++)
+            {
+                bool newDestLocCd = true;
+                for (int j = 0; j < i; j++)
+                {
+                    if (parcelArray[i].getDestLocCd() == parcelArray[j].getDestLocCd())
+                    {
+                        newDestLocCd = false;
+                        break;
+                    }
+                }
+
+                if (newDestLocCd)
+                {
+                    DataRow dr = dt.NewRow();
+                    dr["DestLocCd"] = parcelArray[i].getDestLocCd();
+                    dt.Rows.Add(dr);
+                }
             }
 
             dgv_FileData.DataSource = dt;

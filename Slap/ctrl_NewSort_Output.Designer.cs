@@ -41,7 +41,7 @@
             this.dgv_FileData = new System.Windows.Forms.DataGridView();
             this.btn_Back = new BrbVideoManager.Controls.RoundedButton();
             this.btn_Download = new BrbVideoManager.Controls.RoundedButton();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_RouteList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_ParcelList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_SortPlan)).BeginInit();
@@ -211,19 +211,19 @@
             this.btn_Download.UseVisualStyleBackColor = false;
             this.btn_Download.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_Download_MouseDown);
             // 
-            // textBox1
+            // richTextBox1
             // 
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.textBox1.Location = new System.Drawing.Point(850, 550);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(250, 26);
-            this.textBox1.TabIndex = 15;
+            this.richTextBox1.Location = new System.Drawing.Point(825, 450);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(349, 184);
+            this.richTextBox1.TabIndex = 16;
+            this.richTextBox1.Text = "";
             // 
             // ctrl_NewSort_Output
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.dgv_FileData);
             this.Controls.Add(this.lbl_SortPlan);
             this.Controls.Add(this.lbl_FloorPlan);
@@ -243,7 +243,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_FloorPlan)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_FileData)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -261,6 +260,6 @@
         private System.Windows.Forms.PictureBox pb_DL_SortPlan;
         private System.Windows.Forms.PictureBox pb_DL_FloorPlan;
         private System.Windows.Forms.DataGridView dgv_FileData;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }
