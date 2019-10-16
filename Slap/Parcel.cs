@@ -12,6 +12,7 @@ namespace Slap
         private char lane;
         
         private string AWB;
+        private string selectCd;
         private string destLocCd;
         private string consigneePostal;
         private double kiloWeight;
@@ -24,6 +25,7 @@ namespace Slap
             lane = '0';
 
             AWB = "";
+            selectCd = "";
             destLocCd = "";
             consigneePostal = "";
             kiloWeight = 0.0;
@@ -31,11 +33,12 @@ namespace Slap
             estimateVol = 0.0;
         }
 
-        public Parcel(string AWB, string destLocCd, string consigneePostal, double kiloWeight)
+        public Parcel(string AWB, string selectCd, string destLocCd, string consigneePostal, double kiloWeight)
         {
             lane = '0';
 
             this.AWB = AWB;
+            this.selectCd = selectCd;
             this.destLocCd = destLocCd;
             this.consigneePostal = consigneePostal;
             this.kiloWeight = kiloWeight;
@@ -63,6 +66,11 @@ namespace Slap
         public string getAWB()
         {
             return AWB;
+        }
+
+        public string getSelectCd()
+        {
+            return selectCd;
         }
 
         public string getDestLocCd()
