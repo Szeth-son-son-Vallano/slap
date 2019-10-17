@@ -154,7 +154,9 @@ namespace Slap
                     DataRow dataRow = dataTable.NewRow();
                     int col = 0;
 
-                    string AWB = "", SelectCd = "", DestLocCd = "", ConsigneePostal = "";
+                    string AWB = "", ConsigneeCompany = "", ConsigneeAddress = "", ConsigneePostal = "";
+                    string SelectCd = "", DestLocCd = "", CourierRoute = "";
+                    int PieceQty = 0;
                     double KiloWgt = 0.0;
 
                     foreach (string headerWord in headerLabels)
@@ -175,14 +177,26 @@ namespace Slap
                                     case "AWB":
                                         AWB = dataWords[col];
                                         break;
+                                    case "ConsigneeCompany":
+                                        ConsigneeCompany = dataWords[col];
+                                        break;
+                                    case "ConsigneeAddr1":
+                                        ConsigneeAddress = dataWords[col];
+                                        break;
+                                    case "ConsigneePostal":
+                                        ConsigneePostal = dataWords[col];
+                                        break;
                                     case "SelectCd":
                                         SelectCd = dataWords[col];
                                         break;
                                     case "DestLocCd":
                                         DestLocCd = dataWords[col];
                                         break;
-                                    case "ConsigneePostal":
-                                        ConsigneePostal = dataWords[col];
+                                    case "CourierRoute":
+                                        CourierRoute = dataWords[col];
+                                        break;
+                                    case "PieceQty":
+                                        PieceQty = Convert.ToInt32(dataWords[col]);
                                         break;
                                     case "KiloWgt":
                                         KiloWgt = Convert.ToDouble(dataWords[col]);
@@ -193,7 +207,10 @@ namespace Slap
                             }
 
                             // Add the Parcel to the Parcel Array
-                            Parcel parcel = new Parcel(AWB, SelectCd, DestLocCd, ConsigneePostal, KiloWgt);
+                            Parcel parcel = new Parcel(
+                                AWB, ConsigneeCompany, ConsigneeAddress, ConsigneePostal,
+                                SelectCd, DestLocCd, CourierRoute, PieceQty, KiloWgt);
+                            
                             parcelArray[row - 1] = parcel;
                         }
                         catch (Exception e)
@@ -217,20 +234,26 @@ namespace Slap
         {
             DataTable dt = new DataTable();
             dt.Columns.Add(new DataColumn("AWB"));
+            dt.Columns.Add(new DataColumn("ConsigneeCompany"));
+            dt.Columns.Add(new DataColumn("ConsigneeAddress"));
+            dt.Columns.Add(new DataColumn("ConsigneePostal"));
             dt.Columns.Add(new DataColumn("SelectCd"));
             dt.Columns.Add(new DataColumn("Cleared"));
             dt.Columns.Add(new DataColumn("DestLocCd"));
-            dt.Columns.Add(new DataColumn("ConsigneePostal"));
+            dt.Columns.Add(new DataColumn("PieceQty"));
             dt.Columns.Add(new DataColumn("KiloWgt"));
 
             for (int i = 0; i < parcelArray.Length; i++)
             {
                 DataRow dr = dt.NewRow();
                 dr["AWB"] = parcelArray[i].AWB;
+                dr["ConsigneeCompany"] = parcelArray[i].ConsigneeCompany;
+                dr["ConsigneeAddress"] = parcelArray[i].ConsigneeAddress;
+                dr["ConsigneePostal"] = parcelArray[i].ConsigneePostal;
                 dr["SelectCd"] = parcelArray[i].SelectCd;
                 dr["Cleared"] = parcelArray[i].ClearedStatus;
                 dr["DestLocCd"] = parcelArray[i].DestLocCd;
-                dr["ConsigneePostal"] = parcelArray[i].ConsigneePostal;
+                dr["PieceQty"] = parcelArray[i].PieceQty;
                 dr["KiloWgt"] = parcelArray[i].KiloWgt;
 
                 dt.Rows.Add(dr);
@@ -244,25 +267,44 @@ namespace Slap
         private void displaySortedArray()
         {
             DataTable dt = new DataTable();
-            dt.Columns.Add(new DataColumn("KiloWgt"));
+
+            dt.Columns.Add(new DataColumn("AWB"));
+            dt.Columns.Add(new DataColumn("ConsigneeCompany"));
+            dt.Columns.Add(new DataColumn("ConsigneeAddress"));
+            dt.Columns.Add(new DataColumn("ConsigneePostal"));
+            dt.Columns.Add(new DataColumn("SelectCd"));
+            dt.Columns.Add(new DataColumn("Cleared"));
             dt.Columns.Add(new DataColumn("DestLocCd"));
+            dt.Columns.Add(new DataColumn("PieceQty"));
+            dt.Columns.Add(new DataColumn("KiloWgt"));
 
             for (int i = 0; i < parcelArray.Length; i++)
             {
-                bool newDestLocCd = true;
-                for (int j = 0; j < i; j++)
+                bool isBulk = false;
+                string[] DestLocCdToProcess = {"KUL","XKL"};
+                
+                if (DestLocCdToProcess.Contains(parcelArray[i].DestLocCd) &&
+                    (parcelArray[i].PieceQty >= 50 ||
+                    (parcelArray[i].PieceQty == 1 && parcelArray[i].KiloWgt >= 34) ||
+                    (parcelArray[i].PieceQty > 1 && parcelArray[i].KiloWgt >= 225)))
                 {
-                    if (parcelArray[i].getDestLocCd() == parcelArray[j].getDestLocCd())
-                    {
-                        newDestLocCd = false;
-                        break;
-                    }
+                    isBulk = true;
                 }
 
-                if (newDestLocCd)
+                if (isBulk)
                 {
                     DataRow dr = dt.NewRow();
-                    dr["DestLocCd"] = parcelArray[i].getDestLocCd();
+
+                    dr["AWB"] = parcelArray[i].AWB;
+                    dr["ConsigneeCompany"] = parcelArray[i].ConsigneeCompany;
+                    dr["ConsigneeAddress"] = parcelArray[i].ConsigneeAddress;
+                    dr["ConsigneePostal"] = parcelArray[i].ConsigneePostal;
+                    dr["SelectCd"] = parcelArray[i].SelectCd;
+                    dr["Cleared"] = parcelArray[i].ClearedStatus;
+                    dr["DestLocCd"] = parcelArray[i].DestLocCd;
+                    dr["PieceQty"] = parcelArray[i].PieceQty;
+                    dr["KiloWgt"] = parcelArray[i].KiloWgt;
+
                     dt.Rows.Add(dr);
                 }
             }
