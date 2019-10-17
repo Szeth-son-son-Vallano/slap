@@ -226,24 +226,25 @@ namespace Slap
             for (int i = 0; i < parcelArray.Length; i++)
             {
                 DataRow dr = dt.NewRow();
-                dr["AWB"] = parcelArray[i].getAWB();
-                dr["SelectCd"] = parcelArray[i].getSelectCd();
-                dr["Cleared"] = parcelArray[i].getClearedStatus();
-                dr["DestLocCd"] = parcelArray[i].getDestLocCd();
-                dr["ConsigneePostal"] = parcelArray[i].getConsigneePostal();
-                dr["KiloWgt"] = parcelArray[i].getKiloWeight();
+                dr["AWB"] = parcelArray[i].AWB;
+                dr["SelectCd"] = parcelArray[i].SelectCd;
+                dr["Cleared"] = parcelArray[i].ClearedStatus;
+                dr["DestLocCd"] = parcelArray[i].DestLocCd;
+                dr["ConsigneePostal"] = parcelArray[i].ConsigneePostal;
+                dr["KiloWgt"] = parcelArray[i].KiloWgt;
 
                 dt.Rows.Add(dr);
             }
 
             dgv_FileData.DataSource = dt;
 
-            //displayAllDestLocCd();
+            displaySortedArray();
         }
 
-        private void displayAllDestLocCd()
+        private void displaySortedArray()
         {
             DataTable dt = new DataTable();
+            dt.Columns.Add(new DataColumn("KiloWgt"));
             dt.Columns.Add(new DataColumn("DestLocCd"));
 
             for (int i = 0; i < parcelArray.Length; i++)
