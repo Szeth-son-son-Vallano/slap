@@ -64,7 +64,7 @@
             // pb_DL_ParcelList
             // 
             this.pb_DL_ParcelList.Image = ((System.Drawing.Image)(resources.GetObject("pb_DL_ParcelList.Image")));
-            this.pb_DL_ParcelList.Location = new System.Drawing.Point(825, 100);
+            this.pb_DL_ParcelList.Location = new System.Drawing.Point(875, 100);
             this.pb_DL_ParcelList.Margin = new System.Windows.Forms.Padding(0);
             this.pb_DL_ParcelList.Name = "pb_DL_ParcelList";
             this.pb_DL_ParcelList.Size = new System.Drawing.Size(100, 100);
@@ -89,7 +89,7 @@
             // 
             this.lbl_ParcelList.BackColor = System.Drawing.Color.Transparent;
             this.lbl_ParcelList.Font = new System.Drawing.Font("DengXian", 12F, System.Drawing.FontStyle.Bold);
-            this.lbl_ParcelList.Location = new System.Drawing.Point(800, 50);
+            this.lbl_ParcelList.Location = new System.Drawing.Point(850, 50);
             this.lbl_ParcelList.Name = "lbl_ParcelList";
             this.lbl_ParcelList.Size = new System.Drawing.Size(150, 30);
             this.lbl_ParcelList.TabIndex = 8;
@@ -115,7 +115,7 @@
             // 
             this.lbl_FloorPlan.BackColor = System.Drawing.Color.Transparent;
             this.lbl_FloorPlan.Font = new System.Drawing.Font("DengXian", 12F, System.Drawing.FontStyle.Bold);
-            this.lbl_FloorPlan.Location = new System.Drawing.Point(800, 275);
+            this.lbl_FloorPlan.Location = new System.Drawing.Point(850, 275);
             this.lbl_FloorPlan.Name = "lbl_FloorPlan";
             this.lbl_FloorPlan.Size = new System.Drawing.Size(150, 30);
             this.lbl_FloorPlan.TabIndex = 12;
@@ -138,7 +138,7 @@
             // pb_DL_FloorPlan
             // 
             this.pb_DL_FloorPlan.Image = ((System.Drawing.Image)(resources.GetObject("pb_DL_FloorPlan.Image")));
-            this.pb_DL_FloorPlan.Location = new System.Drawing.Point(825, 325);
+            this.pb_DL_FloorPlan.Location = new System.Drawing.Point(875, 325);
             this.pb_DL_FloorPlan.Margin = new System.Windows.Forms.Padding(0);
             this.pb_DL_FloorPlan.Name = "pb_DL_FloorPlan";
             this.pb_DL_FloorPlan.Size = new System.Drawing.Size(100, 100);
@@ -159,7 +159,7 @@
             this.dgv_FileData.RowHeadersWidth = 51;
             this.dgv_FileData.RowTemplate.Height = 24;
             this.dgv_FileData.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_FileData.Size = new System.Drawing.Size(750, 450);
+            this.dgv_FileData.Size = new System.Drawing.Size(800, 450);
             this.dgv_FileData.TabIndex = 14;
             // 
             // btn_Back
