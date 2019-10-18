@@ -219,7 +219,7 @@
             this.panel_Dgv.Controls.Add(this.dgv_FileData);
             this.panel_Dgv.Location = new System.Drawing.Point(0, 0);
             this.panel_Dgv.Name = "panel_Dgv";
-            this.panel_Dgv.Size = new System.Drawing.Size(869, 600);
+            this.panel_Dgv.Size = new System.Drawing.Size(875, 600);
             this.panel_Dgv.TabIndex = 15;
             // 
             // panel_Buttons
@@ -227,7 +227,7 @@
             this.panel_Buttons.Controls.Add(this.btn_Process);
             this.panel_Buttons.Controls.Add(this.btn_Back);
             this.panel_Buttons.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel_Buttons.Location = new System.Drawing.Point(0, 500);
+            this.panel_Buttons.Location = new System.Drawing.Point(0, 600);
             this.panel_Buttons.Name = "panel_Buttons";
             this.panel_Buttons.Size = new System.Drawing.Size(1200, 200);
             this.panel_Buttons.TabIndex = 16;
@@ -247,7 +247,7 @@
             this.Controls.Add(this.panel_Buttons);
             this.Controls.Add(this.panel_Dgv);
             this.Name = "ctrl_NewSort_Output";
-            this.Size = new System.Drawing.Size(1200, 700);
+            this.Size = new System.Drawing.Size(1200, 800);
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_RouteList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_ParcelList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_SortPlan)).EndInit();

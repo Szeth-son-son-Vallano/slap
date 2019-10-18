@@ -103,7 +103,7 @@
             // 
             this.ctrl_NewSort_Input1.Location = new System.Drawing.Point(0, 175);
             this.ctrl_NewSort_Input1.Name = "ctrl_NewSort_Input1";
-            this.ctrl_NewSort_Input1.Size = new System.Drawing.Size(1200, 700);
+            this.ctrl_NewSort_Input1.Size = new System.Drawing.Size(1200, 800);
             this.ctrl_NewSort_Input1.TabIndex = 2;
             // 
             // Form_Slap
@@ -111,7 +111,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
-            this.ClientSize = new System.Drawing.Size(1200, 875);
+            this.ClientSize = new System.Drawing.Size(1200, 975);
             this.Controls.Add(this.ctrl_NewSort_Input1);
             this.Controls.Add(this.panel_Tab);
             this.Controls.Add(this.panel_User);
