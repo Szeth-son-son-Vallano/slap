@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using Microsoft.VisualBasic.FileIO;
 using System.Text.RegularExpressions;
 
 namespace Slap
@@ -38,7 +32,7 @@ namespace Slap
         }
 
         // New Sort and Clear buttons
-        private void btn_Download_MouseDown(object sender, MouseEventArgs e)
+        private void btn_Process_MouseDown(object sender, MouseEventArgs e)
         {
             displayArray();
         }
@@ -113,7 +107,6 @@ namespace Slap
                     }
                 }
 
-                // first line to create header
                 string[] txtDataLines = txtData.Split('\n');
 
                 // to remove occurence of empty last line
@@ -124,7 +117,16 @@ namespace Slap
                     txtDataLines = temp;
                 }
 
-                string[] headerLabels = txtDataLines[0].Split(',');
+                // first line to create header
+                Regex CSVParser = new Regex(",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
+                
+                string[] headerLabels = CSVParser.Split(txtDataLines[0]);
+
+                for (int i = 0; i < headerLabels.Length; i++)
+                {
+                    headerLabels[i] = Regex.Replace(headerLabels[i], "[^a-zA-Z0-9]", "");
+                    Console.WriteLine(":"+headerLabels[i]+":");
+                }
 
                 parcelArray = new Parcel[txtDataLines.Length - 1];
 
@@ -137,8 +139,6 @@ namespace Slap
 
                 // second line onwards to process data
                 // to be able to read data encapsulated by ""
-                Regex CSVParser = new Regex(",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
-                
                 for (int row = 1; row < txtDataLines.Length; row++)
                 {
                     string[] dataWords = CSVParser.Split(txtDataLines[row]);
@@ -165,7 +165,7 @@ namespace Slap
                         {
                             if (dataWords[col] == null || dataWords[col] == "")
                             {
-                                dataRow[headerWord] = null;
+                                dataRow[headerWord] = "";
                                 col++;
                             }
                             else
@@ -240,6 +240,7 @@ namespace Slap
             dt.Columns.Add(new DataColumn("SelectCd"));
             dt.Columns.Add(new DataColumn("Cleared"));
             dt.Columns.Add(new DataColumn("DestLocCd"));
+            dt.Columns.Add(new DataColumn("CourierRoute"));
             dt.Columns.Add(new DataColumn("PieceQty"));
             dt.Columns.Add(new DataColumn("KiloWgt"));
 
@@ -253,6 +254,7 @@ namespace Slap
                 dr["SelectCd"] = parcelArray[i].SelectCd;
                 dr["Cleared"] = parcelArray[i].ClearedStatus;
                 dr["DestLocCd"] = parcelArray[i].DestLocCd;
+                dr["CourierRoute"] = parcelArray[i].CourierRoute;
                 dr["PieceQty"] = parcelArray[i].PieceQty;
                 dr["KiloWgt"] = parcelArray[i].KiloWgt;
 
@@ -275,6 +277,7 @@ namespace Slap
             dt.Columns.Add(new DataColumn("SelectCd"));
             dt.Columns.Add(new DataColumn("Cleared"));
             dt.Columns.Add(new DataColumn("DestLocCd"));
+            dt.Columns.Add(new DataColumn("CourierRoute"));
             dt.Columns.Add(new DataColumn("PieceQty"));
             dt.Columns.Add(new DataColumn("KiloWgt"));
 
@@ -282,13 +285,27 @@ namespace Slap
             {
                 bool isBulk = false;
                 string[] DestLocCdToProcess = {"KUL","XKL"};
-                
-                if (DestLocCdToProcess.Contains(parcelArray[i].DestLocCd) &&
-                    (parcelArray[i].PieceQty >= 50 ||
-                    (parcelArray[i].PieceQty == 1 && parcelArray[i].KiloWgt >= 34) ||
-                    (parcelArray[i].PieceQty > 1 && parcelArray[i].KiloWgt >= 225)))
+
+                // check for Bulk requirements
+                if (DestLocCdToProcess.Contains(parcelArray[i].DestLocCd))
                 {
-                    isBulk = true;
+                    // check for Quantity and KiloWeight
+                    if (parcelArray[i].PieceQty >= 50 ||
+                        (parcelArray[i].PieceQty == 1 && parcelArray[i].KiloWgt >= 34) ||
+                        (parcelArray[i].PieceQty > 1 && parcelArray[i].KiloWgt >= 225))
+                    {
+                        isBulk = true;
+                    }
+
+                    // check for multiple shipper to single Consignee Address
+                    for (int j = 0; j < parcelArray.Length; j++)
+                    {
+                        if (parcelArray[i].ConsigneeAddress == parcelArray[j].ConsigneeAddress &&
+                            parcelArray[i].AWB != parcelArray[j].AWB)
+                        {
+                            isBulk = true;
+                        }
+                    }
                 }
 
                 if (isBulk)
@@ -302,6 +319,7 @@ namespace Slap
                     dr["SelectCd"] = parcelArray[i].SelectCd;
                     dr["Cleared"] = parcelArray[i].ClearedStatus;
                     dr["DestLocCd"] = parcelArray[i].DestLocCd;
+                    dr["CourierRoute"] = parcelArray[i].CourierRoute;
                     dr["PieceQty"] = parcelArray[i].PieceQty;
                     dr["KiloWgt"] = parcelArray[i].KiloWgt;
 

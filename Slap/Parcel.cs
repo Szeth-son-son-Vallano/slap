@@ -48,22 +48,22 @@ namespace Slap
 
         public Parcel(
             string AWB,
-            string consigneeCompany, string consigneeAddr, string consigneePostal,
-            string selectCd, string destLocCd, string courierRoute, 
-            int pieceQty, double kiloWgt)
+            string ConsigneeCompany, string ConsigneeAddr, string ConsigneePostal,
+            string SelectCd, string DestLocCd, string CourierRoute, 
+            int PieceQty, double KiloWgt)
         {
             this._AWB = AWB;
-            this._consigneeCompany = consigneeCompany;
-            this._consigneeAddress = consigneeAddr;
-            this._consigneePostal = consigneePostal;
-            this._selectCd = selectCd;
-            this._destLocCd = destLocCd;
-            this._courierRoute = courierRoute;
-            this._pieceQty = pieceQty;
-            this._kiloWgt = kiloWgt;
+            this._consigneeCompany = ConsigneeCompany;
+            this._consigneeAddress = ConsigneeAddr;
+            this._consigneePostal = ConsigneePostal;
+            this._selectCd = SelectCd;
+            this._destLocCd = DestLocCd;
+            this._courierRoute = CourierRoute;
+            this._pieceQty = PieceQty;
+            this._kiloWgt = KiloWgt;
 
             _estimateVolume = 0.0;
-            checkClearedStatus(selectCd);
+            checkClearedStatus(SelectCd);
             _lane = '0';
         }
 
