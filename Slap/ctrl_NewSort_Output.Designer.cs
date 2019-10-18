@@ -40,12 +40,16 @@
             this.pb_DL_FloorPlan = new System.Windows.Forms.PictureBox();
             this.dgv_FileData = new System.Windows.Forms.DataGridView();
             this.btn_Back = new BrbVideoManager.Controls.RoundedButton();
-            this.btn_Download = new BrbVideoManager.Controls.RoundedButton();
+            this.btn_Process = new BrbVideoManager.Controls.RoundedButton();
+            this.panel_Dgv = new System.Windows.Forms.Panel();
+            this.panel_Buttons = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_RouteList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_ParcelList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_SortPlan)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_FloorPlan)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_FileData)).BeginInit();
+            this.panel_Dgv.SuspendLayout();
+            this.panel_Buttons.SuspendLayout();
             this.SuspendLayout();
             // 
             // pb_DL_RouteList
@@ -178,7 +182,7 @@
             this.btn_Back.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Back.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
             this.btn_Back.ForeColor = System.Drawing.Color.White;
-            this.btn_Back.Location = new System.Drawing.Point(476, 601);
+            this.btn_Back.Location = new System.Drawing.Point(475, 100);
             this.btn_Back.Name = "btn_Back";
             this.btn_Back.Size = new System.Drawing.Size(250, 60);
             this.btn_Back.TabIndex = 7;
@@ -186,52 +190,71 @@
             this.btn_Back.UseVisualStyleBackColor = false;
             this.btn_Back.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_Back_MouseDown);
             // 
-            // btn_Download
+            // btn_Process
             // 
-            this.btn_Download.BackColor = System.Drawing.Color.Indigo;
-            this.btn_Download.BorderColor = System.Drawing.Color.Transparent;
-            this.btn_Download.BorderDownColor = System.Drawing.Color.Empty;
-            this.btn_Download.BorderDownWidth = 0F;
-            this.btn_Download.BorderOverColor = System.Drawing.Color.Empty;
-            this.btn_Download.BorderOverWidth = 0F;
-            this.btn_Download.BorderRadius = 30;
-            this.btn_Download.BorderWidth = 0F;
-            this.btn_Download.FlatAppearance.BorderSize = 0;
-            this.btn_Download.FlatAppearance.MouseDownBackColor = System.Drawing.Color.BlueViolet;
-            this.btn_Download.FlatAppearance.MouseOverBackColor = System.Drawing.Color.BlueViolet;
-            this.btn_Download.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Download.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.btn_Download.ForeColor = System.Drawing.Color.White;
-            this.btn_Download.Location = new System.Drawing.Point(476, 526);
-            this.btn_Download.Name = "btn_Download";
-            this.btn_Download.Size = new System.Drawing.Size(250, 60);
-            this.btn_Download.TabIndex = 6;
-            this.btn_Download.Text = "D O W N L O A D";
-            this.btn_Download.UseVisualStyleBackColor = false;
-            this.btn_Download.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_Download_MouseDown);
+            this.btn_Process.BackColor = System.Drawing.Color.Indigo;
+            this.btn_Process.BorderColor = System.Drawing.Color.Transparent;
+            this.btn_Process.BorderDownColor = System.Drawing.Color.Empty;
+            this.btn_Process.BorderDownWidth = 0F;
+            this.btn_Process.BorderOverColor = System.Drawing.Color.Empty;
+            this.btn_Process.BorderOverWidth = 0F;
+            this.btn_Process.BorderRadius = 30;
+            this.btn_Process.BorderWidth = 0F;
+            this.btn_Process.FlatAppearance.BorderSize = 0;
+            this.btn_Process.FlatAppearance.MouseDownBackColor = System.Drawing.Color.BlueViolet;
+            this.btn_Process.FlatAppearance.MouseOverBackColor = System.Drawing.Color.BlueViolet;
+            this.btn_Process.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Process.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.btn_Process.ForeColor = System.Drawing.Color.White;
+            this.btn_Process.Location = new System.Drawing.Point(475, 25);
+            this.btn_Process.Name = "btn_Process";
+            this.btn_Process.Size = new System.Drawing.Size(250, 60);
+            this.btn_Process.TabIndex = 6;
+            this.btn_Process.Text = "P R O C E S S";
+            this.btn_Process.UseVisualStyleBackColor = false;
+            this.btn_Process.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_Process_MouseDown);
+            // 
+            // panel_Dgv
+            // 
+            this.panel_Dgv.Controls.Add(this.dgv_FileData);
+            this.panel_Dgv.Location = new System.Drawing.Point(0, 0);
+            this.panel_Dgv.Name = "panel_Dgv";
+            this.panel_Dgv.Size = new System.Drawing.Size(875, 600);
+            this.panel_Dgv.TabIndex = 15;
+            // 
+            // panel_Buttons
+            // 
+            this.panel_Buttons.Controls.Add(this.btn_Process);
+            this.panel_Buttons.Controls.Add(this.btn_Back);
+            this.panel_Buttons.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel_Buttons.Location = new System.Drawing.Point(0, 600);
+            this.panel_Buttons.Name = "panel_Buttons";
+            this.panel_Buttons.Size = new System.Drawing.Size(1200, 200);
+            this.panel_Buttons.TabIndex = 16;
             // 
             // ctrl_NewSort_Output
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.dgv_FileData);
             this.Controls.Add(this.lbl_SortPlan);
             this.Controls.Add(this.lbl_FloorPlan);
             this.Controls.Add(this.pb_DL_SortPlan);
             this.Controls.Add(this.pb_DL_FloorPlan);
             this.Controls.Add(this.lbl_RouteList);
             this.Controls.Add(this.lbl_ParcelList);
-            this.Controls.Add(this.btn_Back);
-            this.Controls.Add(this.btn_Download);
             this.Controls.Add(this.pb_DL_RouteList);
             this.Controls.Add(this.pb_DL_ParcelList);
+            this.Controls.Add(this.panel_Buttons);
+            this.Controls.Add(this.panel_Dgv);
             this.Name = "ctrl_NewSort_Output";
-            this.Size = new System.Drawing.Size(1200, 700);
+            this.Size = new System.Drawing.Size(1200, 800);
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_RouteList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_ParcelList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_SortPlan)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_FloorPlan)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_FileData)).EndInit();
+            this.panel_Dgv.ResumeLayout(false);
+            this.panel_Buttons.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -240,7 +263,7 @@
 
         private System.Windows.Forms.PictureBox pb_DL_ParcelList;
         private System.Windows.Forms.PictureBox pb_DL_RouteList;
-        private BrbVideoManager.Controls.RoundedButton btn_Download;
+        private BrbVideoManager.Controls.RoundedButton btn_Process;
         private BrbVideoManager.Controls.RoundedButton btn_Back;
         private System.Windows.Forms.Label lbl_RouteList;
         private System.Windows.Forms.Label lbl_ParcelList;
@@ -250,5 +273,7 @@
         private System.Windows.Forms.PictureBox pb_DL_SortPlan;
         private System.Windows.Forms.PictureBox pb_DL_FloorPlan;
         private System.Windows.Forms.DataGridView dgv_FileData;
+        private System.Windows.Forms.Panel panel_Dgv;
+        private System.Windows.Forms.Panel panel_Buttons;
     }
 }
