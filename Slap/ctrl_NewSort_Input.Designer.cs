@@ -39,9 +39,9 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.panel_LoadFiles = new System.Windows.Forms.Panel();
             this.panel_Buttons = new System.Windows.Forms.Panel();
-            this.ctrl_NewSort_Output1 = new Slap.ctrl_NewSort_Output();
             this.btn_Sort = new BrbVideoManager.Controls.RoundedButton();
             this.btn_Clear = new BrbVideoManager.Controls.RoundedButton();
+            this.ctrl_NewSort_Output1 = new Slap.ctrl_NewSort_Output();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DND_RouteList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DND_ParcelList)).BeginInit();
             this.panel_LoadFiles.SuspendLayout();
@@ -161,13 +161,6 @@
             this.panel_Buttons.Size = new System.Drawing.Size(1200, 200);
             this.panel_Buttons.TabIndex = 12;
             // 
-            // ctrl_NewSort_Output1
-            // 
-            this.ctrl_NewSort_Output1.Location = new System.Drawing.Point(0, 0);
-            this.ctrl_NewSort_Output1.Name = "ctrl_NewSort_Output1";
-            this.ctrl_NewSort_Output1.Size = new System.Drawing.Size(1200, 800);
-            this.ctrl_NewSort_Output1.TabIndex = 10;
-            // 
             // btn_Sort
             // 
             this.btn_Sort.BackColor = System.Drawing.Color.Indigo;
@@ -215,6 +208,13 @@
             this.btn_Clear.Text = "C L E A R";
             this.btn_Clear.UseVisualStyleBackColor = false;
             this.btn_Clear.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_Clear_MouseDown);
+            // 
+            // ctrl_NewSort_Output1
+            // 
+            this.ctrl_NewSort_Output1.Location = new System.Drawing.Point(0, 0);
+            this.ctrl_NewSort_Output1.Name = "ctrl_NewSort_Output1";
+            this.ctrl_NewSort_Output1.Size = new System.Drawing.Size(1200, 800);
+            this.ctrl_NewSort_Output1.TabIndex = 10;
             // 
             // ctrl_NewSort_Input
             // 
