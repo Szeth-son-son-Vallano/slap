@@ -8,106 +8,131 @@ namespace Slap
 {
     class Parcel
     {
-        // attributes
-        private char lane;
+        // given attributes
+        private string _AWB;
+        private string _consigneeCompany;
+        private string _consigneeAddress;
+        private string _consigneePostal;
+        private string _selectCd;
+        private string _destLocCd;
+        private string _courierRoute;
+
+        private int _pieceQty;
+
+        private double _kiloWgt;
         
-        private string AWB;
-        private string selectCd;
-        private string destLocCd;
-        private string consigneePostal;
-        private double kiloWeight;
-
-        private double estimateVol;
-
-        private bool clearedStatus;
+        // inferred attributes
+        private double _estimateVolume;
+        private bool _clearedStatus;
+        private char _lane;
 
         // constructors
         public Parcel()
         {
-            lane = '0';
+            _AWB = "";
+            _consigneeCompany = "";
+            _consigneeAddress = "";
+            _consigneePostal = "";
+            _selectCd = "";
+            _destLocCd = "";
+            _courierRoute = "";
 
-            AWB = "";
-            selectCd = "";
-            destLocCd = "";
-            consigneePostal = "";
-            kiloWeight = 0.0;
+            _pieceQty = 0;
 
-            estimateVol = 0.0;
+            _kiloWgt = 0.0;
 
-            clearedStatus = false;
+            _estimateVolume = 0.0;
+            _clearedStatus = false;
+            _lane = '0';
         }
 
-        public Parcel(string AWB, string selectCd, string destLocCd, string consigneePostal, double kiloWeight)
+        public Parcel(
+            string AWB,
+            string ConsigneeCompany, string ConsigneeAddr, string ConsigneePostal,
+            string SelectCd, string DestLocCd, string CourierRoute, 
+            int PieceQty, double KiloWgt)
         {
-            lane = '0';
+            this._AWB = AWB;
+            this._consigneeCompany = ConsigneeCompany;
+            this._consigneeAddress = ConsigneeAddr;
+            this._consigneePostal = ConsigneePostal;
+            this._selectCd = SelectCd;
+            this._destLocCd = DestLocCd;
+            this._courierRoute = CourierRoute;
+            this._pieceQty = PieceQty;
+            this._kiloWgt = KiloWgt;
 
-            this.AWB = AWB;
-            this.selectCd = selectCd;
-            this.destLocCd = destLocCd;
-            this.consigneePostal = consigneePostal;
-            this.kiloWeight = kiloWeight;
-
-            estimateVol = 0.0;
-
-            checkClearedStatus(selectCd);
+            _estimateVolume = 0.0;
+            checkClearedStatus(SelectCd);
+            _lane = '0';
         }
 
-        // setter methods
-        public void setLane(char lane)
+        // getter and setter methods
+        public string AWB
         {
-            this.lane = lane;
+            get { return _AWB; }
+            set { _AWB = value; }
         }
-
-        public void setEstimateVolume(double estimateVol)
+        public string ConsigneeCompany
         {
-            this.estimateVol = estimateVol;
+            get { return _consigneeCompany; }
+            set { _consigneeCompany = value; }
         }
-
-        // getter methods
-        public char getLane()
+        public string ConsigneeAddress
         {
-            return lane;
+            get { return _consigneeAddress; }
+            set { _consigneeAddress = value; }
         }
-
-        public string getAWB()
+        public string ConsigneePostal
         {
-            return AWB;
+            get { return _consigneePostal; }
+            set { _consigneePostal = value; }
         }
-
-        public string getSelectCd()
+        public string SelectCd
         {
-            return selectCd;
+            get { return _selectCd; }
+            set { _selectCd = value; }
         }
-
-        public string getDestLocCd()
+        public string DestLocCd
         {
-            return destLocCd;
+            get { return _destLocCd; }
+            set { _destLocCd = value; }
         }
-
-        public string getConsigneePostal()
+        public string CourierRoute
         {
-            return consigneePostal;
+            get { return _courierRoute; }
+            set { _courierRoute = value; }
         }
-
-        public double getKiloWeight()
+        public int PieceQty
         {
-            return kiloWeight;
+            get { return _pieceQty; }
+            set { _pieceQty = value; }
         }
-
-        public double getEstimateVol()
+        public double KiloWgt
         {
-            return estimateVol;
+            get { return _kiloWgt; }
+            set { _kiloWgt = value; }
         }
-
-        public bool getClearedStatus()
+        public double EstimatedVol
         {
-            return clearedStatus;
+            get { return _estimateVolume; }
+            set { }
+        }
+        public bool ClearedStatus
+        {
+            get { return _clearedStatus; }
+            set { }
+        }
+        public char Lane
+        {
+            get { return _lane; }
+            set { _lane = value; }
         }
 
         // other methods
         public double calculateEstimateVol(double avgDensity)
         {
-            double estimateVolResult = kiloWeight * avgDensity;
+            double estimateVolResult = _kiloWgt * avgDensity;
             return estimateVolResult;
         }
 
@@ -121,7 +146,7 @@ namespace Slap
             {
                 if (clearedCodes.Contains(code))
                 {
-                    clearedStatus = true;
+                    _clearedStatus = true;
                     break;
                 }
             }
