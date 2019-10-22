@@ -34,6 +34,7 @@
             this.btn_MenuSortHistory = new System.Windows.Forms.Button();
             this.btn_MenuNewSort = new System.Windows.Forms.Button();
             this.ctrl_NewSort_Input1 = new Slap.ctrl_NewSort_Input();
+            this.ctrl_SortHistory1 = new Slap.ctrl_SortHistory();
             this.panel_User.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_FedexLogo)).BeginInit();
             this.panel_Tab.SuspendLayout();
@@ -103,15 +104,23 @@
             // 
             this.ctrl_NewSort_Input1.Location = new System.Drawing.Point(0, 175);
             this.ctrl_NewSort_Input1.Name = "ctrl_NewSort_Input1";
-            this.ctrl_NewSort_Input1.Size = new System.Drawing.Size(1200, 800);
+            this.ctrl_NewSort_Input1.Size = new System.Drawing.Size(1200, 700);
             this.ctrl_NewSort_Input1.TabIndex = 2;
+            // 
+            // ctrl_SortHistory1
+            // 
+            this.ctrl_SortHistory1.Location = new System.Drawing.Point(0, 175);
+            this.ctrl_SortHistory1.Name = "ctrl_SortHistory1";
+            this.ctrl_SortHistory1.Size = new System.Drawing.Size(1200, 700);
+            this.ctrl_SortHistory1.TabIndex = 3;
             // 
             // Form_Slap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
-            this.ClientSize = new System.Drawing.Size(1200, 975);
+            this.ClientSize = new System.Drawing.Size(1200, 875);
+            this.Controls.Add(this.ctrl_SortHistory1);
             this.Controls.Add(this.ctrl_NewSort_Input1);
             this.Controls.Add(this.panel_Tab);
             this.Controls.Add(this.panel_User);
@@ -135,6 +144,7 @@
         private System.Windows.Forms.Button btn_MenuSortHistory;
         private System.Windows.Forms.PictureBox pb_FedexLogo;
         private ctrl_NewSort_Input ctrl_NewSort_Input1;
+        private ctrl_SortHistory ctrl_SortHistory1;
     }
 }
 

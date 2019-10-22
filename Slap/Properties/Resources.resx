@@ -133,16 +133,25 @@
   <data name="filePurple" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\filePurple.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="fileLightOrange" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fileLightOrange.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="fileOrange" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\fileOrange.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="fedexLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\fedexLogo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="fileRedFrame" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fileRedFrame.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fileLightPurple" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\fileLightPurple.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="fileWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\fileWhite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="fileRedFrame" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\fileRedFrame.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="search" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\search.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
