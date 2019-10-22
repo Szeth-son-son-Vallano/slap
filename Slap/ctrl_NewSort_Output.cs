@@ -29,6 +29,8 @@ namespace Slap
         {
             pb_DL_ParcelList.Image = Properties.Resources.filePurple;
             pb_DL_RouteList.Image = Properties.Resources.filePurple;
+            pb_DL_FloorPlan.Image = Properties.Resources.filePurple;
+            pb_DL_SortPlan.Image = Properties.Resources.filePurple;
         }
 
         // New Sort and Clear buttons
@@ -45,24 +47,24 @@ namespace Slap
         // On Click functions for Individual File Download
         private void pb_DL_ParcelList_MouseDown(object sender, MouseEventArgs e)
         {
-            pb_DL_ParcelList.Image = Properties.Resources.fileOrange;
+            pb_DL_ParcelList.Image = Properties.Resources.fileLightPurple;
         }
 
         private void pb_DL_RouteList_MouseDown(object sender, MouseEventArgs e)
         {
-            pb_DL_RouteList.Image = Properties.Resources.fileOrange;
+            pb_DL_RouteList.Image = Properties.Resources.fileLightPurple;
 
         }
 
         private void pb_DL_FloorPlan_MouseDown(object sender, MouseEventArgs e)
         {
-            pb_DL_FloorPlan.Image = Properties.Resources.fileOrange;
+            pb_DL_FloorPlan.Image = Properties.Resources.fileLightPurple;
 
         }
 
         private void pb_DL_SortPlan_MouseDown(object sender, MouseEventArgs e)
         {
-            pb_DL_SortPlan.Image = Properties.Resources.fileOrange;
+            pb_DL_SortPlan.Image = Properties.Resources.fileLightPurple;
 
         }
 

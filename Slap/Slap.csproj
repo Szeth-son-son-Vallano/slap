@@ -50,6 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ctrl_SortHistory.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ctrl_SortHistory.Designer.cs">
+      <DependentUpon>ctrl_SortHistory.cs</DependentUpon>
+    </Compile>
     <Compile Include="ctrl_NewSort_Output.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -74,6 +80,9 @@
     <Compile Include="Resources\RoundedButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <EmbeddedResource Include="ctrl_SortHistory.resx">
+      <DependentUpon>ctrl_SortHistory.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ctrl_NewSort_Output.resx">
       <DependentUpon>ctrl_NewSort_Output.cs</DependentUpon>
     </EmbeddedResource>
@@ -132,6 +141,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\fileRedFrame.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\fileLightPurple.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\fileLightOrange.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

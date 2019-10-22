@@ -35,17 +35,13 @@
             this.pb_DND_ParcelList = new System.Windows.Forms.PictureBox();
             this.lbl_RouteList = new System.Windows.Forms.Label();
             this.lbl_ParcelList = new System.Windows.Forms.Label();
-            this.lbl_ErrorMessage = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.panel_LoadFiles = new System.Windows.Forms.Panel();
-            this.panel_Buttons = new System.Windows.Forms.Panel();
-            this.btn_Sort = new BrbVideoManager.Controls.RoundedButton();
+            this.lbl_ErrorMessage = new System.Windows.Forms.Label();
             this.btn_Clear = new BrbVideoManager.Controls.RoundedButton();
+            this.btn_Sort = new BrbVideoManager.Controls.RoundedButton();
             this.ctrl_NewSort_Output1 = new Slap.ctrl_NewSort_Output();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DND_RouteList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DND_ParcelList)).BeginInit();
-            this.panel_LoadFiles.SuspendLayout();
-            this.panel_Buttons.SuspendLayout();
             this.SuspendLayout();
             // 
             // lbl_ParcelListFile
@@ -120,6 +116,10 @@
             this.lbl_ParcelList.Text = "PARCEL LIST";
             this.lbl_ParcelList.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
             // lbl_ErrorMessage
             // 
             this.lbl_ErrorMessage.BackColor = System.Drawing.Color.Transparent;
@@ -132,34 +132,29 @@
             this.lbl_ErrorMessage.Text = "Error message";
             this.lbl_ErrorMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // openFileDialog1
+            // btn_Clear
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // panel_LoadFiles
-            // 
-            this.panel_LoadFiles.Controls.Add(this.lbl_ParcelList);
-            this.panel_LoadFiles.Controls.Add(this.lbl_RouteList);
-            this.panel_LoadFiles.Controls.Add(this.lbl_ParcelListFile);
-            this.panel_LoadFiles.Controls.Add(this.lbl_RouteListFile);
-            this.panel_LoadFiles.Controls.Add(this.pb_DND_ParcelList);
-            this.panel_LoadFiles.Controls.Add(this.pb_DND_RouteList);
-            this.panel_LoadFiles.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel_LoadFiles.Location = new System.Drawing.Point(0, 0);
-            this.panel_LoadFiles.Name = "panel_LoadFiles";
-            this.panel_LoadFiles.Size = new System.Drawing.Size(1200, 600);
-            this.panel_LoadFiles.TabIndex = 11;
-            // 
-            // panel_Buttons
-            // 
-            this.panel_Buttons.Controls.Add(this.lbl_ErrorMessage);
-            this.panel_Buttons.Controls.Add(this.btn_Sort);
-            this.panel_Buttons.Controls.Add(this.btn_Clear);
-            this.panel_Buttons.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel_Buttons.Location = new System.Drawing.Point(0, 600);
-            this.panel_Buttons.Name = "panel_Buttons";
-            this.panel_Buttons.Size = new System.Drawing.Size(1200, 200);
-            this.panel_Buttons.TabIndex = 12;
+            this.btn_Clear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btn_Clear.BorderColor = System.Drawing.Color.Transparent;
+            this.btn_Clear.BorderDownColor = System.Drawing.Color.Empty;
+            this.btn_Clear.BorderDownWidth = 0F;
+            this.btn_Clear.BorderOverColor = System.Drawing.Color.Empty;
+            this.btn_Clear.BorderOverWidth = 0F;
+            this.btn_Clear.BorderRadius = 30;
+            this.btn_Clear.BorderWidth = 0F;
+            this.btn_Clear.FlatAppearance.BorderSize = 0;
+            this.btn_Clear.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btn_Clear.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red;
+            this.btn_Clear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Clear.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.btn_Clear.ForeColor = System.Drawing.Color.White;
+            this.btn_Clear.Location = new System.Drawing.Point(475, 600);
+            this.btn_Clear.Name = "btn_Clear";
+            this.btn_Clear.Size = new System.Drawing.Size(250, 60);
+            this.btn_Clear.TabIndex = 7;
+            this.btn_Clear.Text = "C L E A R";
+            this.btn_Clear.UseVisualStyleBackColor = false;
+            this.btn_Clear.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_Clear_MouseDown);
             // 
             // btn_Sort
             // 
@@ -172,12 +167,12 @@
             this.btn_Sort.BorderRadius = 30;
             this.btn_Sort.BorderWidth = 0F;
             this.btn_Sort.FlatAppearance.BorderSize = 0;
-            this.btn_Sort.FlatAppearance.MouseDownBackColor = System.Drawing.Color.BlueViolet;
+            this.btn_Sort.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(0)))), ((int)(((byte)(100)))));
             this.btn_Sort.FlatAppearance.MouseOverBackColor = System.Drawing.Color.BlueViolet;
             this.btn_Sort.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Sort.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
             this.btn_Sort.ForeColor = System.Drawing.Color.White;
-            this.btn_Sort.Location = new System.Drawing.Point(475, 25);
+            this.btn_Sort.Location = new System.Drawing.Point(475, 525);
             this.btn_Sort.Name = "btn_Sort";
             this.btn_Sort.Size = new System.Drawing.Size(250, 60);
             this.btn_Sort.TabIndex = 6;
@@ -185,50 +180,31 @@
             this.btn_Sort.UseVisualStyleBackColor = false;
             this.btn_Sort.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_Sort_MouseDown);
             // 
-            // btn_Clear
-            // 
-            this.btn_Clear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.btn_Clear.BorderColor = System.Drawing.Color.Transparent;
-            this.btn_Clear.BorderDownColor = System.Drawing.Color.Empty;
-            this.btn_Clear.BorderDownWidth = 0F;
-            this.btn_Clear.BorderOverColor = System.Drawing.Color.Empty;
-            this.btn_Clear.BorderOverWidth = 0F;
-            this.btn_Clear.BorderRadius = 30;
-            this.btn_Clear.BorderWidth = 0F;
-            this.btn_Clear.FlatAppearance.BorderSize = 0;
-            this.btn_Clear.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Red;
-            this.btn_Clear.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red;
-            this.btn_Clear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Clear.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.btn_Clear.ForeColor = System.Drawing.Color.White;
-            this.btn_Clear.Location = new System.Drawing.Point(475, 100);
-            this.btn_Clear.Name = "btn_Clear";
-            this.btn_Clear.Size = new System.Drawing.Size(250, 60);
-            this.btn_Clear.TabIndex = 7;
-            this.btn_Clear.Text = "C L E A R";
-            this.btn_Clear.UseVisualStyleBackColor = false;
-            this.btn_Clear.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_Clear_MouseDown);
-            // 
             // ctrl_NewSort_Output1
             // 
             this.ctrl_NewSort_Output1.Location = new System.Drawing.Point(0, 0);
             this.ctrl_NewSort_Output1.Name = "ctrl_NewSort_Output1";
-            this.ctrl_NewSort_Output1.Size = new System.Drawing.Size(1200, 800);
-            this.ctrl_NewSort_Output1.TabIndex = 10;
+            this.ctrl_NewSort_Output1.Size = new System.Drawing.Size(1200, 700);
+            this.ctrl_NewSort_Output1.TabIndex = 11;
             // 
             // ctrl_NewSort_Input
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.ctrl_NewSort_Output1);
-            this.Controls.Add(this.panel_Buttons);
-            this.Controls.Add(this.panel_LoadFiles);
+            this.Controls.Add(this.lbl_ParcelList);
+            this.Controls.Add(this.lbl_RouteList);
+            this.Controls.Add(this.lbl_ParcelListFile);
+            this.Controls.Add(this.lbl_RouteListFile);
+            this.Controls.Add(this.pb_DND_ParcelList);
+            this.Controls.Add(this.pb_DND_RouteList);
+            this.Controls.Add(this.lbl_ErrorMessage);
+            this.Controls.Add(this.btn_Sort);
+            this.Controls.Add(this.btn_Clear);
             this.Name = "ctrl_NewSort_Input";
-            this.Size = new System.Drawing.Size(1200, 800);
+            this.Size = new System.Drawing.Size(1200, 700);
             ((System.ComponentModel.ISupportInitialize)(this.pb_DND_RouteList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DND_ParcelList)).EndInit();
-            this.panel_LoadFiles.ResumeLayout(false);
-            this.panel_Buttons.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -239,14 +215,12 @@
         private System.Windows.Forms.PictureBox pb_DND_RouteList;
         private System.Windows.Forms.Label lbl_ParcelListFile;
         private System.Windows.Forms.Label lbl_RouteListFile;
-        private BrbVideoManager.Controls.RoundedButton btn_Sort;
-        private BrbVideoManager.Controls.RoundedButton btn_Clear;
         private System.Windows.Forms.Label lbl_RouteList;
         private System.Windows.Forms.Label lbl_ParcelList;
-        private System.Windows.Forms.Label lbl_ErrorMessage;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.Panel panel_LoadFiles;
-        private System.Windows.Forms.Panel panel_Buttons;
+        private System.Windows.Forms.Label lbl_ErrorMessage;
+        private BrbVideoManager.Controls.RoundedButton btn_Sort;
+        private BrbVideoManager.Controls.RoundedButton btn_Clear;
         private ctrl_NewSort_Output ctrl_NewSort_Output1;
     }
 }
