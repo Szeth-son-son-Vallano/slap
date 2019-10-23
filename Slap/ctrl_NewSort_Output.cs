@@ -286,11 +286,11 @@ namespace Slap
             for (int i = 0; i < parcelArray.Length; i++)
             {
                 bool isBulk = false;
-                string[] DestLocCdToProcess = {"KUL","XKL"};
+                //string[] DestLocCdToProcess = {"KUL","XKL"};
 
                 // check for Bulk requirements
-                if (DestLocCdToProcess.Contains(parcelArray[i].DestLocCd))
-                {
+                //if (DestLocCdToProcess.Contains(parcelArray[i].DestLocCd))
+                //{
                     // check for Quantity and KiloWeight
                     if (parcelArray[i].PieceQty >= 50 ||
                         (parcelArray[i].PieceQty == 1 && parcelArray[i].KiloWgt >= 34) ||
@@ -308,7 +308,7 @@ namespace Slap
                             isBulk = true;
                         }
                     }
-                }
+                //}
 
                 if (isBulk)
                 {
