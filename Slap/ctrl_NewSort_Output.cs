@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace Slap
 {
@@ -11,11 +12,40 @@ namespace Slap
     {
         private string[] ParcelData, RouteData;
         private Parcel[] parcelArray;
+        private List<Parcel> filteredParcelList = new List<Parcel>(), sortedParcelList = new List<Parcel>();
 
+        private Lane[] laneArray;
+        private List<string[]> lanes = new List<string[]>();
+        private List<string[]> lanesRange = new List<string[]>();
+        
         public ctrl_NewSort_Output()
         {
             InitializeComponent();
             Reset();
+
+            lanes.Add(new string[]{ "835", "837", "839" });
+            lanes.Add(new string[]{ "850", "857", "859" });
+            lanes.Add(new string[]{ "823", "833" });
+            lanes.Add(new string[]{ "815" });
+            lanes.Add(new string[]{ "860", "863", "865" });
+            lanes.Add(new string[]{ "872", "875", "877" });
+            lanes.Add(new string[]{ "880", "883", "885", "890", "893", "895" });
+            lanes.Add(new string[]{ "XKLA" });
+            lanes.Add(new string[]{ "KULAAA" });
+            lanes.Add(new string[]{ "KULBK+" });
+            lanes.Add(new string[]{ "RAWANG" });
+             
+            lanesRange.Add(new string[]{ "835", "839" });
+            lanesRange.Add(new string[]{ "850", "859" });
+            lanesRange.Add(new string[]{ "820", "824" });
+            lanesRange.Add(new string[]{ "810", "819" });
+            lanesRange.Add(new string[]{ "860", "869" });
+            lanesRange.Add(new string[]{ "870", "879" });
+            lanesRange.Add(new string[]{ "880", "899" });
+            lanesRange.Add(new string[]{ "XKLA", "XKLA" });
+            lanesRange.Add(new string[]{ "KULAAA", "KULAAA" });
+            lanesRange.Add(new string[]{ "KULBK+", "KULBK+" });
+            lanesRange.Add(new string[]{ "RAWANG", "RAWANG" });
         }
 
         public void addData(string[] parcelData, string[] routeData)
@@ -265,10 +295,10 @@ namespace Slap
 
             dgv_FileData.DataSource = dt;
 
-            displaySortedArray();
+            displayFilteredArray();
         }
 
-        private void displaySortedArray()
+        private void displayFilteredArray()
         {
             DataTable dt = new DataTable();
 
@@ -288,27 +318,29 @@ namespace Slap
                 bool isBulk = false;
                 //string[] DestLocCdToProcess = {"KUL","XKL"};
 
-                // check for Bulk requirements
                 //if (DestLocCdToProcess.Contains(parcelArray[i].DestLocCd))
                 //{
-                    // check for Quantity and KiloWeight
-                    if (parcelArray[i].PieceQty >= 50 ||
-                        (parcelArray[i].PieceQty == 1 && parcelArray[i].KiloWgt >= 34) ||
-                        (parcelArray[i].PieceQty > 1 && parcelArray[i].KiloWgt >= 225))
+                //      
+                //}
+
+                // check for Bulk requirements
+                // check for Quantity and KiloWeight
+                if (parcelArray[i].PieceQty >= 50 ||
+                    (parcelArray[i].PieceQty == 1 && parcelArray[i].KiloWgt >= 34) ||
+                    (parcelArray[i].PieceQty > 1 && parcelArray[i].KiloWgt >= 225))
+                {
+                    isBulk = true;
+                }
+
+                // check for multiple shipper to single Consignee Address
+                for (int j = 0; j < parcelArray.Length; j++)
+                {
+                    if (parcelArray[i].ConsigneeAddress == parcelArray[j].ConsigneeAddress &&
+                        parcelArray[i].AWB != parcelArray[j].AWB)
                     {
                         isBulk = true;
                     }
-
-                    // check for multiple shipper to single Consignee Address
-                    for (int j = 0; j < parcelArray.Length; j++)
-                    {
-                        if (parcelArray[i].ConsigneeAddress == parcelArray[j].ConsigneeAddress &&
-                            parcelArray[i].AWB != parcelArray[j].AWB)
-                        {
-                            isBulk = true;
-                        }
-                    }
-                //}
+                }
 
                 if (isBulk)
                 {
@@ -326,7 +358,138 @@ namespace Slap
                     dr["KiloWgt"] = parcelArray[i].KiloWgt;
 
                     dt.Rows.Add(dr);
+
+                    filteredParcelList.Add(parcelArray[i]);
+
+                    Console.WriteLine("\nAWB: \"" + parcelArray[i].AWB + "\""
+                    + "\nConsigneeCompany: \"" + parcelArray[i].ConsigneeCompany + "\""
+                    + "\nConsigneeAddress: \"" + parcelArray[i].ConsigneeAddress + "\""
+                    + "\nConsigneePostal: \"" + parcelArray[i].ConsigneePostal + "\""
+                    + "\nSelectCd: \"" + parcelArray[i].SelectCd + "\""
+                    + "\nCleared: \"" + parcelArray[i].ClearedStatus + "\""
+                    + "\nDestLocCd: \"" + parcelArray[i].DestLocCd + "\""
+                    + "\nCourierRoute: \"" + parcelArray[i].CourierRoute + "\""
+                    + "\nPieceQty: \"" + parcelArray[i].PieceQty + "\""
+                    + "\nKiloWgt: \"" + parcelArray[i].KiloWgt + "\"" + "\n");
                 }
+            }
+
+            dgv_FileData.DataSource = dt;
+
+            //sortParcelsIntoLanes();
+        }
+
+        private void sortParcelsIntoLanes()
+        {
+            char laneID = 'A';
+            // iterate through each lane grouping
+            foreach (string[] laneRange in lanesRange)
+            {
+                bool laneCheckInt = false, laneCheckStr = false;
+                int laneRangeMin = int.MaxValue, laneRangeMax = int.MinValue;
+                string laneString = "";
+
+                try
+                {
+                    laneRangeMin = Convert.ToInt32(laneRange[0]);
+                    laneRangeMax = Convert.ToInt32(laneRange[1]);
+                    laneCheckInt = true;
+                }
+                catch (Exception e)
+                {
+                    if (laneRange[0].Equals(laneRange[1]) ||
+                        laneRange[0] == laneRange[1])
+                    {
+                        laneString = laneRange[0];
+                        laneCheckStr = true;
+
+                        Console.WriteLine("Lane is String: " + laneString);
+                    }
+                }
+
+                // iterate through each parcel
+                foreach (Parcel parcel in filteredParcelList)
+                {
+                    bool parcelCheckInt = false, parcelCheckStr = false;
+                    string courierRouteStr = "";
+                    int courierRouteInt = 0;
+
+                    try
+                    {
+                        courierRouteInt = Convert.ToInt32(parcel.CourierRoute);
+                        parcelCheckInt = true;
+                    }
+                    catch (Exception e)
+                    {
+                        courierRouteStr = parcel.CourierRoute;
+                        parcelCheckStr = true;
+
+                        Console.WriteLine("Parcel is String: " + courierRouteStr);
+                    }
+
+                    if (laneCheckInt && parcelCheckInt)
+                    {
+                        if (laneRangeMin <= courierRouteInt &&
+                            courierRouteInt <= laneRangeMax)
+                        {
+                            parcel.Lane = laneID;
+
+                            sortedParcelList.Add(parcel);
+                        }
+                    }
+                    if (laneCheckStr && parcelCheckStr)
+                    {
+                        Console.WriteLine("Parcel Route: " + courierRouteStr + " Lane Route: " + laneString);
+                        if (courierRouteStr.Equals(laneString) ||
+                        courierRouteStr == laneString)
+                        {
+                            Console.WriteLine("Parcel has Route");
+
+                            parcel.Lane = laneID;
+
+                            sortedParcelList.Add(parcel);
+                        }
+                    }
+                }
+
+                // change lane character to next character
+                laneID++;
+            }
+
+            displaySortedArray();
+        }
+
+        private void displaySortedArray()
+        {
+            DataTable dt = new DataTable();
+
+            dt.Columns.Add(new DataColumn("AWB"));
+            dt.Columns.Add(new DataColumn("ConsigneeCompany"));
+            dt.Columns.Add(new DataColumn("ConsigneeAddress"));
+            dt.Columns.Add(new DataColumn("ConsigneePostal"));
+            dt.Columns.Add(new DataColumn("SelectCd"));
+            dt.Columns.Add(new DataColumn("Cleared"));
+            dt.Columns.Add(new DataColumn("CourierRoute"));
+            dt.Columns.Add(new DataColumn("Lane"));
+            dt.Columns.Add(new DataColumn("PieceQty"));
+            dt.Columns.Add(new DataColumn("KiloWgt"));
+
+            for (int i = 0; i < sortedParcelList.Count; i++)
+            {
+                DataRow dr = dt.NewRow();
+
+                dr["AWB"] = sortedParcelList[i].AWB;
+                dr["ConsigneeCompany"] = sortedParcelList[i].ConsigneeCompany;
+                dr["ConsigneeAddress"] = sortedParcelList[i].ConsigneeAddress;
+                dr["ConsigneePostal"] = sortedParcelList[i].ConsigneePostal;
+                dr["SelectCd"] = sortedParcelList[i].SelectCd;
+                dr["Cleared"] = sortedParcelList[i].ClearedStatus;
+                dr["CourierRoute"] = sortedParcelList[i].CourierRoute;
+                dr["Lane"] = sortedParcelList[i].Lane;
+                dr["PieceQty"] = sortedParcelList[i].PieceQty;
+                dr["KiloWgt"] = sortedParcelList[i].KiloWgt;
+
+                dt.Rows.Add(dr);
             }
 
             dgv_FileData.DataSource = dt;
