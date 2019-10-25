@@ -156,7 +156,8 @@ namespace Slap
 
                 for (int i = 0; i < headerLabels.Length; i++)
                 {
-                    headerLabels[i] = Regex.Replace(headerLabels[i], "[^a-zA-Z0-9]", "");
+                    // remove carriage return
+                    headerLabels[i] = Regex.Replace(headerLabels[i], "[^a-zA-Z0-9 +–=_.,!\"\'/$]", "");
                     Console.WriteLine(":"+headerLabels[i]+":");
                 }
 
@@ -178,6 +179,9 @@ namespace Slap
                     // clean up the fields (remove " and leading spaces)
                     for (int i = 0; i < dataWords.Length; i++)
                     {
+                        // remove carriage return
+                        dataWords[i] = Regex.Replace(dataWords[i], "[^a-zA-Z0-9 +–=_.,!\"\'/$]", "");
+
                         dataWords[i] = dataWords[i].TrimStart(' ', '"');
                         dataWords[i] = dataWords[i].TrimEnd('"');
                     }
