@@ -13,8 +13,8 @@ namespace Slap
 {
     public partial class ctrl_NewSort_Input : UserControl
     {
-        private Boolean parcelListReady = false;
-        private Boolean routeListReady = false;
+        private bool parcelListReady = false;
+        private bool routeListReady = false;
         private string[] ParcelData, RouteData;
 
         public ctrl_NewSort_Input()

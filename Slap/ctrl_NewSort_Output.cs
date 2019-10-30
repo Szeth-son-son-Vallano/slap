@@ -10,42 +10,48 @@ namespace Slap
 {
     public partial class ctrl_NewSort_Output : UserControl
     {
+        // variables for parcels
         private string[] ParcelData, RouteData;
         private Parcel[] parcelArray;
-        private List<Parcel> filteredParcelList = new List<Parcel>(), sortedParcelList = new List<Parcel>();
+        private List<Parcel> filteredParcelList = new List<Parcel>();
+        private List<Parcel> sortedParcelList = new List<Parcel>();
 
-        private Lane[] laneArray;
-        private List<string[]> lanes = new List<string[]>();
-        private List<string[]> lanesRange = new List<string[]>();
+        // variables for routeGroups and routes
+        private List<List<string>> routeGroupList = new List<List<string>>();
+        private List<List<string>> sortedRouteGroupList = new List<List<string>>();
         
         public ctrl_NewSort_Output()
         {
             InitializeComponent();
             Reset();
 
-            lanes.Add(new string[]{ "835", "837", "839" });
-            lanes.Add(new string[]{ "850", "857", "859" });
-            lanes.Add(new string[]{ "823", "833" });
-            lanes.Add(new string[]{ "815" });
-            lanes.Add(new string[]{ "860", "863", "865" });
-            lanes.Add(new string[]{ "872", "875", "877" });
-            lanes.Add(new string[]{ "880", "883", "885", "890", "893", "895" });
-            lanes.Add(new string[]{ "XKLA" });
-            lanes.Add(new string[]{ "KULAAA" });
-            lanes.Add(new string[]{ "KULBK+" });
-            lanes.Add(new string[]{ "RAWANG" });
-             
-            lanesRange.Add(new string[]{ "835", "839" });
-            lanesRange.Add(new string[]{ "850", "859" });
-            lanesRange.Add(new string[]{ "820", "824" });
-            lanesRange.Add(new string[]{ "810", "819" });
-            lanesRange.Add(new string[]{ "860", "869" });
-            lanesRange.Add(new string[]{ "870", "879" });
-            lanesRange.Add(new string[]{ "880", "899" });
-            lanesRange.Add(new string[]{ "XKLA", "XKLA" });
-            lanesRange.Add(new string[]{ "KULAAA", "KULAAA" });
-            lanesRange.Add(new string[]{ "KULBK+", "KULBK+" });
-            lanesRange.Add(new string[]{ "RAWANG", "RAWANG" });
+            // given values
+            //routesList.Add(new List<string> { "835", "837", "839" });
+            //routesList.Add(new List<string> { "850", "857", "859" });
+            //routesList.Add(new List<string> { "823", "833" });
+            //routesList.Add(new List<string> { "815" });
+            //routesList.Add(new List<string> { "860", "863", "865" });
+            //routesList.Add(new List<string> { "872", "875", "877" });
+            //routesList.Add(new List<string> { "880", "883", "885", "890", "893", "895" });
+            //routesList.Add(new List<string> { "XKLA" });
+            //routesList.Add(new List<string> { "KULAAA" });
+            //routesList.Add(new List<string> { "KULBK+" });
+            //routesList.Add(new List<string> { "RAWANG" });
+
+            // values encapsulating the entire range
+            routeGroupList.Add(new List<string> { "810", "811", "812", "813", "814", "815", "816", "817", "818", "819" });
+            routeGroupList.Add(new List<string> { "820", "821", "822", "823", "824" });
+            routeGroupList.Add(new List<string> { "835", "836", "837", "838", "839" });
+            routeGroupList.Add(new List<string> { "850", "851", "852", "853", "854", "855", "856", "857", "858", "859" });
+            routeGroupList.Add(new List<string> { "860", "861", "862", "863", "864", "865", "866", "867", "868", "869" });
+            routeGroupList.Add(new List<string> { "870", "871", "872", "873", "874", "875", "876", "877", "878", "879" });
+            routeGroupList.Add(new List<string> {
+                "880", "881", "882", "883", "884", "885", "886", "887", "888", "889",
+                "890", "891", "892", "893", "894", "895", "896", "897", "898", "899" });
+            //routesList.Add(new List<string> { "XKLA" });
+            //routesList.Add(new List<string> { "KULAAA" });
+            //routesList.Add(new List<string> { "KULBK+" });
+            //routesList.Add(new List<string> { "RAWANG" });
         }
 
         public void addData(string[] parcelData, string[] routeData)
@@ -158,7 +164,6 @@ namespace Slap
                 {
                     // remove carriage return
                     headerLabels[i] = Regex.Replace(headerLabels[i], "[^a-zA-Z0-9 +–=_.,!\"\'/$]", "");
-                    Console.WriteLine(":"+headerLabels[i]+":");
                 }
 
                 parcelArray = new Parcel[txtDataLines.Length - 1];
@@ -320,12 +325,6 @@ namespace Slap
             for (int i = 0; i < parcelArray.Length; i++)
             {
                 bool isBulk = false;
-                //string[] DestLocCdToProcess = {"KUL","XKL"};
-
-                //if (DestLocCdToProcess.Contains(parcelArray[i].DestLocCd))
-                //{
-                //      
-                //}
 
                 // check for Bulk requirements
                 // check for Quantity and KiloWeight
@@ -364,100 +363,38 @@ namespace Slap
                     dt.Rows.Add(dr);
 
                     filteredParcelList.Add(parcelArray[i]);
-
-                    Console.WriteLine("\nAWB: \"" + parcelArray[i].AWB + "\""
-                    + "\nConsigneeCompany: \"" + parcelArray[i].ConsigneeCompany + "\""
-                    + "\nConsigneeAddress: \"" + parcelArray[i].ConsigneeAddress + "\""
-                    + "\nConsigneePostal: \"" + parcelArray[i].ConsigneePostal + "\""
-                    + "\nSelectCd: \"" + parcelArray[i].SelectCd + "\""
-                    + "\nCleared: \"" + parcelArray[i].ClearedStatus + "\""
-                    + "\nDestLocCd: \"" + parcelArray[i].DestLocCd + "\""
-                    + "\nCourierRoute: \"" + parcelArray[i].CourierRoute + "\""
-                    + "\nPieceQty: \"" + parcelArray[i].PieceQty + "\""
-                    + "\nKiloWgt: \"" + parcelArray[i].KiloWgt + "\"" + "\n");
                 }
             }
 
             dgv_FileData.DataSource = dt;
 
-            //sortParcelsIntoLanes();
+            sortParcelsIntoRouteGroups();
         }
 
-        private void sortParcelsIntoLanes()
+        private void sortParcelsIntoRouteGroups()
         {
-            char laneID = 'A';
-            // iterate through each lane grouping
-            foreach (string[] laneRange in lanesRange)
+            char routeGroupID = 'A';
+
+            Dictionary<string, char> routeGroupRoutesDict = new Dictionary<string, char>();
+
+            // iterate throuch each routeGroup grouping
+            foreach(List<string> routeGroup in routeGroupList)
             {
-                bool laneCheckInt = false, laneCheckStr = false;
-                int laneRangeMin = int.MaxValue, laneRangeMax = int.MinValue;
-                string laneString = "";
-
-                try
+                foreach(string route in routeGroup)
                 {
-                    laneRangeMin = Convert.ToInt32(laneRange[0]);
-                    laneRangeMax = Convert.ToInt32(laneRange[1]);
-                    laneCheckInt = true;
+                    routeGroupRoutesDict.Add(route, routeGroupID);
                 }
-                catch (Exception e)
+                routeGroupID++;
+            }
+
+            // iterate through each parcel to be sorted into routeGroups
+            foreach(Parcel parcel in filteredParcelList)
+            {
+                if (routeGroupRoutesDict.ContainsKey(parcel.CourierRoute))
                 {
-                    if (laneRange[0].Equals(laneRange[1]) ||
-                        laneRange[0] == laneRange[1])
-                    {
-                        laneString = laneRange[0];
-                        laneCheckStr = true;
-
-                        Console.WriteLine("Lane is String: " + laneString);
-                    }
+                    parcel.RouteGroup = routeGroupRoutesDict[parcel.CourierRoute];
+                    sortedParcelList.Add(parcel);
                 }
-
-                // iterate through each parcel
-                foreach (Parcel parcel in filteredParcelList)
-                {
-                    bool parcelCheckInt = false, parcelCheckStr = false;
-                    string courierRouteStr = "";
-                    int courierRouteInt = 0;
-
-                    try
-                    {
-                        courierRouteInt = Convert.ToInt32(parcel.CourierRoute);
-                        parcelCheckInt = true;
-                    }
-                    catch (Exception e)
-                    {
-                        courierRouteStr = parcel.CourierRoute;
-                        parcelCheckStr = true;
-
-                        Console.WriteLine("Parcel is String: " + courierRouteStr);
-                    }
-
-                    if (laneCheckInt && parcelCheckInt)
-                    {
-                        if (laneRangeMin <= courierRouteInt &&
-                            courierRouteInt <= laneRangeMax)
-                        {
-                            parcel.Lane = laneID;
-
-                            sortedParcelList.Add(parcel);
-                        }
-                    }
-                    if (laneCheckStr && parcelCheckStr)
-                    {
-                        Console.WriteLine("Parcel Route: " + courierRouteStr + " Lane Route: " + laneString);
-                        if (courierRouteStr.Equals(laneString) ||
-                        courierRouteStr == laneString)
-                        {
-                            Console.WriteLine("Parcel has Route");
-
-                            parcel.Lane = laneID;
-
-                            sortedParcelList.Add(parcel);
-                        }
-                    }
-                }
-
-                // change lane character to next character
-                laneID++;
             }
 
             displaySortedArray();
@@ -474,7 +411,7 @@ namespace Slap
             dt.Columns.Add(new DataColumn("SelectCd"));
             dt.Columns.Add(new DataColumn("Cleared"));
             dt.Columns.Add(new DataColumn("CourierRoute"));
-            dt.Columns.Add(new DataColumn("Lane"));
+            dt.Columns.Add(new DataColumn("routeGroup"));
             dt.Columns.Add(new DataColumn("PieceQty"));
             dt.Columns.Add(new DataColumn("KiloWgt"));
 
@@ -489,7 +426,7 @@ namespace Slap
                 dr["SelectCd"] = sortedParcelList[i].SelectCd;
                 dr["Cleared"] = sortedParcelList[i].ClearedStatus;
                 dr["CourierRoute"] = sortedParcelList[i].CourierRoute;
-                dr["Lane"] = sortedParcelList[i].Lane;
+                dr["routeGroup"] = sortedParcelList[i].RouteGroup;
                 dr["PieceQty"] = sortedParcelList[i].PieceQty;
                 dr["KiloWgt"] = sortedParcelList[i].KiloWgt;
 

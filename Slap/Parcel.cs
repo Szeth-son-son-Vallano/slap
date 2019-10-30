@@ -24,7 +24,7 @@ namespace Slap
         // inferred attributes
         private double _estimateVolume;
         private bool _clearedStatus;
-        private char _lane;
+        private char _routeGroup;
 
         // constructors
         public Parcel()
@@ -43,7 +43,7 @@ namespace Slap
 
             _estimateVolume = 0.0;
             _clearedStatus = false;
-            _lane = '0';
+            _routeGroup = '0';
         }
 
         public Parcel(
@@ -64,7 +64,7 @@ namespace Slap
 
             _estimateVolume = 0.0;
             checkClearedStatus(SelectCd);
-            _lane = '0';
+            _routeGroup = '0';
         }
 
         // getter and setter methods
@@ -123,10 +123,10 @@ namespace Slap
             get { return _clearedStatus; }
             set { }
         }
-        public char Lane
+        public char RouteGroup
         {
-            get { return _lane; }
-            set { _lane = value; }
+            get { return _routeGroup; }
+            set { _routeGroup = value; }
         }
 
         // other methods

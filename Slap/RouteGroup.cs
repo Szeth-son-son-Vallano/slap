@@ -6,21 +6,28 @@ using System.Threading.Tasks;
 
 namespace Slap
 {
-    class Lane
+    class RouteGroup
     {
         // static attributes
         private static double _estimateVolumeMax;
+        // estimated Average Density is derived from FedEx Dimensional Weight calculation
+        // The Actual Weight is greater than the Dimensional Weight(L x W x H / 5000)
+        public static double _estimateDensity_Cm3PerKg = 5000;
+        public static double _estimateDensity_KgPerM3 = 200;
 
         // dynamic attributes
         private char _laneID;
         private double _estimateVolumeCur;
         private List<Parcel> _parcelList;
+        private List<string> _courierRouteList;
 
         // constructors
-        public Lane(char laneID)
+        public RouteGroup(char laneID)
         {
             _laneID = laneID;
+            _estimateVolumeCur = 0.0;
             _parcelList = null;
+            _courierRouteList = null;
         }
 
         public static void setEstimateVolumeMax(double estimateVolumeMax)
@@ -43,6 +50,11 @@ namespace Slap
         {
             get { return _parcelList; }
             set { _parcelList = value; }
+        }
+        public List<string> courierRouteRange
+        {
+            get { return _courierRouteList; }
+            set { _courierRouteList = value; }
         }
     }
 }
