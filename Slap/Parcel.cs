@@ -22,9 +22,15 @@ namespace Slap
         private double _kiloWgt;
         
         // inferred attributes
-        private double _estimateVolume;
+        private double _estimatedVolume;
         private bool _clearedStatus;
-        private char _routeGroup;
+        private int _routeGroup;
+
+        // estimated Average Density is derived from FedEx Dimensional Weight calculation
+        // Dimensional Weight = L x W x H / 5000
+        public static double _estimateDensity_Cm3PerKg = 5000;
+        public static double _estimateDensity_M3PerKg = 0.005;
+        public static double _estimateDensity_KgPerM3 = 200;
 
         // constructors
         public Parcel()
@@ -41,7 +47,7 @@ namespace Slap
 
             _kiloWgt = 0.0;
 
-            _estimateVolume = 0.0;
+            _estimatedVolume = 0.0;
             _clearedStatus = false;
             _routeGroup = '0';
         }
@@ -62,9 +68,10 @@ namespace Slap
             this._pieceQty = PieceQty;
             this._kiloWgt = KiloWgt;
 
-            _estimateVolume = 0.0;
+            calculateEstimateVol(KiloWgt);
             checkClearedStatus(SelectCd);
             _routeGroup = '0';
+
         }
 
         // getter and setter methods
@@ -91,7 +98,7 @@ namespace Slap
         public string SelectCd
         {
             get { return _selectCd; }
-            set { _selectCd = value; }
+            set { _selectCd = value; checkClearedStatus(value);  }
         }
         public string DestLocCd
         {
@@ -111,11 +118,11 @@ namespace Slap
         public double KiloWgt
         {
             get { return _kiloWgt; }
-            set { _kiloWgt = value; }
+            set { _kiloWgt = value; calculateEstimateVol(value); }
         }
         public double EstimatedVol
         {
-            get { return _estimateVolume; }
+            get { return _estimatedVolume; }
             set { }
         }
         public bool ClearedStatus
@@ -123,17 +130,16 @@ namespace Slap
             get { return _clearedStatus; }
             set { }
         }
-        public char RouteGroup
+        public int RouteGroup
         {
             get { return _routeGroup; }
             set { _routeGroup = value; }
         }
 
         // other methods
-        public double calculateEstimateVol(double avgDensity)
+        private void calculateEstimateVol(double KiloWgt)
         {
-            double estimateVolResult = _kiloWgt * avgDensity;
-            return estimateVolResult;
+            _estimatedVolume = KiloWgt / _estimateDensity_KgPerM3;
         }
 
         private void checkClearedStatus(string selectCd)

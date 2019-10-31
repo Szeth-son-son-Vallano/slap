@@ -9,52 +9,60 @@ namespace Slap
     class RouteGroup
     {
         // static attributes
-        private static double _estimateVolumeMax;
-        // estimated Average Density is derived from FedEx Dimensional Weight calculation
-        // The Actual Weight is greater than the Dimensional Weight(L x W x H / 5000)
-        public static double _estimateDensity_Cm3PerKg = 5000;
-        public static double _estimateDensity_KgPerM3 = 200;
+        private static double _laneEstimateVolumeMax = 1.1 * 1.2 * 10;
 
         // dynamic attributes
-        private char _laneID;
-        private double _estimateVolumeCur;
+        private int _routeGroupID;
+        private double _laneEstimateVolumeCur;
         private List<Parcel> _parcelList;
         private List<string> _courierRouteList;
+        private string _lanes;
 
         // constructors
-        public RouteGroup(char laneID)
+        public RouteGroup(int routeGroupID, List<string> courierRouteList)
         {
-            _laneID = laneID;
-            _estimateVolumeCur = 0.0;
-            _parcelList = null;
-            _courierRouteList = null;
+            _routeGroupID = routeGroupID;
+            _laneEstimateVolumeCur = 0.0;
+            _parcelList = new List<Parcel>();
+            _courierRouteList = courierRouteList;
+            _lanes = "";
         }
 
         public static void setEstimateVolumeMax(double estimateVolumeMax)
         {
-            _estimateVolumeMax = estimateVolumeMax;
+            _laneEstimateVolumeMax = estimateVolumeMax;
         }
 
         // getter and setter methods
-        public char laneID
+        public double LaneEstimateVolumeMax
         {
-            get { return _laneID; }
-            set { _laneID = value; }
+            get { return _laneEstimateVolumeMax; }
+            set { }
         }
-        public double estimateVolumeCur
+        public int RouteGroupID
         {
-            get { return _estimateVolumeCur; }
-            set { _estimateVolumeCur = value; }
+            get { return _routeGroupID; }
+            set { _routeGroupID = value; }
         }
-        public List<Parcel> parcelList
+        public double LaneEstimateVolumeCur
+        {
+            get { return _laneEstimateVolumeCur; }
+            set { _laneEstimateVolumeCur = value; }
+        }
+        public List<Parcel> ParcelList
         {
             get { return _parcelList; }
             set { _parcelList = value; }
         }
-        public List<string> courierRouteRange
+        public List<string> CourierRoutes
         {
             get { return _courierRouteList; }
             set { _courierRouteList = value; }
+        }
+        public string Lanes
+        {
+            get { return _lanes; }
+            set { _lanes = value; }
         }
     }
 }

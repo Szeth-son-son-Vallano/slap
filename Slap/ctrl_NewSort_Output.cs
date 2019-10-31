@@ -13,45 +13,17 @@ namespace Slap
         // variables for parcels
         private string[] ParcelData, RouteData;
         private Parcel[] parcelArray;
-        private List<Parcel> filteredParcelList = new List<Parcel>();
-        private List<Parcel> sortedParcelList = new List<Parcel>();
+        private List<Parcel> filteredParcelList;
+        private List<Parcel> sortedParcelList;
 
         // variables for routeGroups and routes
-        private List<List<string>> routeGroupList = new List<List<string>>();
-        private List<List<string>> sortedRouteGroupList = new List<List<string>>();
+        private List<List<string>> routesList;
+        private List<RouteGroup> routeGroupList;
         
         public ctrl_NewSort_Output()
         {
             InitializeComponent();
             Reset();
-
-            // given values
-            //routesList.Add(new List<string> { "835", "837", "839" });
-            //routesList.Add(new List<string> { "850", "857", "859" });
-            //routesList.Add(new List<string> { "823", "833" });
-            //routesList.Add(new List<string> { "815" });
-            //routesList.Add(new List<string> { "860", "863", "865" });
-            //routesList.Add(new List<string> { "872", "875", "877" });
-            //routesList.Add(new List<string> { "880", "883", "885", "890", "893", "895" });
-            //routesList.Add(new List<string> { "XKLA" });
-            //routesList.Add(new List<string> { "KULAAA" });
-            //routesList.Add(new List<string> { "KULBK+" });
-            //routesList.Add(new List<string> { "RAWANG" });
-
-            // values encapsulating the entire range
-            routeGroupList.Add(new List<string> { "810", "811", "812", "813", "814", "815", "816", "817", "818", "819" });
-            routeGroupList.Add(new List<string> { "820", "821", "822", "823", "824" });
-            routeGroupList.Add(new List<string> { "835", "836", "837", "838", "839" });
-            routeGroupList.Add(new List<string> { "850", "851", "852", "853", "854", "855", "856", "857", "858", "859" });
-            routeGroupList.Add(new List<string> { "860", "861", "862", "863", "864", "865", "866", "867", "868", "869" });
-            routeGroupList.Add(new List<string> { "870", "871", "872", "873", "874", "875", "876", "877", "878", "879" });
-            routeGroupList.Add(new List<string> {
-                "880", "881", "882", "883", "884", "885", "886", "887", "888", "889",
-                "890", "891", "892", "893", "894", "895", "896", "897", "898", "899" });
-            //routesList.Add(new List<string> { "XKLA" });
-            //routesList.Add(new List<string> { "KULAAA" });
-            //routesList.Add(new List<string> { "KULBK+" });
-            //routesList.Add(new List<string> { "RAWANG" });
         }
 
         public void addData(string[] parcelData, string[] routeData)
@@ -72,12 +44,15 @@ namespace Slap
         // New Sort and Clear buttons
         private void btn_Process_MouseDown(object sender, MouseEventArgs e)
         {
+            btn_Process.Enabled = false;
+            processRoutes();
             displayArray();
+            btn_Process.Enabled = true;
         }
 
         private void btn_Back_MouseDown(object sender, MouseEventArgs e)
         {
-            this.Hide();
+            Hide();
         }
         
         // On Click functions for Individual File Download
@@ -271,6 +246,50 @@ namespace Slap
             return true;
         }
 
+        private void processRoutes()
+        {
+            // given values
+            //routeList.Add(new List<string> { "835", "837", "839" });
+            //routeList.Add(new List<string> { "850", "857", "859" });
+            //routeList.Add(new List<string> { "823", "833" });
+            //routeList.Add(new List<string> { "815" });
+            //routeList.Add(new List<string> { "860", "863", "865" });
+            //routeList.Add(new List<string> { "872", "875", "877" });
+            //routeList.Add(new List<string> { "880", "883", "885", "890", "893", "895" });
+            //routeList.Add(new List<string> { "XKLA" });
+            //routeList.Add(new List<string> { "KULAAA" });
+            //routeList.Add(new List<string> { "KULBK+" });
+            //routeList.Add(new List<string> { "RAWANG" });
+
+            routesList = new List<List<string>>();
+
+            routesList.Add(new List<string> { "810", "811", "812", "813", "814", "815", "816", "817", "818", "819" });
+            routesList.Add(new List<string> { "820", "821", "822", "823", "824" });
+            routesList.Add(new List<string> { "835", "836", "837", "838", "839" });
+            routesList.Add(new List<string> { "850", "851", "852", "853", "854", "855", "856", "857", "858", "859" });
+            routesList.Add(new List<string> { "860", "861", "862", "863", "864", "865", "866", "867", "868", "869" });
+            routesList.Add(new List<string> { "870", "871", "872", "873", "874", "875", "876", "877", "878", "879" });
+            routesList.Add(new List<string> {
+                "880", "881", "882", "883", "884", "885", "886", "887", "888", "889",
+                "890", "891", "892", "893", "894", "895", "896", "897", "898", "899" });
+
+            routesList.Add(new List<string> { "XKLA" });
+            routesList.Add(new List<string> { "KULAAA" });
+            routesList.Add(new List<string> { "KULBK+" });
+            routesList.Add(new List<string> { "RAWANG" });
+
+            // add one RouteGroup for parcels that are on HOLD
+            routeGroupList = new List<RouteGroup>();
+
+            int routeGroupID = 0;
+
+            routeGroupList.Add(new RouteGroup(routeGroupID++, new List<string>()));
+            foreach (List<string> routes in routesList)
+            {
+                routeGroupList.Add(new RouteGroup(routeGroupID++, routes));
+            }
+        }
+
         private void displayArray()
         {
             DataTable dt = new DataTable();
@@ -309,6 +328,7 @@ namespace Slap
 
         private void displayFilteredArray()
         {
+            filteredParcelList = new List<Parcel>();
             DataTable dt = new DataTable();
 
             dt.Columns.Add(new DataColumn("AWB"));
@@ -373,28 +393,92 @@ namespace Slap
 
         private void sortParcelsIntoRouteGroups()
         {
-            char routeGroupID = 'A';
+            sortedParcelList = new List<Parcel>();
 
-            Dictionary<string, char> routeGroupRoutesDict = new Dictionary<string, char>();
+            Dictionary<string, int> routeGroupRoutesDict = new Dictionary<string, int>();
 
-            // iterate throuch each routeGroup grouping
-            foreach(List<string> routeGroup in routeGroupList)
+            // iterate throuch each RouteGroup
+            // collect all routes into one dictionary
+            foreach(RouteGroup routeGroup in routeGroupList)
             {
-                foreach(string route in routeGroup)
+                foreach(string courierRoute in routeGroup.CourierRoutes)
                 {
-                    routeGroupRoutesDict.Add(route, routeGroupID);
+                    routeGroupRoutesDict.Add(courierRoute, routeGroup.RouteGroupID);
                 }
-                routeGroupID++;
             }
 
             // iterate through each parcel to be sorted into routeGroups
+            // assign parcels to routegroups
             foreach(Parcel parcel in filteredParcelList)
             {
                 if (routeGroupRoutesDict.ContainsKey(parcel.CourierRoute))
                 {
-                    parcel.RouteGroup = routeGroupRoutesDict[parcel.CourierRoute];
+                    if (parcel.ClearedStatus)
+                    {
+                        parcel.RouteGroup = routeGroupRoutesDict[parcel.CourierRoute];
+                        routeGroupList[routeGroupRoutesDict[parcel.CourierRoute]].ParcelList.Add(parcel);
+                    }
+                    else
+                    {
+                        parcel.RouteGroup = 0;
+                        routeGroupList[0].ParcelList.Add(parcel);
+                    }
                     sortedParcelList.Add(parcel);
                 }
+            }
+
+            // iterate through each RouteGroup
+            // print on console for debugging purposes
+            //foreach(RouteGroup routeGroup in routeGroupList)
+            //{
+            //    Console.WriteLine("RouteGroupID: " + routeGroup.RouteGroupID);
+            //    Console.WriteLine("Routes:");
+            //    foreach(string route in routeGroup.CourierRoutes)
+            //    {
+            //        Console.WriteLine(route);
+            //    }
+            //    Console.WriteLine("Parcels:");
+            //    foreach(Parcel parcel in routeGroup.ParcelList)
+            //    {
+            //        Console.WriteLine(parcel.AWB);
+            //    }
+            //    Console.WriteLine();
+            //}
+
+            // iterate through each RouteGroup
+            // assign lanes based on estimated volume
+            char lane = 'A';
+            foreach(RouteGroup routeGroup in routeGroupList)
+            {
+                foreach(Parcel parcel in routeGroup.ParcelList)
+                {
+                    routeGroup.LaneEstimateVolumeCur += parcel.EstimatedVol;
+                }
+                Console.WriteLine(routeGroup.LaneEstimateVolumeCur);
+
+                int numOfLanes = (int)Math.Ceiling(routeGroup.LaneEstimateVolumeCur / routeGroup.LaneEstimateVolumeMax);
+                string lanes = "";
+                for(int i = 0; i < numOfLanes; i++)
+                {
+                    lanes += lane;
+                    lane++;
+                }
+
+                Console.WriteLine("RouteGroup: " + routeGroup.RouteGroupID);
+                string routesConsole = "";
+                foreach(string route in routeGroup.CourierRoutes)
+                {
+                    routesConsole += route + " ";
+                }
+                Console.WriteLine("Routes: " + routesConsole);
+                double kiloWgtConsole = 0.0;
+                foreach(Parcel parcel in routeGroup.ParcelList)
+                {
+                    kiloWgtConsole += parcel.KiloWgt;
+                }
+                Console.WriteLine("KiloWgt: " + kiloWgtConsole);
+                Console.WriteLine("Lanes: " + lanes);
+                Console.WriteLine();
             }
 
             displaySortedArray();
