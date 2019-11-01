@@ -77,13 +77,13 @@
     <Compile Include="Form_Slap.Designer.cs">
       <DependentUpon>Form_Slap.cs</DependentUpon>
     </Compile>
+    <Compile Include="RoundedButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="RouteGroup.cs" />
     <Compile Include="Parcel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\RoundedButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <EmbeddedResource Include="ctrl_SortHistory.resx">
       <DependentUpon>ctrl_SortHistory.cs</DependentUpon>
     </EmbeddedResource>

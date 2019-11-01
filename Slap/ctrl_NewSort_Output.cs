@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using static iTextSharp.text.Font;
 
 namespace Slap
 {
@@ -450,6 +451,7 @@ namespace Slap
                 if(routeGroup.RouteGroupID == 0)
                 {
                     lanes = "HOLD";
+                    routeGroup.Lanes = lanes;
                     sortedRouteGroupList.Add(routeGroup);
                 }
                 else
@@ -462,6 +464,7 @@ namespace Slap
 
                     if(!lanes.Equals(""))
                     {
+                        routeGroup.Lanes = lanes;
                         sortedRouteGroupList.Add(routeGroup);
                     }
                 }
@@ -526,13 +529,15 @@ namespace Slap
             }
 
             dgv_FileData.DataSource = dt;
+
+            GeneratePDF_FloorPlan();
         }
 
-        private static void GeneratePDF_FloorPlan()
+        private void GeneratePDF_FloorPlan()
         {
             // get current date time
             DateTime dateTime = DateTime.Now;
-            String dateTimeStr = dateTime.ToString("dddd, dd MMMM yyyy - HH:mm");
+            String dateTimeStr = dateTime.ToString("dddd, dd MMMM yyyy - hh:mm tt");
             String dateTimeNum = dateTime.ToString("yyyyMMdd_HHmmss");
             String fileName = "FloorPlan_" + dateTimeNum + ".pdf";
 
@@ -551,66 +556,120 @@ namespace Slap
             doc.Open();
 
             // create table
-            PdfPTable table = new PdfPTable(10 + 1);
+            int gridRows = RouteGroup.PalletCount;
+            int gridCols = 28;
+            PdfPTable table = new PdfPTable(gridRows + 2);
+
+            iTextSharp.text.Font font = new Font(FontFactory.GetFont("Times New Roman", 8));
 
             // create table title
             PdfPCell titleCell = new PdfPCell(new Phrase("FLOOR PLAN - " + dateTimeStr));
-            titleCell.Rowspan = 4 * 7;
+            titleCell.Rowspan = gridCols;
             titleCell.Rotation = 270;
             titleCell.HorizontalAlignment = 1;
 
-            // sorting algorithm
-            const int gridRows = 10;
-            const int gridCols = 4 * 7;
-            int numOfTrucks = 5;
-            int[] truckLane = new int[numOfTrucks];
-            truckLane[0] = 1;
-            truckLane[1] = 3;
-            truckLane[2] = 2;
-            truckLane[3] = 4;
-            truckLane[4] = 2;
-
             BaseColor[] colors = new BaseColor[15];
-            colors[0] = new iTextSharp.text.BaseColor(128, 128, 128);
-            colors[1] = new iTextSharp.text.BaseColor(255, 0, 0);
-            colors[2] = new iTextSharp.text.BaseColor(255, 128, 0);
-            colors[3] = new iTextSharp.text.BaseColor(255, 255, 0);
-            colors[4] = new iTextSharp.text.BaseColor(128, 255, 0);
-            colors[5] = new iTextSharp.text.BaseColor(0, 255, 0);
-            colors[6] = new iTextSharp.text.BaseColor(0, 255, 128);
-            colors[7] = new iTextSharp.text.BaseColor(0, 255, 255);
-            colors[8] = new iTextSharp.text.BaseColor(0, 128, 255);
-            colors[9] = new iTextSharp.text.BaseColor(0, 0, 255);
-            colors[10] = new iTextSharp.text.BaseColor(128, 0, 255);
-            colors[11] = new iTextSharp.text.BaseColor(255, 0, 255);
-            colors[12] = new iTextSharp.text.BaseColor(255, 0, 128);
-            colors[13] = new iTextSharp.text.BaseColor(0, 0, 0);
-            colors[14] = new iTextSharp.text.BaseColor(255, 255, 255);
+            colors[0] = new BaseColor(128, 128, 128);
+            colors[1] = new BaseColor(255, 0, 0);
+            colors[2] = new BaseColor(255, 128, 0);
+            colors[3] = new BaseColor(255, 255, 0);
+            colors[4] = new BaseColor(128, 255, 0);
+            colors[5] = new BaseColor(0, 255, 0);
+            colors[6] = new BaseColor(0, 255, 128);
+            colors[7] = new BaseColor(0, 255, 255);
+            colors[8] = new BaseColor(0, 128, 255);
+            colors[9] = new BaseColor(0, 0, 255);
+            colors[10] = new BaseColor(128, 0, 255);
+            colors[11] = new BaseColor(255, 0, 255);
+            colors[12] = new BaseColor(255, 0, 128);
+            colors[13] = new BaseColor(0, 0, 0);
+            colors[14] = new BaseColor(255, 255, 255);
 
-            for (int i = 0; i < gridRows; i++)
+            // fill in the used lanes
+            int currentLane = 0;
+            float minimumHeight = 25.0f;
+            foreach(RouteGroup routeGroup in sortedRouteGroupList)
             {
-                for (int j = 0; j < gridCols; j++)
+                if (!routeGroup.Lanes.Equals("HOLD"))
                 {
-                    PdfPCell cell = new PdfPCell(new Phrase(" "));
-                    cell.Colspan = 1;
-                    cell.MinimumHeight = 40.0f;
-
-                    int laneIndex = 0;
-                    for (int truckNum = 0; truckNum < numOfTrucks; truckNum++)
+                    foreach(char lane in routeGroup.Lanes)
                     {
-                        laneIndex += truckLane[truckNum];
-                        if (i < laneIndex)
+                        PdfPCell cellLane = new PdfPCell(new Phrase(Char.ToString(lane), font))
                         {
-                            cell.BackgroundColor = colors[truckNum];
-                            break;
+                            Rotation = 270,
+                            Colspan = 1,
+                            MinimumHeight = minimumHeight
+                        };
+                        table.AddCell(cellLane);
+
+                        for (int row = 0; row < gridRows; row++)
+                        {
+                            PdfPCell cell = new PdfPCell(new Phrase(" "))
+                            {
+                                Rotation = 270,
+                                Colspan = 1,
+                                MinimumHeight = minimumHeight,
+                                BackgroundColor = colors[routeGroup.RouteGroupID]
+                            };
+                            table.AddCell(cell);
+
+
+                            if (routeGroup.RouteGroupID == 1 && row == gridRows - 1)
+                            {
+                                table.AddCell(titleCell);
+                            }
                         }
+                        currentLane++;
                     }
+                }
+            }
+
+            // fill in the empty lanes
+            for(int i = currentLane; i < gridCols - 4; i++, currentLane++)
+            {
+                PdfPCell cellLane = new PdfPCell(new Phrase(Char.ToString((char)(currentLane + 65)), font))
+                {
+                    Rotation = 270,
+                    Colspan = 1,
+                    MinimumHeight = minimumHeight
+                };
+                table.AddCell(cellLane);
+                for (int row = 0; row < gridRows; row++)
+                {
+                    PdfPCell cell = new PdfPCell(new Phrase(" "))
+                    {
+                        Colspan = 1,
+                        MinimumHeight = minimumHeight,
+                        BackgroundColor = colors[colors.Length - 1]
+                    };
 
                     table.AddCell(cell);
+                }
+            }
 
-                    if (i == 0 && j == 8)
+            // fill in the holding lanes
+            if (sortedRouteGroupList[0].Lanes.Equals("HOLD"))
+            {
+                for(int col = 0; col < 4; col++)
+                {
+                    PdfPCell cellLane = new PdfPCell(new Phrase(sortedRouteGroupList[0].Lanes, font))
                     {
-                        table.AddCell(titleCell);
+                        Rotation = 270,
+                        Colspan = 1,
+                        MinimumHeight = minimumHeight
+                    };
+                    table.AddCell(cellLane);
+
+                    for (int row = 0; row < gridRows; row++)
+                    {
+                        PdfPCell cell = new PdfPCell(new Phrase(" "))
+                        {
+                            Colspan = 1,
+                            MinimumHeight = minimumHeight,
+                            BackgroundColor = colors[0]
+                        };
+
+                        table.AddCell(cell);
                     }
                 }
             }
