@@ -152,7 +152,7 @@ namespace Slap
                 lbl_ErrorMessage.Text = "";
 
                 ctrl_NewSort_Output1.addData(ParcelData, RouteData);
-                bool successfulRead = ctrl_NewSort_Output1.Sort();
+                bool successfulRead = ctrl_NewSort_Output1.ReadParcels();
                 if (successfulRead)
                 {
                     ctrl_NewSort_Output1.Show();
