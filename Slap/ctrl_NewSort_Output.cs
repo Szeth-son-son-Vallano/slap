@@ -459,8 +459,7 @@ namespace Slap
             }
 
             DisplayParcels();
-            GeneratePDF_FloorPlan();
-            GeneratePDF_SortPlan();
+            CreateFolder();
         }
 
         private void DisplayParcels()
@@ -499,25 +498,50 @@ namespace Slap
             dgv_FileData.DataSource = dt;
         }
 
-        private void GeneratePDF_FloorPlan()
+        private void CreateFolder()
         {
             // get current date time
             DateTime dateTime = DateTime.Now;
             String dateTimeStr = dateTime.ToString("dddd, dd MMMM yyyy - HH:mm");
             string day = dateTime.ToString("yyyyMMdd");
             String dateTimeNum = dateTime.ToString("yyyyMMdd_HHmmss");
-            String fileName = dateTimeNum + "_FloorPlan" + ".pdf";
+            String floorPlanFileName = dateTimeNum + "_FloorPlan" + ".pdf";
+            String sortPlanFileName = dateTimeNum + "_SortPlan" + ".pdf";
 
             // handle file and folder locations
             string startPath = Application.StartupPath;
+
             string databasePath = Path.GetFullPath(Path.Combine(startPath, @"C:\Users\wongz\OneDrive\Desktop\Slap Database"));
+            //string databasePath = Path.GetFullPath(Path.Combine(startPath, @"C:\Users\mxian\Desktop\Slap Database"));
+
             string folderPath = System.IO.Path.Combine(databasePath, day);
-            //folderPath = System.IO.Path.Combine(folderPath, "FloorPlan - " + comboBox1.Text);
-            fileName = System.IO.Path.Combine(folderPath, fileName);
 
-            System.IO.Directory.CreateDirectory(databasePath);
-            System.IO.Directory.CreateDirectory(folderPath);
+            int sortNumber = 1;
+            string sortNumberPath;
+            while (true)
+            {
+                sortNumberPath = System.IO.Path.Combine(folderPath, sortNumber.ToString());
+                if (Directory.Exists(sortNumberPath))
+                {
+                    sortNumber++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            floorPlanFileName = System.IO.Path.Combine(sortNumberPath, floorPlanFileName);
+            sortPlanFileName = System.IO.Path.Combine(sortNumberPath, sortPlanFileName);
 
+            System.IO.Directory.CreateDirectory(sortNumberPath);
+
+            // generate PDF files
+            GeneratePDF_FloorPlan(floorPlanFileName, dateTimeStr);
+            GeneratePDF_SortPlan(sortPlanFileName, dateTimeStr);
+        }
+
+        private void GeneratePDF_FloorPlan(string fileName, string dateTimeStr)
+        {
             // create PDF file
             FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None);
             Document doc = new Document();
@@ -649,25 +673,8 @@ namespace Slap
             writer.Close();
         }
 
-        private void GeneratePDF_SortPlan()
+        private void GeneratePDF_SortPlan(string fileName, string dateTimeStr)
         {
-            // get current date time
-            DateTime dateTime = DateTime.Now;
-            String dateTimeStr = dateTime.ToString("dddd, dd MMMM yyyy - HH:mm");
-            string day = dateTime.ToString("yyyyMMdd");
-            String dateTimeNum = dateTime.ToString("yyyyMMdd_HHmmss");
-            String fileName = dateTimeNum + "_SortPlan" + ".pdf";
-
-            // handle file and folder locations
-            string startPath = Application.StartupPath;
-            string databasePath = Path.GetFullPath(Path.Combine(startPath, @"C:\Users\wongz\OneDrive\Desktop\Slap Database"));
-            string folderPath = System.IO.Path.Combine(databasePath, day);
-            //folderPath = System.IO.Path.Combine(folderPath, "SortPlan - " + comboBox1.Text);
-            fileName = System.IO.Path.Combine(folderPath, fileName);
-
-            System.IO.Directory.CreateDirectory(databasePath);
-            System.IO.Directory.CreateDirectory(folderPath);
-
             // create PDF file
             FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None);
             Document doc = new Document();
