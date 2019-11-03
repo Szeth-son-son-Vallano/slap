@@ -9,7 +9,9 @@ namespace Slap
     class RouteGroup
     {
         // static attributes
-        private static double _laneEstimateVolumeMax = 1.1 * 1.2 * 10;
+        private static int _palletCount = 10;
+        private static double _palletSize = 1.1 * 1.2;
+        private static double _laneEstimateVolumeMax = _palletCount * _palletSize;
 
         // dynamic attributes
         private int _routeGroupID;
@@ -63,6 +65,17 @@ namespace Slap
         {
             get { return _lanes; }
             set { _lanes = value; }
+        }
+
+        public static int PalletCount
+        {
+            get { return _palletCount; }
+        }
+
+        public int Pallets
+        {
+            get { return (int)(_laneEstimateVolumeCur / LaneEstimateVolumeMax / _palletCount); }
+            set { }
         }
     }
 }

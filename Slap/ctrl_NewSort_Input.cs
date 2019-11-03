@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -144,15 +144,15 @@ namespace Slap
             }
         }
 
-        // Sort and Clear buttons
-        private void btn_Sort_MouseDown(object sender, MouseEventArgs e)
+        // Read and Clear buttons
+        private void btn_Read_MouseDown(object sender, MouseEventArgs e)
         {
             if (parcelListReady && routeListReady)
             {
                 lbl_ErrorMessage.Text = "";
 
                 ctrl_NewSort_Output1.addData(ParcelData, RouteData);
-                bool successfulRead = ctrl_NewSort_Output1.Sort();
+                bool successfulRead = ctrl_NewSort_Output1.ReadParcels();
                 if (successfulRead)
                 {
                     ctrl_NewSort_Output1.Show();

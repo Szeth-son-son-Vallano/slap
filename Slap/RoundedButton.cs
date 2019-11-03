@@ -297,7 +297,7 @@ namespace BrbVideoManager.Controls
         {
             IsMouseDown = false;
             Invalidate();
-            base.OnMouseDown(mevent);
+            base.OnMouseUp(mevent);
         }
     }
 }

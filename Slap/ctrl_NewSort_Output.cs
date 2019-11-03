@@ -1,10 +1,16 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using static iTextSharp.text.Font;
+using ZXing;
+using System.Drawing;
+using ZXing.QrCode;
 
 namespace Slap
 {
@@ -19,6 +25,7 @@ namespace Slap
         // variables for routeGroups and routes
         private List<List<string>> routesList;
         private List<RouteGroup> routeGroupList;
+        private List<RouteGroup> sortedRouteGroupList;
         
         public ctrl_NewSort_Output()
         {
@@ -41,13 +48,13 @@ namespace Slap
             pb_DL_SortPlan.Image = Properties.Resources.filePurple;
         }
 
-        // New Sort and Clear buttons
-        private void btn_Process_MouseDown(object sender, MouseEventArgs e)
+        // Sort and Clear buttons
+        private void btn_Sort_MouseDown(object sender, MouseEventArgs e)
         {
-            btn_Process.Enabled = false;
-            processRoutes();
-            displayArray();
-            btn_Process.Enabled = true;
+            btn_Sort.Enabled = false;
+            ReadRoutes();
+            FilterParcels();
+            btn_Sort.Enabled = true;
         }
 
         private void btn_Back_MouseDown(object sender, MouseEventArgs e)
@@ -102,7 +109,7 @@ namespace Slap
         }
 
         // Sorting Method
-        public bool Sort()
+        public bool ReadParcels()
         {
             if (ParcelData != null)
             {
@@ -246,7 +253,7 @@ namespace Slap
             return true;
         }
 
-        private void processRoutes()
+        private void ReadRoutes()
         {
             // given values
             //routeList.Add(new List<string> { "835", "837", "839" });
@@ -290,43 +297,7 @@ namespace Slap
             }
         }
 
-        private void displayArray()
-        {
-            DataTable dt = new DataTable();
-            dt.Columns.Add(new DataColumn("AWB"));
-            dt.Columns.Add(new DataColumn("ConsigneeCompany"));
-            dt.Columns.Add(new DataColumn("ConsigneeAddress"));
-            dt.Columns.Add(new DataColumn("ConsigneePostal"));
-            dt.Columns.Add(new DataColumn("SelectCd"));
-            dt.Columns.Add(new DataColumn("Cleared"));
-            dt.Columns.Add(new DataColumn("DestLocCd"));
-            dt.Columns.Add(new DataColumn("CourierRoute"));
-            dt.Columns.Add(new DataColumn("PieceQty"));
-            dt.Columns.Add(new DataColumn("KiloWgt"));
-
-            for (int i = 0; i < parcelArray.Length; i++)
-            {
-                DataRow dr = dt.NewRow();
-                dr["AWB"] = parcelArray[i].AWB;
-                dr["ConsigneeCompany"] = parcelArray[i].ConsigneeCompany;
-                dr["ConsigneeAddress"] = parcelArray[i].ConsigneeAddress;
-                dr["ConsigneePostal"] = parcelArray[i].ConsigneePostal;
-                dr["SelectCd"] = parcelArray[i].SelectCd;
-                dr["Cleared"] = parcelArray[i].ClearedStatus;
-                dr["DestLocCd"] = parcelArray[i].DestLocCd;
-                dr["CourierRoute"] = parcelArray[i].CourierRoute;
-                dr["PieceQty"] = parcelArray[i].PieceQty;
-                dr["KiloWgt"] = parcelArray[i].KiloWgt;
-
-                dt.Rows.Add(dr);
-            }
-
-            dgv_FileData.DataSource = dt;
-
-            displayFilteredArray();
-        }
-
-        private void displayFilteredArray()
+        private void FilterParcels()
         {
             filteredParcelList = new List<Parcel>();
             DataTable dt = new DataTable();
@@ -388,10 +359,10 @@ namespace Slap
 
             dgv_FileData.DataSource = dt;
 
-            sortParcelsIntoRouteGroups();
+            SortParcels();
         }
 
-        private void sortParcelsIntoRouteGroups()
+        private void SortParcels()
         {
             sortedParcelList = new List<Parcel>();
 
@@ -415,12 +386,12 @@ namespace Slap
                 {
                     if (parcel.ClearedStatus)
                     {
-                        parcel.RouteGroup = routeGroupRoutesDict[parcel.CourierRoute];
+                        //parcel.RouteGroup = routeGroupRoutesDict[parcel.CourierRoute];
                         routeGroupList[routeGroupRoutesDict[parcel.CourierRoute]].ParcelList.Add(parcel);
                     }
                     else
                     {
-                        parcel.RouteGroup = 0;
+                        //parcel.RouteGroup = 0;
                         routeGroupList[0].ParcelList.Add(parcel);
                     }
                     sortedParcelList.Add(parcel);
@@ -428,25 +399,9 @@ namespace Slap
             }
 
             // iterate through each RouteGroup
-            // print on console for debugging purposes
-            //foreach(RouteGroup routeGroup in routeGroupList)
-            //{
-            //    Console.WriteLine("RouteGroupID: " + routeGroup.RouteGroupID);
-            //    Console.WriteLine("Routes:");
-            //    foreach(string route in routeGroup.CourierRoutes)
-            //    {
-            //        Console.WriteLine(route);
-            //    }
-            //    Console.WriteLine("Parcels:");
-            //    foreach(Parcel parcel in routeGroup.ParcelList)
-            //    {
-            //        Console.WriteLine(parcel.AWB);
-            //    }
-            //    Console.WriteLine();
-            //}
-
-            // iterate through each RouteGroup
             // assign lanes based on estimated volume
+            sortedRouteGroupList = new List<RouteGroup>();
+
             char lane = 'A';
             foreach(RouteGroup routeGroup in routeGroupList)
             {
@@ -458,12 +413,34 @@ namespace Slap
 
                 int numOfLanes = (int)Math.Ceiling(routeGroup.LaneEstimateVolumeCur / routeGroup.LaneEstimateVolumeMax);
                 string lanes = "";
-                for(int i = 0; i < numOfLanes; i++)
+
+                if(routeGroup.RouteGroupID == 0)
                 {
-                    lanes += lane;
-                    lane++;
+                    lanes = "HOLD";
+                    routeGroup.Lanes = lanes;
+                    sortedRouteGroupList.Add(routeGroup);
+                }
+                else
+                {
+                    for(int i = 0; i < numOfLanes; i++)
+                    {
+                        lanes += lane;
+                        lane++;
+                    }
+
+                    if(!lanes.Equals(""))
+                    {
+                        routeGroup.Lanes = lanes;
+                        sortedRouteGroupList.Add(routeGroup);
+                    }
                 }
 
+                foreach(Parcel parcel in routeGroup.ParcelList)
+                {
+                    parcel.Lanes = lanes;
+                }
+
+                // print console for debugging purposes
                 Console.WriteLine("RouteGroup: " + routeGroup.RouteGroupID);
                 string routesConsole = "";
                 foreach(string route in routeGroup.CourierRoutes)
@@ -481,10 +458,11 @@ namespace Slap
                 Console.WriteLine();
             }
 
-            displaySortedArray();
+            DisplayParcels();
+            CreateFolder();
         }
 
-        private void displaySortedArray()
+        private void DisplayParcels()
         {
             DataTable dt = new DataTable();
 
@@ -495,7 +473,7 @@ namespace Slap
             dt.Columns.Add(new DataColumn("SelectCd"));
             dt.Columns.Add(new DataColumn("Cleared"));
             dt.Columns.Add(new DataColumn("CourierRoute"));
-            dt.Columns.Add(new DataColumn("routeGroup"));
+            dt.Columns.Add(new DataColumn("Lanes"));
             dt.Columns.Add(new DataColumn("PieceQty"));
             dt.Columns.Add(new DataColumn("KiloWgt"));
 
@@ -510,7 +488,7 @@ namespace Slap
                 dr["SelectCd"] = sortedParcelList[i].SelectCd;
                 dr["Cleared"] = sortedParcelList[i].ClearedStatus;
                 dr["CourierRoute"] = sortedParcelList[i].CourierRoute;
-                dr["routeGroup"] = sortedParcelList[i].RouteGroup;
+                dr["Lanes"] = sortedParcelList[i].Lanes;
                 dr["PieceQty"] = sortedParcelList[i].PieceQty;
                 dr["KiloWgt"] = sortedParcelList[i].KiloWgt;
 
@@ -518,6 +496,237 @@ namespace Slap
             }
 
             dgv_FileData.DataSource = dt;
+        }
+
+        private void CreateFolder()
+        {
+            // get current date time
+            DateTime dateTime = DateTime.Now;
+            String dateTimeStr = dateTime.ToString("dddd, dd MMMM yyyy - HH:mm");
+            string day = dateTime.ToString("yyyyMMdd");
+            String dateTimeNum = dateTime.ToString("yyyyMMdd_HHmmss");
+            String floorPlanFileName = dateTimeNum + "_FloorPlan" + ".pdf";
+            String sortPlanFileName = dateTimeNum + "_SortPlan" + ".pdf";
+
+            // handle file and folder locations
+            string startPath = Application.StartupPath;
+
+            string databasePath = Path.GetFullPath(Path.Combine(startPath, @"C:\Users\wongz\OneDrive\Desktop\Slap Database"));
+            //string databasePath = Path.GetFullPath(Path.Combine(startPath, @"C:\Users\mxian\Desktop\Slap Database"));
+
+            string folderPath = System.IO.Path.Combine(databasePath, day);
+
+            int sortNumber = 1;
+            string sortNumberPath;
+            while (true)
+            {
+                sortNumberPath = System.IO.Path.Combine(folderPath, sortNumber.ToString());
+                if (Directory.Exists(sortNumberPath))
+                {
+                    sortNumber++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            floorPlanFileName = System.IO.Path.Combine(sortNumberPath, floorPlanFileName);
+            sortPlanFileName = System.IO.Path.Combine(sortNumberPath, sortPlanFileName);
+
+            System.IO.Directory.CreateDirectory(sortNumberPath);
+
+            // generate PDF files
+            GeneratePDF_FloorPlan(floorPlanFileName, dateTimeStr);
+            GeneratePDF_SortPlan(sortPlanFileName, dateTimeStr);
+        }
+
+        private void GeneratePDF_FloorPlan(string fileName, string dateTimeStr)
+        {
+            // create PDF file
+            FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None);
+            Document doc = new Document();
+            PdfWriter writer = PdfWriter.GetInstance(doc, fs);
+            doc.Open();
+
+            // create table
+            int gridRows = RouteGroup.PalletCount;
+            int gridCols = 28;
+            PdfPTable table = new PdfPTable(gridRows + 2);
+
+            iTextSharp.text.Font font = new iTextSharp.text.Font(FontFactory.GetFont("Times New Roman", 8));
+
+            // create table title
+            PdfPCell titleCell = new PdfPCell(new Phrase("FLOOR PLAN - " + dateTimeStr));
+            titleCell.Rowspan = gridCols;
+            titleCell.Rotation = 270;
+            titleCell.HorizontalAlignment = 1;
+
+            BaseColor[] colors = new BaseColor[15];
+            colors[0] = new BaseColor(128, 128, 128);
+            colors[1] = new BaseColor(255, 0, 0);
+            colors[2] = new BaseColor(255, 128, 0);
+            colors[3] = new BaseColor(255, 255, 0);
+            colors[4] = new BaseColor(128, 255, 0);
+            colors[5] = new BaseColor(0, 255, 0);
+            colors[6] = new BaseColor(0, 255, 128);
+            colors[7] = new BaseColor(0, 255, 255);
+            colors[8] = new BaseColor(0, 128, 255);
+            colors[9] = new BaseColor(0, 0, 255);
+            colors[10] = new BaseColor(128, 0, 255);
+            colors[11] = new BaseColor(255, 0, 255);
+            colors[12] = new BaseColor(255, 0, 128);
+            colors[13] = new BaseColor(0, 0, 0);
+            colors[14] = new BaseColor(255, 255, 255);
+
+            // fill in the used lanes
+            int currentLane = 0;
+            float minimumHeight = 25.0f;
+            foreach(RouteGroup routeGroup in sortedRouteGroupList)
+            {
+                if (!routeGroup.Lanes.Equals("HOLD"))
+                {
+                    foreach(char lane in routeGroup.Lanes)
+                    {
+                        PdfPCell cellLane = new PdfPCell(new Phrase(Char.ToString(lane), font))
+                        {
+                            Rotation = 270,
+                            Colspan = 1,
+                            MinimumHeight = minimumHeight
+                        };
+                        table.AddCell(cellLane);
+
+                        for (int row = 0; row < gridRows; row++)
+                        {
+                            PdfPCell cell = new PdfPCell(new Phrase(" "))
+                            {
+                                Rotation = 270,
+                                Colspan = 1,
+                                MinimumHeight = minimumHeight,
+                                BackgroundColor = colors[routeGroup.RouteGroupID]
+                            };
+                            table.AddCell(cell);
+
+
+                            if (routeGroup.RouteGroupID == 1 && row == gridRows - 1)
+                            {
+                                table.AddCell(titleCell);
+                            }
+                        }
+                        currentLane++;
+                    }
+                }
+            }
+
+            // fill in the empty lanes
+            for(int i = currentLane; i < gridCols - 4; i++, currentLane++)
+            {
+                PdfPCell cellLane = new PdfPCell(new Phrase(Char.ToString((char)(currentLane + 65)), font))
+                {
+                    Rotation = 270,
+                    Colspan = 1,
+                    MinimumHeight = minimumHeight
+                };
+                table.AddCell(cellLane);
+                for (int row = 0; row < gridRows; row++)
+                {
+                    PdfPCell cell = new PdfPCell(new Phrase(" "))
+                    {
+                        Colspan = 1,
+                        MinimumHeight = minimumHeight,
+                        BackgroundColor = colors[colors.Length - 1]
+                    };
+
+                    table.AddCell(cell);
+                }
+            }
+
+            // fill in the holding lanes
+            if (sortedRouteGroupList[0].Lanes.Equals("HOLD"))
+            {
+                for(int col = 0; col < 4; col++)
+                {
+                    PdfPCell cellLane = new PdfPCell(new Phrase(sortedRouteGroupList[0].Lanes, font))
+                    {
+                        Rotation = 270,
+                        Colspan = 1,
+                        MinimumHeight = minimumHeight
+                    };
+                    table.AddCell(cellLane);
+
+                    for (int row = 0; row < gridRows; row++)
+                    {
+                        PdfPCell cell = new PdfPCell(new Phrase(" "))
+                        {
+                            Colspan = 1,
+                            MinimumHeight = minimumHeight,
+                            BackgroundColor = colors[0]
+                        };
+
+                        table.AddCell(cell);
+                    }
+                }
+            }
+
+            doc.Add(table);
+
+            doc.Close();
+            writer.Close();
+        }
+
+        private void GeneratePDF_SortPlan(string fileName, string dateTimeStr)
+        {
+            // create PDF file
+            FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None);
+            Document doc = new Document();
+            PdfWriter writer = PdfWriter.GetInstance(doc, fs);
+
+            doc.Open();
+
+            // Add table
+            PdfPTable table = new PdfPTable(3);
+            float[] colWidth = new float[] { 2.0f, 5.0f, 7.0f };
+            table.SetWidths(colWidth);
+
+            PdfPCell cell = new PdfPCell(new Phrase("SORT PLAN - " + dateTimeStr));
+            cell.Colspan = 3;
+            cell.HorizontalAlignment = 1;
+            table.AddCell(cell);
+
+            table.AddCell("Lane");
+            table.AddCell("AWB");
+            table.AddCell("Barcode");
+
+            sortedParcelList.Sort(new LaneComparer());
+
+            for (int i = 0; i < sortedParcelList.Count; i++)
+            {
+                // Add image
+                BarcodeWriter barcodeWriter = new BarcodeWriter()
+                {
+                    Format = BarcodeFormat.CODE_128,
+                    Options = new QrCodeEncodingOptions()
+                    {
+                        Width = 300,
+                        Height = 100
+                    }
+                };
+                Bitmap bmp = barcodeWriter.Write(sortedParcelList[i].AWB);
+                iTextSharp.text.Image image = iTextSharp.text.Image.GetInstance(bmp, System.Drawing.Imaging.ImageFormat.Bmp);
+                image.ScaleToFit(150.0F, 50.0F);
+                image.Alignment = Element.ALIGN_CENTER;
+
+                PdfPCell imgCell = new PdfPCell(){ PaddingLeft = 5, PaddingRight = 5 };
+                imgCell.AddElement(image);
+
+                table.AddCell(sortedParcelList[i].Lanes);
+                table.AddCell(sortedParcelList[i].AWB);
+                table.AddCell(imgCell);
+            }
+
+            doc.Add(table);
+
+            doc.Close();
+            writer.Close();
         }
     }
 }

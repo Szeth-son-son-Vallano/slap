@@ -16,21 +16,20 @@ namespace Slap
         private string _selectCd;
         private string _destLocCd;
         private string _courierRoute;
-
         private int _pieceQty;
-
         private double _kiloWgt;
         
         // inferred attributes
         private double _estimatedVolume;
         private bool _clearedStatus;
         private int _routeGroup;
+        private string _lanes;
 
         // estimated Average Density is derived from FedEx Dimensional Weight calculation
         // Dimensional Weight = L x W x H / 5000
-        public static double _estimateDensity_Cm3PerKg = 5000;
-        public static double _estimateDensity_M3PerKg = 0.005;
-        public static double _estimateDensity_KgPerM3 = 200;
+        private static double _estimateDensity_Cm3PerKg = 5000;
+        private static double _estimateDensity_M3PerKg = 0.005;
+        private static double _estimateDensity_KgPerM3 = 200;
 
         // constructors
         public Parcel()
@@ -42,14 +41,13 @@ namespace Slap
             _selectCd = "";
             _destLocCd = "";
             _courierRoute = "";
-
             _pieceQty = 0;
-
             _kiloWgt = 0.0;
 
             _estimatedVolume = 0.0;
             _clearedStatus = false;
-            _routeGroup = '0';
+            _routeGroup = 0;
+            _lanes = "";
         }
 
         public Parcel(
@@ -70,7 +68,8 @@ namespace Slap
 
             calculateEstimateVol(KiloWgt);
             checkClearedStatus(SelectCd);
-            _routeGroup = '0';
+            _routeGroup = 0;
+            _lanes = "";
 
         }
 
@@ -134,6 +133,11 @@ namespace Slap
         {
             get { return _routeGroup; }
             set { _routeGroup = value; }
+        }
+        public string Lanes
+        {
+            get { return _lanes; }
+            set { _lanes = value; }
         }
 
         // other methods
