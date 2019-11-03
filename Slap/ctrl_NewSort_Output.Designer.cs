@@ -36,7 +36,7 @@
             this.lbl_FloorPlan = new System.Windows.Forms.Label();
             this.dgv_FileData = new System.Windows.Forms.DataGridView();
             this.btn_Back = new BrbVideoManager.Controls.RoundedButton();
-            this.btn_Process = new BrbVideoManager.Controls.RoundedButton();
+            this.btn_Sort = new BrbVideoManager.Controls.RoundedButton();
             this.pb_DL_SortPlan = new System.Windows.Forms.PictureBox();
             this.pb_DL_FloorPlan = new System.Windows.Forms.PictureBox();
             this.pb_DL_RouteList = new System.Windows.Forms.PictureBox();
@@ -134,29 +134,29 @@
             this.btn_Back.UseVisualStyleBackColor = false;
             this.btn_Back.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_Back_MouseDown);
             // 
-            // btn_Process
+            // btn_Sort
             // 
-            this.btn_Process.BackColor = System.Drawing.Color.Indigo;
-            this.btn_Process.BorderColor = System.Drawing.Color.Transparent;
-            this.btn_Process.BorderDownColor = System.Drawing.Color.Empty;
-            this.btn_Process.BorderDownWidth = 0F;
-            this.btn_Process.BorderOverColor = System.Drawing.Color.Empty;
-            this.btn_Process.BorderOverWidth = 0F;
-            this.btn_Process.BorderRadius = 30;
-            this.btn_Process.BorderWidth = 0F;
-            this.btn_Process.FlatAppearance.BorderSize = 0;
-            this.btn_Process.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(0)))), ((int)(((byte)(100)))));
-            this.btn_Process.FlatAppearance.MouseOverBackColor = System.Drawing.Color.BlueViolet;
-            this.btn_Process.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Process.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.btn_Process.ForeColor = System.Drawing.Color.White;
-            this.btn_Process.Location = new System.Drawing.Point(475, 525);
-            this.btn_Process.Name = "btn_Process";
-            this.btn_Process.Size = new System.Drawing.Size(250, 60);
-            this.btn_Process.TabIndex = 6;
-            this.btn_Process.Text = "P R O C E S S";
-            this.btn_Process.UseVisualStyleBackColor = false;
-            this.btn_Process.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_Process_MouseDown);
+            this.btn_Sort.BackColor = System.Drawing.Color.Indigo;
+            this.btn_Sort.BorderColor = System.Drawing.Color.Transparent;
+            this.btn_Sort.BorderDownColor = System.Drawing.Color.Empty;
+            this.btn_Sort.BorderDownWidth = 0F;
+            this.btn_Sort.BorderOverColor = System.Drawing.Color.Empty;
+            this.btn_Sort.BorderOverWidth = 0F;
+            this.btn_Sort.BorderRadius = 30;
+            this.btn_Sort.BorderWidth = 0F;
+            this.btn_Sort.FlatAppearance.BorderSize = 0;
+            this.btn_Sort.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(0)))), ((int)(((byte)(100)))));
+            this.btn_Sort.FlatAppearance.MouseOverBackColor = System.Drawing.Color.BlueViolet;
+            this.btn_Sort.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Sort.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.btn_Sort.ForeColor = System.Drawing.Color.White;
+            this.btn_Sort.Location = new System.Drawing.Point(475, 525);
+            this.btn_Sort.Name = "btn_Sort";
+            this.btn_Sort.Size = new System.Drawing.Size(250, 60);
+            this.btn_Sort.TabIndex = 6;
+            this.btn_Sort.Text = "S O R T";
+            this.btn_Sort.UseVisualStyleBackColor = false;
+            this.btn_Sort.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_Sort_MouseDown);
             // 
             // pb_DL_SortPlan
             // 
@@ -223,7 +223,7 @@
             this.Controls.Add(this.pb_DL_RouteList);
             this.Controls.Add(this.pb_DL_ParcelList);
             this.Controls.Add(this.dgv_FileData);
-            this.Controls.Add(this.btn_Process);
+            this.Controls.Add(this.btn_Sort);
             this.Controls.Add(this.btn_Back);
             this.Name = "ctrl_NewSort_Output";
             this.Size = new System.Drawing.Size(1200, 700);
@@ -240,7 +240,7 @@
 
         private System.Windows.Forms.PictureBox pb_DL_ParcelList;
         private System.Windows.Forms.PictureBox pb_DL_RouteList;
-        private BrbVideoManager.Controls.RoundedButton btn_Process;
+        private BrbVideoManager.Controls.RoundedButton btn_Sort;
         private BrbVideoManager.Controls.RoundedButton btn_Back;
         private System.Windows.Forms.Label lbl_RouteList;
         private System.Windows.Forms.Label lbl_ParcelList;

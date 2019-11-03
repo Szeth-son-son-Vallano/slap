@@ -144,8 +144,8 @@ namespace Slap
             }
         }
 
-        // Sort and Clear buttons
-        private void btn_Sort_MouseDown(object sender, MouseEventArgs e)
+        // Read and Clear buttons
+        private void btn_Read_MouseDown(object sender, MouseEventArgs e)
         {
             if (parcelListReady && routeListReady)
             {

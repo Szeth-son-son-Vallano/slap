@@ -8,6 +8,9 @@ using System.Collections.Generic;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using static iTextSharp.text.Font;
+using ZXing;
+using System.Drawing;
+using ZXing.QrCode;
 
 namespace Slap
 {
@@ -45,14 +48,13 @@ namespace Slap
             pb_DL_SortPlan.Image = Properties.Resources.filePurple;
         }
 
-        // New Sort and Clear buttons
-        private void btn_Process_MouseDown(object sender, MouseEventArgs e)
+        // Sort and Clear buttons
+        private void btn_Sort_MouseDown(object sender, MouseEventArgs e)
         {
-            btn_Process.Enabled = false;
+            btn_Sort.Enabled = false;
             ReadRoutes();
-            //displayArray();
             FilterParcels();
-            btn_Process.Enabled = true;
+            btn_Sort.Enabled = true;
         }
 
         private void btn_Back_MouseDown(object sender, MouseEventArgs e)
@@ -295,42 +297,6 @@ namespace Slap
             }
         }
 
-        private void DisplayArray()
-        {
-            DataTable dt = new DataTable();
-            dt.Columns.Add(new DataColumn("AWB"));
-            dt.Columns.Add(new DataColumn("ConsigneeCompany"));
-            dt.Columns.Add(new DataColumn("ConsigneeAddress"));
-            dt.Columns.Add(new DataColumn("ConsigneePostal"));
-            dt.Columns.Add(new DataColumn("SelectCd"));
-            dt.Columns.Add(new DataColumn("Cleared"));
-            dt.Columns.Add(new DataColumn("DestLocCd"));
-            dt.Columns.Add(new DataColumn("CourierRoute"));
-            dt.Columns.Add(new DataColumn("PieceQty"));
-            dt.Columns.Add(new DataColumn("KiloWgt"));
-
-            for (int i = 0; i < parcelArray.Length; i++)
-            {
-                DataRow dr = dt.NewRow();
-                dr["AWB"] = parcelArray[i].AWB;
-                dr["ConsigneeCompany"] = parcelArray[i].ConsigneeCompany;
-                dr["ConsigneeAddress"] = parcelArray[i].ConsigneeAddress;
-                dr["ConsigneePostal"] = parcelArray[i].ConsigneePostal;
-                dr["SelectCd"] = parcelArray[i].SelectCd;
-                dr["Cleared"] = parcelArray[i].ClearedStatus;
-                dr["DestLocCd"] = parcelArray[i].DestLocCd;
-                dr["CourierRoute"] = parcelArray[i].CourierRoute;
-                dr["PieceQty"] = parcelArray[i].PieceQty;
-                dr["KiloWgt"] = parcelArray[i].KiloWgt;
-
-                dt.Rows.Add(dr);
-            }
-
-            dgv_FileData.DataSource = dt;
-
-            FilterParcels();
-        }
-
         private void FilterParcels()
         {
             filteredParcelList = new List<Parcel>();
@@ -493,6 +459,8 @@ namespace Slap
             }
 
             DisplayParcels();
+            GeneratePDF_FloorPlan();
+            GeneratePDF_SortPlan();
         }
 
         private void DisplayParcels()
@@ -529,24 +497,25 @@ namespace Slap
             }
 
             dgv_FileData.DataSource = dt;
-
-            GeneratePDF_FloorPlan();
         }
 
         private void GeneratePDF_FloorPlan()
         {
             // get current date time
             DateTime dateTime = DateTime.Now;
-            String dateTimeStr = dateTime.ToString("dddd, dd MMMM yyyy - hh:mm tt");
+            String dateTimeStr = dateTime.ToString("dddd, dd MMMM yyyy - HH:mm");
+            string day = dateTime.ToString("yyyyMMdd");
             String dateTimeNum = dateTime.ToString("yyyyMMdd_HHmmss");
-            String fileName = "FloorPlan_" + dateTimeNum + ".pdf";
+            String fileName = dateTimeNum + "_FloorPlan" + ".pdf";
 
             // handle file and folder locations
             string startPath = Application.StartupPath;
-            string folderPath = Path.GetFullPath(Path.Combine(startPath, @"..\..\"));
-            folderPath = System.IO.Path.Combine(folderPath, "FloorPlan");
+            string databasePath = Path.GetFullPath(Path.Combine(startPath, @"C:\Users\wongz\OneDrive\Desktop\Slap Database"));
+            string folderPath = System.IO.Path.Combine(databasePath, day);
+            //folderPath = System.IO.Path.Combine(folderPath, "FloorPlan - " + comboBox1.Text);
             fileName = System.IO.Path.Combine(folderPath, fileName);
 
+            System.IO.Directory.CreateDirectory(databasePath);
             System.IO.Directory.CreateDirectory(folderPath);
 
             // create PDF file
@@ -560,7 +529,7 @@ namespace Slap
             int gridCols = 28;
             PdfPTable table = new PdfPTable(gridRows + 2);
 
-            iTextSharp.text.Font font = new Font(FontFactory.GetFont("Times New Roman", 8));
+            iTextSharp.text.Font font = new iTextSharp.text.Font(FontFactory.GetFont("Times New Roman", 8));
 
             // create table title
             PdfPCell titleCell = new PdfPCell(new Phrase("FLOOR PLAN - " + dateTimeStr));
@@ -672,6 +641,79 @@ namespace Slap
                         table.AddCell(cell);
                     }
                 }
+            }
+
+            doc.Add(table);
+
+            doc.Close();
+            writer.Close();
+        }
+
+        private void GeneratePDF_SortPlan()
+        {
+            // get current date time
+            DateTime dateTime = DateTime.Now;
+            String dateTimeStr = dateTime.ToString("dddd, dd MMMM yyyy - HH:mm");
+            string day = dateTime.ToString("yyyyMMdd");
+            String dateTimeNum = dateTime.ToString("yyyyMMdd_HHmmss");
+            String fileName = dateTimeNum + "_SortPlan" + ".pdf";
+
+            // handle file and folder locations
+            string startPath = Application.StartupPath;
+            string databasePath = Path.GetFullPath(Path.Combine(startPath, @"C:\Users\wongz\OneDrive\Desktop\Slap Database"));
+            string folderPath = System.IO.Path.Combine(databasePath, day);
+            //folderPath = System.IO.Path.Combine(folderPath, "SortPlan - " + comboBox1.Text);
+            fileName = System.IO.Path.Combine(folderPath, fileName);
+
+            System.IO.Directory.CreateDirectory(databasePath);
+            System.IO.Directory.CreateDirectory(folderPath);
+
+            // create PDF file
+            FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None);
+            Document doc = new Document();
+            PdfWriter writer = PdfWriter.GetInstance(doc, fs);
+
+            doc.Open();
+
+            // Add table
+            PdfPTable table = new PdfPTable(3);
+            float[] colWidth = new float[] { 2.0f, 5.0f, 7.0f };
+            table.SetWidths(colWidth);
+
+            PdfPCell cell = new PdfPCell(new Phrase("SORT PLAN - " + dateTimeStr));
+            cell.Colspan = 3;
+            cell.HorizontalAlignment = 1;
+            table.AddCell(cell);
+
+            table.AddCell("Lane");
+            table.AddCell("AWB");
+            table.AddCell("Barcode");
+
+            sortedParcelList.Sort(new LaneComparer());
+
+            for (int i = 0; i < sortedParcelList.Count; i++)
+            {
+                // Add image
+                BarcodeWriter barcodeWriter = new BarcodeWriter()
+                {
+                    Format = BarcodeFormat.CODE_128,
+                    Options = new QrCodeEncodingOptions()
+                    {
+                        Width = 300,
+                        Height = 100
+                    }
+                };
+                Bitmap bmp = barcodeWriter.Write(sortedParcelList[i].AWB);
+                iTextSharp.text.Image image = iTextSharp.text.Image.GetInstance(bmp, System.Drawing.Imaging.ImageFormat.Bmp);
+                image.ScaleToFit(150.0F, 50.0F);
+                image.Alignment = Element.ALIGN_CENTER;
+
+                PdfPCell imgCell = new PdfPCell(){ PaddingLeft = 5, PaddingRight = 5 };
+                imgCell.AddElement(image);
+
+                table.AddCell(sortedParcelList[i].Lanes);
+                table.AddCell(sortedParcelList[i].AWB);
+                table.AddCell(imgCell);
             }
 
             doc.Add(table);
