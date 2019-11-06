@@ -8,87 +8,158 @@ namespace Slap
 {
     class Parcel
     {
-        // attributes
-        private char lane;
+        // given attributes
+        private string _AWB;
+        private string _consigneeCompany;
+        private string _consigneeAddress;
+        private string _consigneePostal;
+        private string _selectCd;
+        private string _destLocCd;
+        private string _courierRoute;
+        private int _pieceQty;
+        private double _kiloWgt;
         
-        private string AWB;
-        private string destLocCd;
-        private string consigneePostal;
-        private double kiloWeight;
+        // inferred attributes
+        private double _estimatedVolume;
+        private bool _clearedStatus;
+        private int _routeGroup;
+        private string _lanes;
 
-        private double estimateVol;
+        // estimated Average Density is derived from FedEx Dimensional Weight calculation
+        // Dimensional Weight = L x W x H / 5000
+        private static double _estimateDensity_Cm3PerKg = 5000;
+        private static double _estimateDensity_M3PerKg = 0.005;
+        private static double _estimateDensity_KgPerM3 = 200;
 
         // constructors
         public Parcel()
         {
-            lane = '0';
+            _AWB = "";
+            _consigneeCompany = "";
+            _consigneeAddress = "";
+            _consigneePostal = "";
+            _selectCd = "";
+            _destLocCd = "";
+            _courierRoute = "";
+            _pieceQty = 0;
+            _kiloWgt = 0.0;
 
-            AWB = "";
-            destLocCd = "";
-            consigneePostal = "";
-            kiloWeight = 0.0;
-
-            estimateVol = 0.0;
+            _estimatedVolume = 0.0;
+            _clearedStatus = false;
+            _routeGroup = 0;
+            _lanes = "";
         }
 
-        public Parcel(string AWB, string destLocCd, string consigneePostal, double kiloWeight)
+        public Parcel(
+            string AWB,
+            string ConsigneeCompany, string ConsigneeAddr, string ConsigneePostal,
+            string SelectCd, string DestLocCd, string CourierRoute, 
+            int PieceQty, double KiloWgt)
         {
-            lane = '0';
+            this._AWB = AWB;
+            this._consigneeCompany = ConsigneeCompany;
+            this._consigneeAddress = ConsigneeAddr;
+            this._consigneePostal = ConsigneePostal;
+            this._selectCd = SelectCd;
+            this._destLocCd = DestLocCd;
+            this._courierRoute = CourierRoute;
+            this._pieceQty = PieceQty;
+            this._kiloWgt = KiloWgt;
 
-            this.AWB = AWB;
-            this.destLocCd = destLocCd;
-            this.consigneePostal = consigneePostal;
-            this.kiloWeight = kiloWeight;
+            calculateEstimateVol(KiloWgt);
+            checkClearedStatus(SelectCd);
+            _routeGroup = 0;
+            _lanes = "";
 
-            estimateVol = 0.0;
         }
 
-        // setter methods
-        public void setLane(char lane)
+        // getter and setter methods
+        public string AWB
         {
-            this.lane = lane;
+            get { return _AWB; }
+            set { _AWB = value; }
+        }
+        public string ConsigneeCompany
+        {
+            get { return _consigneeCompany; }
+            set { _consigneeCompany = value; }
+        }
+        public string ConsigneeAddress
+        {
+            get { return _consigneeAddress; }
+            set { _consigneeAddress = value; }
+        }
+        public string ConsigneePostal
+        {
+            get { return _consigneePostal; }
+            set { _consigneePostal = value; }
+        }
+        public string SelectCd
+        {
+            get { return _selectCd; }
+            set { _selectCd = value; checkClearedStatus(value);  }
+        }
+        public string DestLocCd
+        {
+            get { return _destLocCd; }
+            set { _destLocCd = value; }
+        }
+        public string CourierRoute
+        {
+            get { return _courierRoute; }
+            set { _courierRoute = value; }
+        }
+        public int PieceQty
+        {
+            get { return _pieceQty; }
+            set { _pieceQty = value; }
+        }
+        public double KiloWgt
+        {
+            get { return _kiloWgt; }
+            set { _kiloWgt = value; calculateEstimateVol(value); }
+        }
+        public double EstimatedVol
+        {
+            get { return _estimatedVolume; }
+            set { }
+        }
+        public bool ClearedStatus
+        {
+            get { return _clearedStatus; }
+            set { }
+        }
+        public int RouteGroup
+        {
+            get { return _routeGroup; }
+            set { _routeGroup = value; }
+        }
+        public string Lanes
+        {
+            get { return _lanes; }
+            set { _lanes = value; }
         }
 
-        public void setEstimateVolume(double estimateVol)
+        // other methods
+        private void calculateEstimateVol(double KiloWgt)
         {
-            this.estimateVol = estimateVol;
+            _estimatedVolume = KiloWgt / _estimateDensity_KgPerM3;
         }
 
-        // getter methods
-        public char getLane()
+        private void checkClearedStatus(string selectCd)
         {
-            return lane;
-        }
+            string[] clearedCodes = { "DIA", "DT", "PL", "DR" };
 
-        public string getAWB()
-        {
-            return AWB;
-        }
+            string[] codes = selectCd.Split(',');
 
-        public string getDestLocCd()
-        {
-            return destLocCd;
-        }
-
-        public string getConsigneePostal()
-        {
-            return consigneePostal;
-        }
-
-        public double getKiloWeight()
-        {
-            return kiloWeight;
-        }
-
-        public double getEstimateVol()
-        {
-            return estimateVol;
-        }
-
-        public double calculateEstimateVol(double avgDensity)
-        {
-            double estimateVolResult = kiloWeight * avgDensity;
-            return estimateVolResult;
+            foreach(string code in codes)
+            {
+                if (clearedCodes.Contains(code))
+                {
+                    _clearedStatus = true;
+                    break;
+                }
+            }
         }
     }
 }

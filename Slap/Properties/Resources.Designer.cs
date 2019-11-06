@@ -93,6 +93,26 @@ namespace Slap.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap fileLightOrange {
+            get {
+                object obj = ResourceManager.GetObject("fileLightOrange", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap fileLightPurple {
+            get {
+                object obj = ResourceManager.GetObject("fileLightPurple", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap fileOrange {
             get {
                 object obj = ResourceManager.GetObject("fileOrange", resourceCulture);
@@ -146,6 +166,16 @@ namespace Slap.Properties {
         internal static System.Drawing.Bitmap fileWhite {
             get {
                 object obj = ResourceManager.GetObject("fileWhite", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap search {
+            get {
+                object obj = ResourceManager.GetObject("search", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

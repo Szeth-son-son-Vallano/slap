@@ -29,14 +29,15 @@
         private void InitializeComponent()
         {
             this.panel_User = new System.Windows.Forms.Panel();
+            this.pb_FedexLogo = new System.Windows.Forms.PictureBox();
             this.panel_Tab = new System.Windows.Forms.Panel();
             this.btn_MenuSortHistory = new System.Windows.Forms.Button();
             this.btn_MenuNewSort = new System.Windows.Forms.Button();
-            this.pb_FedexLogo = new System.Windows.Forms.PictureBox();
             this.ctrl_NewSort_Input1 = new Slap.ctrl_NewSort_Input();
+            this.ctrl_SortHistory1 = new Slap.ctrl_SortHistory();
             this.panel_User.SuspendLayout();
-            this.panel_Tab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_FedexLogo)).BeginInit();
+            this.panel_Tab.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel_User
@@ -47,6 +48,16 @@
             this.panel_User.Name = "panel_User";
             this.panel_User.Size = new System.Drawing.Size(1200, 100);
             this.panel_User.TabIndex = 0;
+            // 
+            // pb_FedexLogo
+            // 
+            this.pb_FedexLogo.Image = global::Slap.Properties.Resources.fedexLogo;
+            this.pb_FedexLogo.Location = new System.Drawing.Point(453, 0);
+            this.pb_FedexLogo.Name = "pb_FedexLogo";
+            this.pb_FedexLogo.Size = new System.Drawing.Size(250, 100);
+            this.pb_FedexLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pb_FedexLogo.TabIndex = 0;
+            this.pb_FedexLogo.TabStop = false;
             // 
             // panel_Tab
             // 
@@ -89,16 +100,6 @@
             this.btn_MenuNewSort.UseVisualStyleBackColor = false;
             this.btn_MenuNewSort.Click += new System.EventHandler(this.btn_NewSort_Click);
             // 
-            // pb_FedexLogo
-            // 
-            this.pb_FedexLogo.Image = global::Slap.Properties.Resources.fedexLogo;
-            this.pb_FedexLogo.Location = new System.Drawing.Point(453, 0);
-            this.pb_FedexLogo.Name = "pb_FedexLogo";
-            this.pb_FedexLogo.Size = new System.Drawing.Size(250, 100);
-            this.pb_FedexLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pb_FedexLogo.TabIndex = 0;
-            this.pb_FedexLogo.TabStop = false;
-            // 
             // ctrl_NewSort_Input1
             // 
             this.ctrl_NewSort_Input1.Location = new System.Drawing.Point(0, 175);
@@ -106,12 +107,20 @@
             this.ctrl_NewSort_Input1.Size = new System.Drawing.Size(1200, 700);
             this.ctrl_NewSort_Input1.TabIndex = 2;
             // 
+            // ctrl_SortHistory1
+            // 
+            this.ctrl_SortHistory1.Location = new System.Drawing.Point(0, 175);
+            this.ctrl_SortHistory1.Name = "ctrl_SortHistory1";
+            this.ctrl_SortHistory1.Size = new System.Drawing.Size(1200, 700);
+            this.ctrl_SortHistory1.TabIndex = 3;
+            // 
             // Form_Slap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
             this.ClientSize = new System.Drawing.Size(1200, 875);
+            this.Controls.Add(this.ctrl_SortHistory1);
             this.Controls.Add(this.ctrl_NewSort_Input1);
             this.Controls.Add(this.panel_Tab);
             this.Controls.Add(this.panel_User);
@@ -121,8 +130,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FedEx SLaP - Sorting Large Parcels";
             this.panel_User.ResumeLayout(false);
-            this.panel_Tab.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pb_FedexLogo)).EndInit();
+            this.panel_Tab.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -135,6 +144,7 @@
         private System.Windows.Forms.Button btn_MenuSortHistory;
         private System.Windows.Forms.PictureBox pb_FedexLogo;
         private ctrl_NewSort_Input ctrl_NewSort_Input1;
+        private ctrl_SortHistory ctrl_SortHistory1;
     }
 }
 
