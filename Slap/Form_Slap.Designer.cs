@@ -45,18 +45,18 @@
             this.panel_User.BackColor = System.Drawing.Color.White;
             this.panel_User.Controls.Add(this.pb_FedexLogo);
             this.panel_User.Location = new System.Drawing.Point(0, 0);
-            this.panel_User.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.panel_User.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel_User.Name = "panel_User";
-            this.panel_User.Size = new System.Drawing.Size(1350, 125);
+            this.panel_User.Size = new System.Drawing.Size(1200, 100);
             this.panel_User.TabIndex = 0;
             // 
             // pb_FedexLogo
             // 
             this.pb_FedexLogo.Image = global::Slap.Properties.Resources.fedexLogo;
-            this.pb_FedexLogo.Location = new System.Drawing.Point(510, 0);
-            this.pb_FedexLogo.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.pb_FedexLogo.Location = new System.Drawing.Point(453, 0);
+            this.pb_FedexLogo.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.pb_FedexLogo.Name = "pb_FedexLogo";
-            this.pb_FedexLogo.Size = new System.Drawing.Size(280, 125);
+            this.pb_FedexLogo.Size = new System.Drawing.Size(249, 100);
             this.pb_FedexLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb_FedexLogo.TabIndex = 0;
             this.pb_FedexLogo.TabStop = false;
@@ -65,10 +65,10 @@
             // 
             this.panel_Tab.Controls.Add(this.btn_MenuSortHistory);
             this.panel_Tab.Controls.Add(this.btn_MenuNewSort);
-            this.panel_Tab.Location = new System.Drawing.Point(0, 125);
-            this.panel_Tab.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.panel_Tab.Location = new System.Drawing.Point(0, 100);
+            this.panel_Tab.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel_Tab.Name = "panel_Tab";
-            this.panel_Tab.Size = new System.Drawing.Size(1350, 94);
+            this.panel_Tab.Size = new System.Drawing.Size(1200, 75);
             this.panel_Tab.TabIndex = 1;
             // 
             // btn_MenuSortHistory
@@ -79,10 +79,10 @@
             this.btn_MenuSortHistory.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.btn_MenuSortHistory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_MenuSortHistory.Font = new System.Drawing.Font("DengXian", 15F, System.Drawing.FontStyle.Bold);
-            this.btn_MenuSortHistory.Location = new System.Drawing.Point(675, 0);
-            this.btn_MenuSortHistory.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.btn_MenuSortHistory.Location = new System.Drawing.Point(600, 0);
+            this.btn_MenuSortHistory.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_MenuSortHistory.Name = "btn_MenuSortHistory";
-            this.btn_MenuSortHistory.Size = new System.Drawing.Size(675, 94);
+            this.btn_MenuSortHistory.Size = new System.Drawing.Size(600, 75);
             this.btn_MenuSortHistory.TabIndex = 3;
             this.btn_MenuSortHistory.Text = "SORT HISTORY";
             this.btn_MenuSortHistory.UseVisualStyleBackColor = false;
@@ -97,9 +97,9 @@
             this.btn_MenuNewSort.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_MenuNewSort.Font = new System.Drawing.Font("DengXian", 15F, System.Drawing.FontStyle.Bold);
             this.btn_MenuNewSort.Location = new System.Drawing.Point(0, 0);
-            this.btn_MenuNewSort.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.btn_MenuNewSort.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_MenuNewSort.Name = "btn_MenuNewSort";
-            this.btn_MenuNewSort.Size = new System.Drawing.Size(675, 94);
+            this.btn_MenuNewSort.Size = new System.Drawing.Size(600, 75);
             this.btn_MenuNewSort.TabIndex = 2;
             this.btn_MenuNewSort.Text = "NEW SORT";
             this.btn_MenuNewSort.UseVisualStyleBackColor = false;
@@ -107,37 +107,35 @@
             // 
             // ctrl_SortHistory1
             // 
-            this.ctrl_SortHistory1.Location = new System.Drawing.Point(0, 218);
-            this.ctrl_SortHistory1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.ctrl_SortHistory1.Location = new System.Drawing.Point(0, 174);
+            this.ctrl_SortHistory1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ctrl_SortHistory1.Name = "ctrl_SortHistory1";
-            this.ctrl_SortHistory1.Size = new System.Drawing.Size(1350, 875);
+            this.ctrl_SortHistory1.Size = new System.Drawing.Size(1200, 700);
             this.ctrl_SortHistory1.TabIndex = 3;
             // 
             // ctrl_NewSort_Input1
             // 
-            this.ctrl_NewSort_Input1.Location = new System.Drawing.Point(0, 218);
-            this.ctrl_NewSort_Input1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.ctrl_NewSort_Input1.Location = new System.Drawing.Point(0, 174);
+            this.ctrl_NewSort_Input1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ctrl_NewSort_Input1.Name = "ctrl_NewSort_Input1";
-            this.ctrl_NewSort_Input1.Size = new System.Drawing.Size(1350, 875);
+            this.ctrl_NewSort_Input1.Size = new System.Drawing.Size(1200, 700);
             this.ctrl_NewSort_Input1.TabIndex = 2;
             // 
             // Form_Slap
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(235)))), ((int)(((byte)(235)))));
-            this.ClientSize = new System.Drawing.Size(1284, 702);
+            this.ClientSize = new System.Drawing.Size(1200, 850);
             this.Controls.Add(this.ctrl_SortHistory1);
             this.Controls.Add(this.ctrl_NewSort_Input1);
             this.Controls.Add(this.panel_Tab);
             this.Controls.Add(this.panel_User);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.MaximizeBox = false;
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "Form_Slap";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FedEx SLaP - Sorting Large Parcels";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.panel_User.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pb_FedexLogo)).EndInit();
             this.panel_Tab.ResumeLayout(false);

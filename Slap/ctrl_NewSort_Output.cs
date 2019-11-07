@@ -563,9 +563,6 @@ namespace Slap
             // delete local copy
             DeleteFileFolder(floorPlanFileName);
             DeleteFileFolder(sortPlanFileName);
-
-            //Deleting root folder
-            //DeleteFolder(databasePath);
         }
 
         private void GeneratePDF_FloorPlan(string filePath, string dateTimeStr)

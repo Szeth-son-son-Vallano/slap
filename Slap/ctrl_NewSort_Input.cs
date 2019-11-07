@@ -54,9 +54,9 @@ namespace Slap
                 string[] strList = fileData[0].Split(separator);
                 string fileName = strList[strList.GetUpperBound(0)];
 
-                string[] fileType = fileName.Split('.');
+                string fileType = System.IO.Path.GetExtension(fileName);
 
-                if (fileType[fileType.GetUpperBound(0)] == "csv")
+                if (fileType.ToLower().Equals(".csv"))
                 {
                     parcelListReady = true;
                     ParcelData = fileData;
@@ -80,9 +80,9 @@ namespace Slap
                 string[] strList = fileData[0].Split(separator);
                 string fileName = strList[strList.GetUpperBound(0)];
 
-                string[] fileType = fileName.Split('.');
+                string fileType = System.IO.Path.GetExtension(fileName);
 
-                if (fileType[fileType.GetUpperBound(0)] == "csv")
+                if (fileType.ToLower().Equals(".csv"))
                 {
                     routeListReady = true;
                     RouteData = fileData;
