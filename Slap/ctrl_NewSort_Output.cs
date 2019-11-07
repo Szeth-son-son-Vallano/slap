@@ -11,6 +11,12 @@ using static iTextSharp.text.Font;
 using ZXing;
 using System.Drawing;
 using ZXing.QrCode;
+using System.IO.Compression;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Drive.v3;
+using Google.Apis.Services;
+using Google.Apis.Util.Store;
+using System.Threading;
 
 namespace Slap
 {
@@ -26,7 +32,11 @@ namespace Slap
         private List<List<string>> routesList;
         private List<RouteGroup> routeGroupList;
         private List<RouteGroup> sortedRouteGroupList;
-        
+
+        //Google Drive API
+        private static string[] scopes = { DriveService.Scope.Drive };
+        private static string appname = "GoogleDriveAPIStart";
+
         public ctrl_NewSort_Output()
         {
             InitializeComponent();
@@ -61,7 +71,7 @@ namespace Slap
         {
             Hide();
         }
-        
+
         // On Click functions for Individual File Download
         private void pb_DL_ParcelList_MouseDown(object sender, MouseEventArgs e)
         {
@@ -140,7 +150,7 @@ namespace Slap
 
                 // first line to create header
                 Regex CSVParser = new Regex(",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
-                
+
                 string[] headerLabels = CSVParser.Split(txtDataLines[0]);
 
                 for (int i = 0; i < headerLabels.Length; i++)
@@ -234,7 +244,7 @@ namespace Slap
                             Parcel parcel = new Parcel(
                                 AWB, ConsigneeCompany, ConsigneeAddress, ConsigneePostal,
                                 SelectCd, DestLocCd, CourierRoute, PieceQty, KiloWgt);
-                            
+
                             parcelArray[row - 1] = parcel;
                         }
                         catch (Exception e)
@@ -372,9 +382,9 @@ namespace Slap
 
             // iterate throuch each RouteGroup
             // collect all routes into one dictionary
-            foreach(RouteGroup routeGroup in routeGroupList)
+            foreach (RouteGroup routeGroup in routeGroupList)
             {
-                foreach(string courierRoute in routeGroup.CourierRoutes)
+                foreach (string courierRoute in routeGroup.CourierRoutes)
                 {
                     routeGroupRoutesDict.Add(courierRoute, routeGroup.RouteGroupID);
                 }
@@ -382,7 +392,7 @@ namespace Slap
 
             // iterate through each parcel to be sorted into routeGroups
             // assign parcels to routegroups
-            foreach(Parcel parcel in filteredParcelList)
+            foreach (Parcel parcel in filteredParcelList)
             {
                 if (routeGroupRoutesDict.ContainsKey(parcel.CourierRoute))
                 {
@@ -405,9 +415,9 @@ namespace Slap
             sortedRouteGroupList = new List<RouteGroup>();
 
             char lane = 'A';
-            foreach(RouteGroup routeGroup in routeGroupList)
+            foreach (RouteGroup routeGroup in routeGroupList)
             {
-                foreach(Parcel parcel in routeGroup.ParcelList)
+                foreach (Parcel parcel in routeGroup.ParcelList)
                 {
                     routeGroup.LaneEstimateVolumeCur += parcel.EstimatedVol;
                 }
@@ -416,7 +426,7 @@ namespace Slap
                 int numOfLanes = (int)Math.Ceiling(routeGroup.LaneEstimateVolumeCur / routeGroup.LaneEstimateVolumeMax);
                 string lanes = "";
 
-                if(routeGroup.RouteGroupID == 0)
+                if (routeGroup.RouteGroupID == 0)
                 {
                     lanes = "HOLD";
                     routeGroup.Lanes = lanes;
@@ -424,20 +434,20 @@ namespace Slap
                 }
                 else
                 {
-                    for(int i = 0; i < numOfLanes; i++)
+                    for (int i = 0; i < numOfLanes; i++)
                     {
                         lanes += lane;
                         lane++;
                     }
 
-                    if(!lanes.Equals(""))
+                    if (!lanes.Equals(""))
                     {
                         routeGroup.Lanes = lanes;
                         sortedRouteGroupList.Add(routeGroup);
                     }
                 }
 
-                foreach(Parcel parcel in routeGroup.ParcelList)
+                foreach (Parcel parcel in routeGroup.ParcelList)
                 {
                     parcel.Lanes = lanes;
                 }
@@ -445,13 +455,13 @@ namespace Slap
                 // print console for debugging purposes
                 Console.WriteLine("RouteGroup: " + routeGroup.RouteGroupID);
                 string routesConsole = "";
-                foreach(string route in routeGroup.CourierRoutes)
+                foreach (string route in routeGroup.CourierRoutes)
                 {
                     routesConsole += route + " ";
                 }
                 Console.WriteLine("Routes: " + routesConsole);
                 double kiloWgtConsole = 0.0;
-                foreach(Parcel parcel in routeGroup.ParcelList)
+                foreach (Parcel parcel in routeGroup.ParcelList)
                 {
                     kiloWgtConsole += parcel.KiloWgt;
                 }
@@ -513,8 +523,8 @@ namespace Slap
             // handle file and folder locations
             string startPath = Application.StartupPath;
 
-            string databasePath = Path.GetFullPath(Path.Combine(startPath, @"C:\Users\wongz\OneDrive\Desktop\Slap Database"));
-            //string databasePath = Path.GetFullPath(Path.Combine(startPath, @"C:\Users\mxian\Desktop\Slap Database"));
+            //string databasePath = Path.GetFullPath(Path.Combine(startPath, @"C:\Users\wongz\OneDrive\Desktop\Slap Database"));
+            string databasePath = Path.GetFullPath(Path.Combine(startPath, @"C:\Users\mxian\Desktop\Slap Database"));
 
             string folderPath = System.IO.Path.Combine(databasePath, day);
 
@@ -540,6 +550,17 @@ namespace Slap
             // generate PDF files
             GeneratePDF_FloorPlan(floorPlanFileName, dateTimeStr);
             GeneratePDF_SortPlan(sortPlanFileName, dateTimeStr);
+
+            //Google API
+            String folderID = GenerateFolder(day, sortNumber.ToString());
+
+            //Upload floorPlan and sortPlan
+            UploadPdf(floorPlanFileName, Path.GetFileName(floorPlanFileName), folderID);
+            UploadPdf(sortPlanFileName, Path.GetFileName(sortPlanFileName), folderID);
+
+            //Deleting root folder
+            //DeleteFolder(databasePath);
+
         }
 
         private void GeneratePDF_FloorPlan(string fileName, string dateTimeStr)
@@ -583,11 +604,11 @@ namespace Slap
             // fill in the used lanes
             int currentLane = 0;
             float minimumHeight = 25.0f;
-            foreach(RouteGroup routeGroup in sortedRouteGroupList)
+            foreach (RouteGroup routeGroup in sortedRouteGroupList)
             {
                 if (!routeGroup.Lanes.Equals("HOLD"))
                 {
-                    foreach(char lane in routeGroup.Lanes)
+                    foreach (char lane in routeGroup.Lanes)
                     {
                         PdfPCell cellLane = new PdfPCell(new Phrase(Char.ToString(lane), font))
                         {
@@ -620,7 +641,7 @@ namespace Slap
             }
 
             // fill in the empty lanes
-            for(int i = currentLane; i < gridCols - 4; i++, currentLane++)
+            for (int i = currentLane; i < gridCols - 4; i++, currentLane++)
             {
                 PdfPCell cellLane = new PdfPCell(new Phrase(Char.ToString((char)(currentLane + 65)), font))
                 {
@@ -645,7 +666,7 @@ namespace Slap
             // fill in the holding lanes
             if (sortedRouteGroupList[0].Lanes.Equals("HOLD"))
             {
-                for(int col = 0; col < 4; col++)
+                for (int col = 0; col < 4; col++)
                 {
                     PdfPCell cellLane = new PdfPCell(new Phrase(sortedRouteGroupList[0].Lanes, font))
                     {
@@ -717,7 +738,7 @@ namespace Slap
                 image.ScaleToFit(150.0F, 50.0F);
                 image.Alignment = Element.ALIGN_CENTER;
 
-                PdfPCell imgCell = new PdfPCell(){ PaddingLeft = 5, PaddingRight = 5 };
+                PdfPCell imgCell = new PdfPCell() { PaddingLeft = 5, PaddingRight = 5 };
                 imgCell.AddElement(image);
 
                 table.AddCell(sortedParcelList[i].Lanes);
@@ -729,6 +750,117 @@ namespace Slap
 
             doc.Close();
             writer.Close();
+        }
+
+        private void Zip_File(string folderPath, string fileName, string storagePath)
+        {
+            try
+            {
+                if (Directory.Exists(storagePath))
+                {
+
+                }
+
+                else
+                {
+                    Directory.CreateDirectory(storagePath);
+                }
+
+                ZipFile.CreateFromDirectory(folderPath, fileName);
+
+            }
+            catch (Exception)
+            {
+                //If system throw any exception message box will display "SOME ERROR"  
+                MessageBox.Show("Some Error");
+            }
+
+            MessageBox.Show("Zip Filename : " + fileName + " Created Successfully");
+        }
+
+
+        private string GenerateFolder(string day, string sortNumber)
+        {
+            UserCredential credential = GetUserCredential();
+
+            DriveService service = GetDriveService(credential);
+
+            //Folder ID
+            string folderID = CreateFolder(service, day, sortNumber);
+
+            return folderID;
+        }
+
+        private UserCredential GetUserCredential()
+        {
+            using(var stream = new FileStream("client_secret.json", FileMode.Open, FileAccess.Read))
+            {
+                string creadPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+
+                creadPath = Path.Combine(creadPath, "driveApiCredentials", "drive-credentials.json");
+
+                return GoogleWebAuthorizationBroker.AuthorizeAsync(
+                    GoogleClientSecrets.Load(stream).Secrets, scopes, 
+                    "User", 
+                    CancellationToken.None, 
+                    new FileDataStore(creadPath, true)).Result;
+            }
+        }
+
+        private DriveService GetDriveService(UserCredential credential)
+        {
+            return new DriveService(new BaseClientService.Initializer
+            {
+                HttpClientInitializer = credential,
+                ApplicationName = appname
+            });
+        }
+
+        private string CreateFolder(DriveService service, string day, string sortNumber)
+        {
+            var fileMetadata = new Google.Apis.Drive.v3.Data.File()
+            {
+                Name = day + "_" + sortNumber,
+                MimeType = "application/vnd.google-apps.folder"
+            };
+
+            var request = service.Files.Create(fileMetadata);
+            request.Fields = "id";
+
+            var file = request.Execute();
+
+            return file.Id;
+        }
+
+        private void UploadPdf(string floorPlanPath, string fileName, string folderID)
+        {
+            UserCredential credential = GetUserCredential();
+
+            DriveService service = GetDriveService(credential);
+
+            var fileMetadata = new Google.Apis.Drive.v3.Data.File();
+            fileMetadata.Name = fileName;
+            fileMetadata.Parents = new List<String> { folderID };
+
+            FilesResource.CreateMediaUpload request;
+
+            using (var stream = new FileStream(floorPlanPath, FileMode.Open))
+            {
+                request = service.Files.Create(fileMetadata, stream, "application/pdf");
+                request.Upload();
+            }
+
+            var file = request.ResponseBody;
+
+            //MessageBox.Show(file.Id);
+        }
+
+        private void DeleteFolder(string path)
+        {
+            if(Directory.Exists(path))
+            {
+                Directory.Delete(path);
+            }
         }
     }
 }
