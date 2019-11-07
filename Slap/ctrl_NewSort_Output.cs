@@ -12,11 +12,7 @@ using ZXing;
 using System.Drawing;
 using ZXing.QrCode;
 using System.IO.Compression;
-using Google.Apis.Auth.OAuth2;
 using Google.Apis.Drive.v3;
-using Google.Apis.Services;
-using Google.Apis.Util.Store;
-using System.Threading;
 
 namespace Slap
 {
@@ -32,10 +28,6 @@ namespace Slap
         private List<List<string>> routesList;
         private List<RouteGroup> routeGroupList;
         private List<RouteGroup> sortedRouteGroupList;
-
-        //Google Drive API
-        private static string[] scopes = { DriveService.Scope.Drive };
-        private static string appname = "GoogleDriveAPIStart";
 
         public ctrl_NewSort_Output()
         {
@@ -267,31 +259,31 @@ namespace Slap
 
         private void ReadRoutes()
         {
-            // given values
-            //routeList.Add(new List<string> { "835", "837", "839" });
-            //routeList.Add(new List<string> { "850", "857", "859" });
-            //routeList.Add(new List<string> { "823", "833" });
-            //routeList.Add(new List<string> { "815" });
-            //routeList.Add(new List<string> { "860", "863", "865" });
-            //routeList.Add(new List<string> { "872", "875", "877" });
-            //routeList.Add(new List<string> { "880", "883", "885", "890", "893", "895" });
-            //routeList.Add(new List<string> { "XKLA" });
-            //routeList.Add(new List<string> { "KULAAA" });
-            //routeList.Add(new List<string> { "KULBK+" });
-            //routeList.Add(new List<string> { "RAWANG" });
+            //routesList.Add(new List<string> { "810", "811", "812", "813", "814", "815", "816", "817", "818", "819" });
+            //routesList.Add(new List<string> { "820", "821", "822", "823", "824" });
+            //routesList.Add(new List<string> { "835", "836", "837", "838", "839" });
+            //routesList.Add(new List<string> { "850", "851", "852", "853", "854", "855", "856", "857", "858", "859" });
+            //routesList.Add(new List<string> { "860", "861", "862", "863", "864", "865", "866", "867", "868", "869" });
+            //routesList.Add(new List<string> { "870", "871", "872", "873", "874", "875", "876", "877", "878", "879" });
+            //routesList.Add(new List<string> {
+            //    "880", "881", "882", "883", "884", "885", "886", "887", "888", "889",
+            //    "890", "891", "892", "893", "894", "895", "896", "897", "898", "899" });
+
+            //routesList.Add(new List<string> { "XKLA" });
+            //routesList.Add(new List<string> { "KULAAA" });
+            //routesList.Add(new List<string> { "KULBK+" });
+            //routesList.Add(new List<string> { "RAWANG" });
 
             routesList = new List<List<string>>();
-
-            routesList.Add(new List<string> { "810", "811", "812", "813", "814", "815", "816", "817", "818", "819" });
-            routesList.Add(new List<string> { "820", "821", "822", "823", "824" });
-            routesList.Add(new List<string> { "835", "836", "837", "838", "839" });
-            routesList.Add(new List<string> { "850", "851", "852", "853", "854", "855", "856", "857", "858", "859" });
-            routesList.Add(new List<string> { "860", "861", "862", "863", "864", "865", "866", "867", "868", "869" });
-            routesList.Add(new List<string> { "870", "871", "872", "873", "874", "875", "876", "877", "878", "879" });
-            routesList.Add(new List<string> {
-                "880", "881", "882", "883", "884", "885", "886", "887", "888", "889",
-                "890", "891", "892", "893", "894", "895", "896", "897", "898", "899" });
-
+            
+            // given values
+            routesList.Add(new List<string> { "835", "837", "839" });
+            routesList.Add(new List<string> { "850", "857", "859" });
+            routesList.Add(new List<string> { "823", "833" });
+            routesList.Add(new List<string> { "815" });
+            routesList.Add(new List<string> { "860", "863", "865" });
+            routesList.Add(new List<string> { "872", "875", "877" });
+            routesList.Add(new List<string> { "880", "883", "885", "890", "893", "895" });
             routesList.Add(new List<string> { "XKLA" });
             routesList.Add(new List<string> { "KULAAA" });
             routesList.Add(new List<string> { "KULBK+" });
@@ -471,7 +463,7 @@ namespace Slap
             }
 
             DisplayParcels();
-            CreateFolder();
+            InitializeFileUpload();
         }
 
         private void DisplayParcels()
@@ -510,63 +502,76 @@ namespace Slap
             dgv_FileData.DataSource = dt;
         }
 
-        private void CreateFolder()
+        private void InitializeFileUpload()
         {
             // get current date time
-            DateTime dateTime = DateTime.Now;
-            String dateTimeStr = dateTime.ToString("dddd, dd MMMM yyyy - HH:mm");
-            string day = dateTime.ToString("yyyyMMdd");
-            String dateTimeNum = dateTime.ToString("yyyyMMdd_HHmmss");
-            String floorPlanFileName = dateTimeNum + "_FloorPlan" + ".pdf";
-            String sortPlanFileName = dateTimeNum + "_SortPlan" + ".pdf";
+            DateTime now = DateTime.Now;
+            string dateStr = now.ToString("yyyyMMdd");
+            string timeStr = now.ToString("HHmmss");
+            string dateTimeDisplay = now.ToString("dddd, dd MMMM yyyy - hh:mm tt");
 
-            // handle file and folder locations
-            string startPath = Application.StartupPath;
-
+            //// handle file and folder locations
+            //string startPath = Application.StartupPath;
             //string databasePath = Path.GetFullPath(Path.Combine(startPath, @"C:\Users\wongz\OneDrive\Desktop\Slap Database"));
-            string databasePath = Path.GetFullPath(Path.Combine(startPath, @"C:\Users\mxian\Desktop\Slap Database"));
+            ////string databasePath = Path.GetFullPath(Path.Combine(startPath, @"C:\Users\mxian\Desktop\Slap Database"));
 
-            string folderPath = System.IO.Path.Combine(databasePath, day);
+            //string folderPath = System.IO.Path.Combine(databasePath, dateStr);
 
-            int sortNumber = 1;
-            string sortNumberPath;
-            while (true)
+            //int sortNumber = 1;
+            //string sortNumberPath;
+            //while (true)
+            //{
+            //    sortNumberPath = System.IO.Path.Combine(folderPath, sortNumber.ToString());
+            //    if (Directory.Exists(sortNumberPath))
+            //    {
+            //        sortNumber++;
+            //    }
+            //    else
+            //    {
+            //        break;
+            //    }
+            //}
+
+            //floorPlanFilePath = System.IO.Path.Combine(sortNumberPath, floorPlanFilePath);
+            //sortPlanFilePath = System.IO.Path.Combine(sortNumberPath, sortPlanFilePath);
+
+            //System.IO.Directory.CreateDirectory(sortNumberPath);
+
+            // determine Sort Number
+            string folderName = "";
+            bool folderExists = true;
+            int sortNumber = 0;
+            while (folderExists)
             {
-                sortNumberPath = System.IO.Path.Combine(folderPath, sortNumber.ToString());
-                if (Directory.Exists(sortNumberPath))
-                {
-                    sortNumber++;
-                }
-                else
-                {
-                    break;
-                }
+                sortNumber++;
+                folderName = dateStr + "_" + sortNumber.ToString();
+                folderExists = GoogleDrive.FindFileFolder(folderName);
             }
-            floorPlanFileName = System.IO.Path.Combine(sortNumberPath, floorPlanFileName);
-            sortPlanFileName = System.IO.Path.Combine(sortNumberPath, sortPlanFileName);
 
-            System.IO.Directory.CreateDirectory(sortNumberPath);
+            string floorPlanFileName = folderName + "_" + timeStr + "_FloorPlan.pdf";
+            string sortPlanFileName = folderName + "_" + timeStr + "_SortPlan.pdf";
 
             // generate PDF files
-            GeneratePDF_FloorPlan(floorPlanFileName, dateTimeStr);
-            GeneratePDF_SortPlan(sortPlanFileName, dateTimeStr);
+            GeneratePDF_FloorPlan(floorPlanFileName, dateTimeDisplay);
+            GeneratePDF_SortPlan(sortPlanFileName, dateTimeDisplay);
 
-            //Google API
-            String folderID = GenerateFolder(day, sortNumber.ToString());
+            // Google Drive
+            string folderID = GoogleDrive.CreateFolder(dateStr + sortNumber.ToString());
+            GoogleDrive.UploadPdf(floorPlanFileName, Path.GetFileName(floorPlanFileName), folderID);
+            GoogleDrive.UploadPdf(sortPlanFileName, Path.GetFileName(sortPlanFileName), folderID);
 
-            //Upload floorPlan and sortPlan
-            UploadPdf(floorPlanFileName, Path.GetFileName(floorPlanFileName), folderID);
-            UploadPdf(sortPlanFileName, Path.GetFileName(sortPlanFileName), folderID);
+            // delete local copy
+            DeleteFileFolder(floorPlanFileName);
+            DeleteFileFolder(sortPlanFileName);
 
             //Deleting root folder
             //DeleteFolder(databasePath);
-
         }
 
-        private void GeneratePDF_FloorPlan(string fileName, string dateTimeStr)
+        private void GeneratePDF_FloorPlan(string filePath, string dateTimeStr)
         {
             // create PDF file
-            FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None);
+            FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
             Document doc = new Document();
             PdfWriter writer = PdfWriter.GetInstance(doc, fs);
             doc.Open();
@@ -696,10 +701,10 @@ namespace Slap
             writer.Close();
         }
 
-        private void GeneratePDF_SortPlan(string fileName, string dateTimeStr)
+        private void GeneratePDF_SortPlan(string filePath, string dateTimeStr)
         {
             // create PDF file
-            FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None);
+            FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
             Document doc = new Document();
             PdfWriter writer = PdfWriter.GetInstance(doc, fs);
 
@@ -778,85 +783,13 @@ namespace Slap
             MessageBox.Show("Zip Filename : " + fileName + " Created Successfully");
         }
 
-
-        private string GenerateFolder(string day, string sortNumber)
+        private void DeleteFileFolder(string path)
         {
-            UserCredential credential = GetUserCredential();
-
-            DriveService service = GetDriveService(credential);
-
-            //Folder ID
-            string folderID = CreateFolder(service, day, sortNumber);
-
-            return folderID;
-        }
-
-        private UserCredential GetUserCredential()
-        {
-            using(var stream = new FileStream("client_secret.json", FileMode.Open, FileAccess.Read))
+            if (File.Exists(path))
             {
-                string creadPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-
-                creadPath = Path.Combine(creadPath, "driveApiCredentials", "drive-credentials.json");
-
-                return GoogleWebAuthorizationBroker.AuthorizeAsync(
-                    GoogleClientSecrets.Load(stream).Secrets, scopes, 
-                    "User", 
-                    CancellationToken.None, 
-                    new FileDataStore(creadPath, true)).Result;
-            }
-        }
-
-        private DriveService GetDriveService(UserCredential credential)
-        {
-            return new DriveService(new BaseClientService.Initializer
-            {
-                HttpClientInitializer = credential,
-                ApplicationName = appname
-            });
-        }
-
-        private string CreateFolder(DriveService service, string day, string sortNumber)
-        {
-            var fileMetadata = new Google.Apis.Drive.v3.Data.File()
-            {
-                Name = day + "_" + sortNumber,
-                MimeType = "application/vnd.google-apps.folder"
-            };
-
-            var request = service.Files.Create(fileMetadata);
-            request.Fields = "id";
-
-            var file = request.Execute();
-
-            return file.Id;
-        }
-
-        private void UploadPdf(string floorPlanPath, string fileName, string folderID)
-        {
-            UserCredential credential = GetUserCredential();
-
-            DriveService service = GetDriveService(credential);
-
-            var fileMetadata = new Google.Apis.Drive.v3.Data.File();
-            fileMetadata.Name = fileName;
-            fileMetadata.Parents = new List<String> { folderID };
-
-            FilesResource.CreateMediaUpload request;
-
-            using (var stream = new FileStream(floorPlanPath, FileMode.Open))
-            {
-                request = service.Files.Create(fileMetadata, stream, "application/pdf");
-                request.Upload();
+                File.Delete(path);
             }
 
-            var file = request.ResponseBody;
-
-            //MessageBox.Show(file.Id);
-        }
-
-        private void DeleteFolder(string path)
-        {
             if(Directory.Exists(path))
             {
                 Directory.Delete(path);

@@ -108,7 +108,7 @@
     <Compile Include="Form_Slap.Designer.cs">
       <DependentUpon>Form_Slap.cs</DependentUpon>
     </Compile>
-    <Compile Include="LaneComparer.cs" />
+    <Compile Include="GoogleDrive.cs" />
     <Compile Include="RoundedButton.cs">
       <SubType>Component</SubType>
     </Compile>
