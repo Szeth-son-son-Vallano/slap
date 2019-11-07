@@ -544,7 +544,7 @@ namespace Slap
             while (folderExists)
             {
                 sortNumber++;
-                folderName = dateStr + "_" + sortNumber.ToString();
+                folderName = dateStr + "_Sort" + sortNumber.ToString();
                 folderExists = GoogleDrive.FindFileFolder(folderName);
             }
 
@@ -609,6 +609,7 @@ namespace Slap
             // fill in the used lanes
             int currentLane = 0;
             float minimumHeight = 25.0f;
+            bool insertTitle = false;
             foreach (RouteGroup routeGroup in sortedRouteGroupList)
             {
                 if (!routeGroup.Lanes.Equals("HOLD"))
@@ -634,10 +635,10 @@ namespace Slap
                             };
                             table.AddCell(cell);
 
-
-                            if (routeGroup.RouteGroupID == 1 && row == gridRows - 1)
+                            if (!insertTitle && row == gridRows - 1)
                             {
                                 table.AddCell(titleCell);
+                                insertTitle = true;
                             }
                         }
                         currentLane++;
