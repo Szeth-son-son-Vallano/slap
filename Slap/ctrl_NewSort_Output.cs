@@ -556,7 +556,7 @@ namespace Slap
             GeneratePDF_SortPlan(sortPlanFileName, dateTimeDisplay);
 
             // Google Drive
-            string folderID = GoogleDrive.CreateFolder(dateStr + sortNumber.ToString());
+            string folderID = GoogleDrive.CreateFolder(folderName);
             GoogleDrive.UploadPdf(floorPlanFileName, Path.GetFileName(floorPlanFileName), folderID);
             GoogleDrive.UploadPdf(sortPlanFileName, Path.GetFileName(sortPlanFileName), folderID);
 
