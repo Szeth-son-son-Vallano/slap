@@ -44,16 +44,8 @@ namespace Slap
 
         private void Form_Slap_Resize(object sender, EventArgs e)
         {
-            if(WindowState == FormWindowState.Maximized)
-            {
-                btn_MenuNewSort.Width = Size.Width / 2;
-                btn_MenuSortHistory.Width = Size.Width / 2;
-            }
-            else if (WindowState == FormWindowState.Normal)
-            {
-                btn_MenuNewSort.Width = Size.Width / 2;
-                btn_MenuSortHistory.Width = Size.Width / 2;
-            }
+            btn_MenuNewSort.Width = Size.Width / 2;
+            btn_MenuSortHistory.Width = Size.Width / 2;
         }
     }
 }

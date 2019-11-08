@@ -140,7 +140,6 @@
             this.Controls.Add(this.ctrl_NewSort_Input1);
             this.Controls.Add(this.panel_Tab);
             this.Controls.Add(this.panel_User);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "Form_Slap";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
