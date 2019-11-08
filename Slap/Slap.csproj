@@ -194,5 +194,14 @@
   <ItemGroup>
     <None Include="Resources\search.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\giphy.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\zipGray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\zipOrange.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

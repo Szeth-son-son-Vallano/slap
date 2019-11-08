@@ -57,11 +57,10 @@ namespace Slap
                 var request = service.Files.List();
 
                 // Query to search for file/folder
-                request.Q = 
+                request.Q =
                     "name contains '" + folderName + "' and " +
                     "mimeType = 'application/vnd.google-apps.folder'";
                 request.PageToken = pageToken;
-                //request.Fields = "nextPageToken, files(id, name, mimeType)";
 
                 var result = request.Execute();
 
@@ -82,11 +81,10 @@ namespace Slap
 
                 var request = service.Files.List();
 
-                request.Q = 
+                request.Q =
                     "name contains '" + folderName + "' and " +
                     "mimeType = 'application/vnd.google-apps.folder'";
                 request.PageToken = pageToken;
-                //request.Fields = "nextPageToken, files(id, name, mimeType)";
 
                 var result = request.Execute();
 
@@ -109,8 +107,6 @@ namespace Slap
                 var request = service.Files.List();
 
                 // Query to search for file/folder
-                MessageBox.Show(searchFileName);
-
                 request.Q =
                     "name contains '" + searchFileName + "' and " +
                     "(mimeType = 'application/pdf' or mimeType = 'application/vnd.ms-excel')";
@@ -178,18 +174,17 @@ namespace Slap
             }
         }
 
-        public static void DownloadFiles(string searchFileName)
+        public static List<string> DownloadFiles(string searchFileName)
         {
             using (DriveService service = GetDriveService())
             {
+                List<string> filePaths = new List<string>();
+
                 searchFileName = searchFileName + "_";
                 FileList fileList = FindFileIdList_Pdf_Csv(searchFileName);
-                MessageBox.Show(":" + searchFileName + ":");
 
-                string display = "";
                 foreach (var file in fileList.Files)
                 {
-                    display += file.Name + " ";
                     var request = service.Files.Get(file.Id);
 
                     using (var memoryStream = new MemoryStream())
@@ -203,26 +198,36 @@ namespace Slap
                                     break;
 
                                 case DownloadStatus.Completed:
-                                    //MessageBox.Show("Download Complete");
+                                    //MessageBox.Show("Download Complete: " + file.Name);
                                     break;
 
                                 case DownloadStatus.Failed:
-                                    //MessageBox.Show("Download failed");
+                                    //MessageBox.Show("Download failed: " + file.Name);
                                     break;
                             }
                         };
 
                         request.Download(memoryStream);
+                        string DownloadsPath = KnownFolders.GetPath(KnownFolder.Downloads);
+                        string fileName = file.Name;
 
-                        string fileName = Path.Combine(KnownFolders.GetPath(KnownFolder.Downloads), file.Name);
-                    
+                        int i = 0;
+                        while (System.IO.File.Exists(Path.Combine(DownloadsPath, fileName)))
+                        {
+                            i++;
+                            fileName = Path.GetFileNameWithoutExtension(file.Name) + "(" + i + ")" + Path.GetExtension(file.Name);
+                        }
+                        fileName = Path.Combine(DownloadsPath, fileName);
+
                         using (var fileStream = new FileStream(fileName, FileMode.Create, FileAccess.Write))
                         {
                             fileStream.Write(memoryStream.GetBuffer(), 0, memoryStream.GetBuffer().Length);
+
+                            filePaths.Add(fileName);
                         }
                     }
                 }
-                MessageBox.Show(display);
+                return filePaths;
             }
         }
     }

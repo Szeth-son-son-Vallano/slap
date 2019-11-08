@@ -589,7 +589,7 @@ namespace Slap
             while (folderExists)
             {
                 sortNumber++;
-                folderName = dateStr + "_Sort" + sortNumber.ToString();
+                folderName = dateStr + "_Sort" + sortNumber.ToString("D3");
                 folderExists = GoogleDrive.FindFolder(folderName);
             }
 
