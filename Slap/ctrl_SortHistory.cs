@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Data;
-using System.Linq;
 using System.Windows.Forms;
 using System.IO;
-using System.Text.RegularExpressions;
 using System.Collections.Generic;
-using System.Threading;
 using System.Drawing;
 using System.IO.Compression;
 
