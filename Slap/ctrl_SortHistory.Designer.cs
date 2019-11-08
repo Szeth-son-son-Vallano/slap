@@ -39,7 +39,7 @@
             this.pb_DL_RouteList = new System.Windows.Forms.PictureBox();
             this.pb_DL_ParcelList = new System.Windows.Forms.PictureBox();
             this.dgv_FileData = new System.Windows.Forms.DataGridView();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.dtp_SearchDate = new System.Windows.Forms.DateTimePicker();
             this.pb_Search = new System.Windows.Forms.PictureBox();
             this.btn_Clear = new BrbVideoManager.Controls.RoundedButton();
             this.btn_Download = new BrbVideoManager.Controls.RoundedButton();
@@ -164,14 +164,16 @@
             this.dgv_FileData.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dgv_FileData.Size = new System.Drawing.Size(800, 400);
             this.dgv_FileData.TabIndex = 14;
+            this.dgv_FileData.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Cell_Click);
             // 
-            // dateTimePicker1
+            // dtp_SearchDate
             // 
-            this.dateTimePicker1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F);
-            this.dateTimePicker1.Location = new System.Drawing.Point(50, 50);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(300, 25);
-            this.dateTimePicker1.TabIndex = 15;
+            this.dtp_SearchDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F);
+            this.dtp_SearchDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtp_SearchDate.Location = new System.Drawing.Point(50, 50);
+            this.dtp_SearchDate.Name = "dtp_SearchDate";
+            this.dtp_SearchDate.Size = new System.Drawing.Size(300, 25);
+            this.dtp_SearchDate.TabIndex = 15;
             // 
             // pb_Search
             // 
@@ -238,7 +240,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.btn_Clear);
             this.Controls.Add(this.pb_Search);
-            this.Controls.Add(this.dateTimePicker1);
+            this.Controls.Add(this.dtp_SearchDate);
             this.Controls.Add(this.lbl_SortPlan);
             this.Controls.Add(this.lbl_FloorPlan);
             this.Controls.Add(this.pb_DL_SortPlan);
@@ -274,7 +276,7 @@
         private System.Windows.Forms.PictureBox pb_DL_SortPlan;
         private System.Windows.Forms.PictureBox pb_DL_FloorPlan;
         private System.Windows.Forms.DataGridView dgv_FileData;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.DateTimePicker dtp_SearchDate;
         private System.Windows.Forms.PictureBox pb_Search;
         private BrbVideoManager.Controls.RoundedButton btn_Clear;
     }

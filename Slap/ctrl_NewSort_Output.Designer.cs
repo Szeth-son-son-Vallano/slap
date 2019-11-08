@@ -160,6 +160,7 @@
             // 
             // pb_DL_SortPlan
             // 
+            this.pb_DL_SortPlan.Enabled = false;
             this.pb_DL_SortPlan.Image = ((System.Drawing.Image)(resources.GetObject("pb_DL_SortPlan.Image")));
             this.pb_DL_SortPlan.Location = new System.Drawing.Point(1050, 325);
             this.pb_DL_SortPlan.Margin = new System.Windows.Forms.Padding(0);
@@ -173,6 +174,7 @@
             // 
             // pb_DL_FloorPlan
             // 
+            this.pb_DL_FloorPlan.Enabled = false;
             this.pb_DL_FloorPlan.Image = ((System.Drawing.Image)(resources.GetObject("pb_DL_FloorPlan.Image")));
             this.pb_DL_FloorPlan.Location = new System.Drawing.Point(900, 325);
             this.pb_DL_FloorPlan.Margin = new System.Windows.Forms.Padding(0);
@@ -186,6 +188,7 @@
             // 
             // pb_DL_RouteList
             // 
+            this.pb_DL_RouteList.Enabled = false;
             this.pb_DL_RouteList.Image = ((System.Drawing.Image)(resources.GetObject("pb_DL_RouteList.Image")));
             this.pb_DL_RouteList.Location = new System.Drawing.Point(1050, 100);
             this.pb_DL_RouteList.Margin = new System.Windows.Forms.Padding(0);
@@ -199,6 +202,7 @@
             // 
             // pb_DL_ParcelList
             // 
+            this.pb_DL_ParcelList.Enabled = false;
             this.pb_DL_ParcelList.Image = global::Slap.Properties.Resources.filePurple;
             this.pb_DL_ParcelList.Location = new System.Drawing.Point(900, 100);
             this.pb_DL_ParcelList.Margin = new System.Windows.Forms.Padding(0);

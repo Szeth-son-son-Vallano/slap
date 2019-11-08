@@ -15,6 +15,7 @@ namespace Slap
     {
         private bool parcelListReady = false;
         private bool routeListReady = false;
+        private string parcelFilePath = "", routeFilePath = "";
         private string[] ParcelData, RouteData;
 
         public ctrl_NewSort_Input()
@@ -50,17 +51,16 @@ namespace Slap
         {
             if (fileData.Length > 0)
             {
-                char[] separator = { '\\', '/' };
-                string[] strList = fileData[0].Split(separator);
-                string fileName = strList[strList.GetUpperBound(0)];
+                parcelFilePath = fileData[0];
+                string parcelFileName = Path.GetFileName(parcelFilePath);
 
-                string fileType = System.IO.Path.GetExtension(fileName);
+                string fileType = System.IO.Path.GetExtension(parcelFileName);
 
                 if (fileType.ToLower().Equals(".csv"))
                 {
                     parcelListReady = true;
                     ParcelData = fileData;
-                    lbl_ParcelListFile.Text = fileName;
+                    lbl_ParcelListFile.Text = parcelFileName;
                     pb_DND_ParcelList.Image = Properties.Resources.filePurpleFrame;
                 }
                 else
@@ -76,17 +76,16 @@ namespace Slap
         {
             if (fileData.Length > 0)
             {
-                char[] separator = { '\\', '/' };
-                string[] strList = fileData[0].Split(separator);
-                string fileName = strList[strList.GetUpperBound(0)];
+                routeFilePath = fileData[0];
+                string routeFileName = Path.GetFileName(routeFilePath);
 
-                string fileType = System.IO.Path.GetExtension(fileName);
+                string fileType = System.IO.Path.GetExtension(routeFileName);
 
                 if (fileType.ToLower().Equals(".csv"))
                 {
                     routeListReady = true;
                     RouteData = fileData;
-                    lbl_RouteListFile.Text = fileName;
+                    lbl_RouteListFile.Text = routeFileName;
                     pb_DND_RouteList.Image = Properties.Resources.filePurpleFrame;
                 }
                 else
@@ -106,7 +105,7 @@ namespace Slap
 
         private void pb_DND_RouteList_DragDrop(object sender, DragEventArgs e)
         {
-            string[] data = (string[])e.Data.GetData(DataFormats.FileDrop);
+            string[] data = e.Data.GetData(DataFormats.FileDrop) as string[];
             checkRouteListFileType(data);
         }
 
@@ -151,9 +150,10 @@ namespace Slap
             {
                 lbl_ErrorMessage.Text = "";
 
-                ctrl_NewSort_Output1.addData(ParcelData, RouteData);
-                bool successfulRead = ctrl_NewSort_Output1.ReadParcels();
-                if (successfulRead)
+                ctrl_NewSort_Output1.AddData(parcelFilePath, routeFilePath, ParcelData, RouteData);
+                bool successfulReadParcels = ctrl_NewSort_Output1.ReadParcels();
+                bool successfulReadRoutes = ctrl_NewSort_Output1.ReadRoutes();
+                if (successfulReadParcels && successfulReadRoutes)
                 {
                     ctrl_NewSort_Output1.Show();
                     Reset();

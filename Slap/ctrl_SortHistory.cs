@@ -4,13 +4,12 @@ using System.Linq;
 using System.Windows.Forms;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace Slap
 {
     public partial class ctrl_SortHistory : UserControl
     {
-        private string[] ParcelData, RouteData;
-        private Parcel[] parcelArray;
         private bool sortLoaded = false;
 
         public ctrl_SortHistory()
@@ -19,25 +18,35 @@ namespace Slap
             Reset();
         }
 
-        public void addData(string[] parcelData, string[] routeData)
-        {
-            ParcelData = parcelData;
-            RouteData = routeData;
-        }
-
         // reset
         private void Reset()
         {
             sortLoaded = false;
+
+            btn_Download.Enabled = false;
+            
+            pb_DL_ParcelList.Enabled = false;
+            pb_DL_RouteList.Enabled = false;
+            pb_DL_FloorPlan.Enabled = false;
+            pb_DL_SortPlan.Enabled = false;
+
             pb_DL_ParcelList.Image = Properties.Resources.fileGray;
             pb_DL_RouteList.Image = Properties.Resources.fileGray;
             pb_DL_FloorPlan.Image = Properties.Resources.fileGray;
             pb_DL_SortPlan.Image = Properties.Resources.fileGray;
         }
 
-        private void sortLoadedReset()
+        private void EnabledViewFile()
         {
             sortLoaded = true;
+
+            btn_Download.Enabled = true;
+
+            pb_DL_ParcelList.Enabled = true;
+            pb_DL_RouteList.Enabled = true;
+            pb_DL_FloorPlan.Enabled = true;
+            pb_DL_SortPlan.Enabled = true;
+
             pb_DL_ParcelList.Image = Properties.Resources.fileOrange;
             pb_DL_RouteList.Image = Properties.Resources.fileOrange;
             pb_DL_FloorPlan.Image = Properties.Resources.fileOrange;
@@ -47,12 +56,54 @@ namespace Slap
         // Download and Clear buttons
         private void pb_Search_Click(object sender, EventArgs e)
         {
-            sortLoadedReset();
+            string folderName = dtp_SearchDate.Value.ToString("yyyyMMdd") + "_Sort";
+
+            string pageToken = null;
+
+            var request = GoogleDrive.GetDriveService().Files.List();
+
+            //This is a query, to search for name of files/folder.
+            request.Q = "name contains '" + folderName + "' and mimeType ='application/vnd.google-apps.folder'";
+            request.Fields = "nextPageToken, files(name)";
+            request.PageToken = pageToken;
+
+            var result = request.Execute();
+
+            if (result.Files.Count > 0)
+            {
+                DataTable dt = new DataTable();
+
+                dt.Columns.Add("Folder Name");
+
+                foreach (Google.Apis.Drive.v3.Data.File file in result.Files)
+                {
+                    DataRow dr = dt.NewRow();
+                    dr["Folder Name"] = file.Name;
+
+                    dt.Rows.Add(dr);
+                }
+
+                dgv_FileData.DataSource = dt;
+                dgv_FileData.RowHeadersVisible = false;
+                dgv_FileData.Columns[0].Width = dgv_FileData.Width;
+            }
+        }
+
+        private void dgv_Cell_Click(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex != -1)
+            {
+                GoogleDrive.DownloadFiles(dgv_FileData.Rows[e.RowIndex].Cells[0].Value.ToString());
+                MessageBox.Show(dgv_FileData.Rows[e.RowIndex].Cells[0].Value.ToString());
+                EnabledViewFile();
+            }
+
         }
 
         private void btn_Download_MouseDown(object sender, MouseEventArgs e)
         {
             // . . .
+            GoogleDrive.DownloadFiles(""); 
         }
 
         private void btn_Clear_MouseDown(object sender, MouseEventArgs e)
@@ -124,106 +175,6 @@ namespace Slap
             {
                 pb_DL_SortPlan.Image = Properties.Resources.fileOrange;
             }
-        }
-
-        private void displayArray()
-        {
-            DataTable dt = new DataTable();
-            dt.Columns.Add(new DataColumn("AWB"));
-            dt.Columns.Add(new DataColumn("ConsigneeCompany"));
-            dt.Columns.Add(new DataColumn("ConsigneeAddress"));
-            dt.Columns.Add(new DataColumn("ConsigneePostal"));
-            dt.Columns.Add(new DataColumn("SelectCd"));
-            dt.Columns.Add(new DataColumn("Cleared"));
-            dt.Columns.Add(new DataColumn("DestLocCd"));
-            dt.Columns.Add(new DataColumn("CourierRoute"));
-            dt.Columns.Add(new DataColumn("PieceQty"));
-            dt.Columns.Add(new DataColumn("KiloWgt"));
-
-            for (int i = 0; i < parcelArray.Length; i++)
-            {
-                DataRow dr = dt.NewRow();
-                dr["AWB"] = parcelArray[i].AWB;
-                dr["ConsigneeCompany"] = parcelArray[i].ConsigneeCompany;
-                dr["ConsigneeAddress"] = parcelArray[i].ConsigneeAddress;
-                dr["ConsigneePostal"] = parcelArray[i].ConsigneePostal;
-                dr["SelectCd"] = parcelArray[i].SelectCd;
-                dr["Cleared"] = parcelArray[i].ClearedStatus;
-                dr["DestLocCd"] = parcelArray[i].DestLocCd;
-                dr["CourierRoute"] = parcelArray[i].CourierRoute;
-                dr["PieceQty"] = parcelArray[i].PieceQty;
-                dr["KiloWgt"] = parcelArray[i].KiloWgt;
-
-                dt.Rows.Add(dr);
-            }
-
-            dgv_FileData.DataSource = dt;
-
-            displaySortedArray();
-        }
-
-        private void displaySortedArray()
-        {
-            DataTable dt = new DataTable();
-
-            dt.Columns.Add(new DataColumn("AWB"));
-            dt.Columns.Add(new DataColumn("ConsigneeCompany"));
-            dt.Columns.Add(new DataColumn("ConsigneeAddress"));
-            dt.Columns.Add(new DataColumn("ConsigneePostal"));
-            dt.Columns.Add(new DataColumn("SelectCd"));
-            dt.Columns.Add(new DataColumn("Cleared"));
-            dt.Columns.Add(new DataColumn("DestLocCd"));
-            dt.Columns.Add(new DataColumn("CourierRoute"));
-            dt.Columns.Add(new DataColumn("PieceQty"));
-            dt.Columns.Add(new DataColumn("KiloWgt"));
-
-            for (int i = 0; i < parcelArray.Length; i++)
-            {
-                bool isBulk = false;
-                string[] DestLocCdToProcess = {"KUL","XKL"};
-
-                // check for Bulk requirements
-                if (DestLocCdToProcess.Contains(parcelArray[i].DestLocCd))
-                {
-                    // check for Quantity and KiloWeight
-                    if (parcelArray[i].PieceQty >= 50 ||
-                        (parcelArray[i].PieceQty == 1 && parcelArray[i].KiloWgt >= 34) ||
-                        (parcelArray[i].PieceQty > 1 && parcelArray[i].KiloWgt >= 225))
-                    {
-                        isBulk = true;
-                    }
-
-                    // check for multiple shipper to single Consignee Address
-                    for (int j = 0; j < parcelArray.Length; j++)
-                    {
-                        if (parcelArray[i].ConsigneeAddress == parcelArray[j].ConsigneeAddress &&
-                            parcelArray[i].AWB != parcelArray[j].AWB)
-                        {
-                            isBulk = true;
-                        }
-                    }
-                }
-
-                if (isBulk)
-                {
-                    DataRow dr = dt.NewRow();
-
-                    dr["AWB"] = parcelArray[i].AWB;
-                    dr["ConsigneeCompany"] = parcelArray[i].ConsigneeCompany;
-                    dr["ConsigneeAddress"] = parcelArray[i].ConsigneeAddress;
-                    dr["ConsigneePostal"] = parcelArray[i].ConsigneePostal;
-                    dr["SelectCd"] = parcelArray[i].SelectCd;
-                    dr["Cleared"] = parcelArray[i].ClearedStatus;
-                    dr["DestLocCd"] = parcelArray[i].DestLocCd;
-                    dr["CourierRoute"] = parcelArray[i].CourierRoute;
-                    dr["PieceQty"] = parcelArray[i].PieceQty;
-                    dr["KiloWgt"] = parcelArray[i].KiloWgt;
-
-                    dt.Rows.Add(dr);
-                }
-            }
-
-            dgv_FileData.DataSource = dt;
         }
     }
 }
