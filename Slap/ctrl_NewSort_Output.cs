@@ -5,12 +5,12 @@ using System.Windows.Forms;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using ZXing;
+using ZXing.QrCode;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using static iTextSharp.text.Font;
-using ZXing;
 using System.Drawing;
-using ZXing.QrCode;
 
 namespace Slap
 {
