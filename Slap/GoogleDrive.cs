@@ -155,47 +155,50 @@ namespace Slap
                 searchFileName = searchFileName + "_";
                 FileList fileList = FindFileIdList_Pdf_Csv(searchFileName);
 
-                foreach (var file in fileList.Files)
+                if (fileList != null)
                 {
-                    var request = service.Files.Get(file.Id);
-
-                    using (var memoryStream = new MemoryStream())
+                    foreach (var file in fileList.Files)
                     {
-                        request.MediaDownloader.ProgressChanged += (IDownloadProgress progress) =>
+                        var request = service.Files.Get(file.Id);
+
+                        using (var memoryStream = new MemoryStream())
                         {
-                            switch (progress.Status)
+                            request.MediaDownloader.ProgressChanged += (IDownloadProgress progress) =>
                             {
-                                case DownloadStatus.Downloading:
+                                switch (progress.Status)
+                                {
+                                    case DownloadStatus.Downloading:
                                     //MessageBox.Show(progress.BytesDownloaded.ToString());
                                     break;
 
-                                case DownloadStatus.Completed:
+                                    case DownloadStatus.Completed:
                                     //MessageBox.Show("Download Complete: " + file.Name);
                                     break;
 
-                                case DownloadStatus.Failed:
+                                    case DownloadStatus.Failed:
                                     //MessageBox.Show("Download failed: " + file.Name);
                                     break;
+                                }
+                            };
+
+                            request.Download(memoryStream);
+                            string DownloadsPath = KnownFolders.GetPath(KnownFolder.Downloads);
+                            string fileName = file.Name;
+
+                            int i = 0;
+                            while (System.IO.File.Exists(Path.Combine(DownloadsPath, fileName)))
+                            {
+                                i++;
+                                fileName = Path.GetFileNameWithoutExtension(file.Name) + "(" + i + ")" + Path.GetExtension(file.Name);
                             }
-                        };
+                            fileName = Path.Combine(DownloadsPath, fileName);
 
-                        request.Download(memoryStream);
-                        string DownloadsPath = KnownFolders.GetPath(KnownFolder.Downloads);
-                        string fileName = file.Name;
+                            using (var fileStream = new FileStream(fileName, FileMode.Create, FileAccess.Write))
+                            {
+                                fileStream.Write(memoryStream.GetBuffer(), 0, memoryStream.GetBuffer().Length);
 
-                        int i = 0;
-                        while (System.IO.File.Exists(Path.Combine(DownloadsPath, fileName)))
-                        {
-                            i++;
-                            fileName = Path.GetFileNameWithoutExtension(file.Name) + "(" + i + ")" + Path.GetExtension(file.Name);
-                        }
-                        fileName = Path.Combine(DownloadsPath, fileName);
-
-                        using (var fileStream = new FileStream(fileName, FileMode.Create, FileAccess.Write))
-                        {
-                            fileStream.Write(memoryStream.GetBuffer(), 0, memoryStream.GetBuffer().Length);
-
-                            filePaths.Add(fileName);
+                                filePaths.Add(fileName);
+                            }
                         }
                     }
                 }
