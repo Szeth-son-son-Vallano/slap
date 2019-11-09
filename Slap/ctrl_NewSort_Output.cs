@@ -693,6 +693,8 @@ namespace Slap
                 int currentLane = 0;
                 float minimumHeight = 25.0f;
                 bool insertTitle = false;
+                int colorShift = 1;
+
                 foreach (RouteGroup routeGroup in sortedRouteGroupList)
                 {
                     if (!routeGroup.Lanes.Equals("HOLD"))
@@ -714,9 +716,11 @@ namespace Slap
                                     Rotation = 270,
                                     Colspan = 1,
                                     MinimumHeight = minimumHeight,
-                                    BackgroundColor = SlapColor.Color[routeGroup.RouteGroupID]
+                                    BackgroundColor = SlapColor.Color[colorShift]
                                 };
+                                
                                 table.AddCell(cell);
+
 
                                 if (!insertTitle && row == gridRows - 1)
                                 {
@@ -726,6 +730,7 @@ namespace Slap
                             }
                             currentLane++;
                         }
+                        colorShift = (colorShift + 1) % SlapColor.Color.Count;
                     }
                 }
 
