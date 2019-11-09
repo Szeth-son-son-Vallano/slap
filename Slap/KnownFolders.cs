@@ -72,7 +72,7 @@ public static class KnownFolders
         [MarshalAs(UnmanagedType.LPStruct)]Guid rfid, uint dwFlags, IntPtr hToken,
         out IntPtr ppszPath);
 
-    [Flags]
+    [Flags] 
     private enum KnownFolderFlags : uint
     {
         SimpleIDList = 0x00000100,
