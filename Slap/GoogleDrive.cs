@@ -180,7 +180,7 @@ namespace Slap
                         };
 
                         request.Download(memoryStream);
-                        string DownloadsPath = KnownFolders.GetPath(KnownFolder.Downloads, true);
+                        string DownloadsPath = KnownFolders.GetPath(KnownFolder.Downloads);
                         string fileName = file.Name;
 
                         int i = 0;
