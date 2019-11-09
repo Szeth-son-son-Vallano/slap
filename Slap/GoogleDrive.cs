@@ -31,8 +31,7 @@ namespace Slap
                     scopes,
                     "User",
                     CancellationToken.None,
-                    new FileDataStore(creadPath, true)
-                    ).Result;
+                    new FileDataStore(creadPath, true)).Result;
             }
         }
 
@@ -72,31 +71,6 @@ namespace Slap
             return false;
         }
 
-        public static void DownloadFilesInFolder(string folderName)
-        {
-            using (DriveService service = GetDriveService())
-            {
-                string pageToken = null;
-
-                var request = service.Files.List();
-
-                request.Q =
-                    "name contains '" + folderName + "' and " +
-                    "mimeType = 'application/vnd.google-apps.folder'";
-                request.PageToken = pageToken;
-
-                var result = request.Execute();
-
-                if (result.Files.Count > 0)
-                {
-                    foreach (var file in result.Files)
-                    {
-                        DownloadFiles(file.Name);
-                    }
-                }
-            }
-        }
-
         public static FileList FindFileIdList_Pdf_Csv(string searchFileName)
         {
             using (DriveService service = GetDriveService())
@@ -128,7 +102,6 @@ namespace Slap
         {
             using (DriveService service = GetDriveService())
             {
-
                 //Folder ID
                 var fileMetadata = new Google.Apis.Drive.v3.Data.File()
                 {
@@ -207,7 +180,7 @@ namespace Slap
                         };
 
                         request.Download(memoryStream);
-                        string DownloadsPath = KnownFolders.GetPath(KnownFolder.Downloads);
+                        string DownloadsPath = KnownFolders.GetPath(KnownFolder.Downloads, true);
                         string fileName = file.Name;
 
                         int i = 0;

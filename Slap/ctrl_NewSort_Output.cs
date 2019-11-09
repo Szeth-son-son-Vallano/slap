@@ -48,6 +48,7 @@ namespace Slap
             RouteListFilePath = "";
             FloorPlanFilePath = "";
             SortPlanFilePath = "";
+
             ParcelData = null;
             RouteData = null;
             parcelArray = null;
