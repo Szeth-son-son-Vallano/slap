@@ -37,8 +37,8 @@
             this.lbl_ParcelList = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.lbl_ErrorMessage = new System.Windows.Forms.Label();
-            this.btn_Clear = new BrbVideoManager.Controls.RoundedButton();
             this.btn_Read = new BrbVideoManager.Controls.RoundedButton();
+            this.btn_Clear = new BrbVideoManager.Controls.RoundedButton();
             this.ctrl_NewSort_Output1 = new Slap.ctrl_NewSort_Output();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DND_RouteList)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DND_ParcelList)).BeginInit();
@@ -132,30 +132,6 @@
             this.lbl_ErrorMessage.Text = "Error message";
             this.lbl_ErrorMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // btn_Clear
-            // 
-            this.btn_Clear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.btn_Clear.BorderColor = System.Drawing.Color.Transparent;
-            this.btn_Clear.BorderDownColor = System.Drawing.Color.Empty;
-            this.btn_Clear.BorderDownWidth = 0F;
-            this.btn_Clear.BorderOverColor = System.Drawing.Color.Empty;
-            this.btn_Clear.BorderOverWidth = 0F;
-            this.btn_Clear.BorderRadius = 30;
-            this.btn_Clear.BorderWidth = 0F;
-            this.btn_Clear.FlatAppearance.BorderSize = 0;
-            this.btn_Clear.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.btn_Clear.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red;
-            this.btn_Clear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Clear.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
-            this.btn_Clear.ForeColor = System.Drawing.Color.White;
-            this.btn_Clear.Location = new System.Drawing.Point(475, 600);
-            this.btn_Clear.Name = "btn_Clear";
-            this.btn_Clear.Size = new System.Drawing.Size(250, 60);
-            this.btn_Clear.TabIndex = 7;
-            this.btn_Clear.Text = "C L E A R";
-            this.btn_Clear.UseVisualStyleBackColor = false;
-            this.btn_Clear.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_Clear_MouseDown);
-            // 
             // btn_Read
             // 
             this.btn_Read.BackColor = System.Drawing.Color.Indigo;
@@ -179,6 +155,30 @@
             this.btn_Read.Text = "R E A D";
             this.btn_Read.UseVisualStyleBackColor = false;
             this.btn_Read.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_Read_MouseDown);
+            // 
+            // btn_Clear
+            // 
+            this.btn_Clear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(225)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btn_Clear.BorderColor = System.Drawing.Color.Transparent;
+            this.btn_Clear.BorderDownColor = System.Drawing.Color.Empty;
+            this.btn_Clear.BorderDownWidth = 0F;
+            this.btn_Clear.BorderOverColor = System.Drawing.Color.Empty;
+            this.btn_Clear.BorderOverWidth = 0F;
+            this.btn_Clear.BorderRadius = 30;
+            this.btn_Clear.BorderWidth = 0F;
+            this.btn_Clear.FlatAppearance.BorderSize = 0;
+            this.btn_Clear.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(195)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btn_Clear.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red;
+            this.btn_Clear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_Clear.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.btn_Clear.ForeColor = System.Drawing.Color.White;
+            this.btn_Clear.Location = new System.Drawing.Point(475, 600);
+            this.btn_Clear.Name = "btn_Clear";
+            this.btn_Clear.Size = new System.Drawing.Size(250, 60);
+            this.btn_Clear.TabIndex = 7;
+            this.btn_Clear.Text = "C L E A R";
+            this.btn_Clear.UseVisualStyleBackColor = false;
+            this.btn_Clear.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_Clear_MouseDown);
             // 
             // ctrl_NewSort_Output1
             // 

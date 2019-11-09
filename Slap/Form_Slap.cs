@@ -41,5 +41,11 @@ namespace Slap
             btn_MenuSortHistory.ForeColor = Color.White;
             ctrl_SortHistory1.BringToFront();
         }
+
+        private void Form_Slap_Resize(object sender, EventArgs e)
+        {
+            btn_MenuNewSort.Width = Size.Width / 2;
+            btn_MenuSortHistory.Width = Size.Width / 2;
+        }
     }
 }
