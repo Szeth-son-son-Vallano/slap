@@ -36,9 +36,13 @@
             this.lbl_FloorPlan = new System.Windows.Forms.Label();
             this.dgv_FileData = new System.Windows.Forms.DataGridView();
             this.dtp_SearchDate = new System.Windows.Forms.DateTimePicker();
+            this.lbl_ZipFiles = new System.Windows.Forms.Label();
             this.btn_Clear = new BrbVideoManager.Controls.RoundedButton();
             this.btn_Download = new BrbVideoManager.Controls.RoundedButton();
-            this.lbl_ZipFiles = new System.Windows.Forms.Label();
+            this.lbl_Message = new System.Windows.Forms.Label();
+            this.txt_DownloadLocation = new System.Windows.Forms.TextBox();
+            this.lbl_DownloadLocation = new System.Windows.Forms.Label();
+            this.pb_UpdateDownloadLocation = new System.Windows.Forms.PictureBox();
             this.pb_DL_ZipFiles = new System.Windows.Forms.PictureBox();
             this.pb_Search = new System.Windows.Forms.PictureBox();
             this.pb_DL_SortPlan = new System.Windows.Forms.PictureBox();
@@ -46,6 +50,7 @@
             this.pb_DL_RouteList = new System.Windows.Forms.PictureBox();
             this.pb_DL_ParcelList = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_FileData)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_UpdateDownloadLocation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_ZipFiles)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_Search)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_SortPlan)).BeginInit();
@@ -113,7 +118,7 @@
             this.dgv_FileData.RowHeadersWidth = 51;
             this.dgv_FileData.RowTemplate.Height = 24;
             this.dgv_FileData.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_FileData.Size = new System.Drawing.Size(800, 400);
+            this.dgv_FileData.Size = new System.Drawing.Size(800, 375);
             this.dgv_FileData.TabIndex = 14;
             this.dgv_FileData.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_Cell_Click);
             // 
@@ -123,8 +128,20 @@
             this.dtp_SearchDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtp_SearchDate.Location = new System.Drawing.Point(50, 50);
             this.dtp_SearchDate.Name = "dtp_SearchDate";
-            this.dtp_SearchDate.Size = new System.Drawing.Size(300, 25);
+            this.dtp_SearchDate.Size = new System.Drawing.Size(200, 25);
             this.dtp_SearchDate.TabIndex = 15;
+            this.dtp_SearchDate.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dtp_SearchDate_KeyPress);
+            // 
+            // lbl_ZipFiles
+            // 
+            this.lbl_ZipFiles.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_ZipFiles.Font = new System.Drawing.Font("DengXian", 12F, System.Drawing.FontStyle.Bold);
+            this.lbl_ZipFiles.Location = new System.Drawing.Point(950, 500);
+            this.lbl_ZipFiles.Name = "lbl_ZipFiles";
+            this.lbl_ZipFiles.Size = new System.Drawing.Size(150, 30);
+            this.lbl_ZipFiles.TabIndex = 19;
+            this.lbl_ZipFiles.Text = "CLICK TO ZIP";
+            this.lbl_ZipFiles.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btn_Clear
             // 
@@ -174,16 +191,47 @@
             this.btn_Download.UseVisualStyleBackColor = false;
             this.btn_Download.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btn_Download_MouseDown);
             // 
-            // lbl_ZipFiles
+            // lbl_Message
             // 
-            this.lbl_ZipFiles.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_ZipFiles.Font = new System.Drawing.Font("DengXian", 12F, System.Drawing.FontStyle.Bold);
-            this.lbl_ZipFiles.Location = new System.Drawing.Point(950, 500);
-            this.lbl_ZipFiles.Name = "lbl_ZipFiles";
-            this.lbl_ZipFiles.Size = new System.Drawing.Size(150, 30);
-            this.lbl_ZipFiles.TabIndex = 19;
-            this.lbl_ZipFiles.Text = "ZIP FILES";
-            this.lbl_ZipFiles.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_Message.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_Message.Font = new System.Drawing.Font("DengXian", 10F, System.Drawing.FontStyle.Italic);
+            this.lbl_Message.ForeColor = System.Drawing.Color.Red;
+            this.lbl_Message.Location = new System.Drawing.Point(350, 500);
+            this.lbl_Message.Name = "lbl_Message";
+            this.lbl_Message.Size = new System.Drawing.Size(500, 20);
+            this.lbl_Message.TabIndex = 20;
+            this.lbl_Message.Text = "Error message";
+            this.lbl_Message.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // txt_DownloadLocation
+            // 
+            this.txt_DownloadLocation.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F);
+            this.txt_DownloadLocation.Location = new System.Drawing.Point(500, 50);
+            this.txt_DownloadLocation.Name = "txt_DownloadLocation";
+            this.txt_DownloadLocation.Size = new System.Drawing.Size(300, 25);
+            this.txt_DownloadLocation.TabIndex = 21;
+            this.txt_DownloadLocation.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_DownloadLocation_KeyPress);
+            // 
+            // lbl_DownloadLocation
+            // 
+            this.lbl_DownloadLocation.Font = new System.Drawing.Font("DengXian", 9.5F, System.Drawing.FontStyle.Bold);
+            this.lbl_DownloadLocation.Location = new System.Drawing.Point(350, 50);
+            this.lbl_DownloadLocation.Name = "lbl_DownloadLocation";
+            this.lbl_DownloadLocation.Size = new System.Drawing.Size(200, 25);
+            this.lbl_DownloadLocation.TabIndex = 22;
+            this.lbl_DownloadLocation.Text = "Download Location";
+            this.lbl_DownloadLocation.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // pb_UpdateDownloadLocation
+            // 
+            this.pb_UpdateDownloadLocation.Image = global::Slap.Properties.Resources.update;
+            this.pb_UpdateDownloadLocation.Location = new System.Drawing.Point(825, 50);
+            this.pb_UpdateDownloadLocation.Name = "pb_UpdateDownloadLocation";
+            this.pb_UpdateDownloadLocation.Size = new System.Drawing.Size(25, 25);
+            this.pb_UpdateDownloadLocation.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pb_UpdateDownloadLocation.TabIndex = 23;
+            this.pb_UpdateDownloadLocation.TabStop = false;
+            this.pb_UpdateDownloadLocation.Click += new System.EventHandler(this.pb_UpdateDownloadLocation_Click);
             // 
             // pb_DL_ZipFiles
             // 
@@ -200,7 +248,7 @@
             // pb_Search
             // 
             this.pb_Search.Image = global::Slap.Properties.Resources.search;
-            this.pb_Search.Location = new System.Drawing.Point(375, 50);
+            this.pb_Search.Location = new System.Drawing.Point(275, 50);
             this.pb_Search.Name = "pb_Search";
             this.pb_Search.Size = new System.Drawing.Size(25, 25);
             this.pb_Search.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -264,6 +312,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.pb_UpdateDownloadLocation);
+            this.Controls.Add(this.txt_DownloadLocation);
+            this.Controls.Add(this.lbl_DownloadLocation);
+            this.Controls.Add(this.lbl_Message);
             this.Controls.Add(this.lbl_ZipFiles);
             this.Controls.Add(this.pb_DL_ZipFiles);
             this.Controls.Add(this.btn_Clear);
@@ -282,6 +334,7 @@
             this.Name = "ctrl_SortHistory";
             this.Size = new System.Drawing.Size(1200, 700);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_FileData)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_UpdateDownloadLocation)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_ZipFiles)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_Search)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_SortPlan)).EndInit();
@@ -289,6 +342,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_RouteList)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_ParcelList)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -310,5 +364,9 @@
         private BrbVideoManager.Controls.RoundedButton btn_Clear;
         private System.Windows.Forms.Label lbl_ZipFiles;
         private System.Windows.Forms.PictureBox pb_DL_ZipFiles;
+        public System.Windows.Forms.Label lbl_Message;
+        private System.Windows.Forms.TextBox txt_DownloadLocation;
+        private System.Windows.Forms.Label lbl_DownloadLocation;
+        private System.Windows.Forms.PictureBox pb_UpdateDownloadLocation;
     }
 }

@@ -66,8 +66,8 @@ namespace Slap
             this._pieceQty = PieceQty;
             this._kiloWgt = KiloWgt;
 
-            calculateEstimateVol(KiloWgt);
-            checkClearedStatus(SelectCd);
+            CalculateEstimateVol(KiloWgt);
+            CheckClearedStatus(SelectCd);
             _routeGroup = 0;
             _lanes = "";
 
@@ -97,7 +97,7 @@ namespace Slap
         public string SelectCd
         {
             get { return _selectCd; }
-            set { _selectCd = value; checkClearedStatus(value);  }
+            set { _selectCd = value; CheckClearedStatus(value);  }
         }
         public string DestLocCd
         {
@@ -117,7 +117,7 @@ namespace Slap
         public double KiloWgt
         {
             get { return _kiloWgt; }
-            set { _kiloWgt = value; calculateEstimateVol(value); }
+            set { _kiloWgt = value; CalculateEstimateVol(value); }
         }
         public double EstimatedVol
         {
@@ -141,12 +141,12 @@ namespace Slap
         }
 
         // other methods
-        private void calculateEstimateVol(double KiloWgt)
+        private void CalculateEstimateVol(double KiloWgt)
         {
             _estimatedVolume = KiloWgt / _estimateDensity_KgPerM3;
         }
 
-        private void checkClearedStatus(string selectCd)
+        private void CheckClearedStatus(string selectCd)
         {
             string[] clearedCodes = { "DIA", "DT", "PL", "DR" };
 

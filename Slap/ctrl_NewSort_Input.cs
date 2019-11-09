@@ -8,7 +8,7 @@ namespace Slap
     {
         private bool parcelListReady = false;
         private bool routeListReady = false;
-        private string parcelFilePath = "", routeFilePath = "";
+        private string parcelListFilePath = "", routeListFilePath = "";
         private string[] ParcelData, RouteData;
 
         public ctrl_NewSort_Input()
@@ -24,6 +24,14 @@ namespace Slap
         // reset function
         private void Reset()
         {
+            // reset parcel list and route list data
+            parcelListReady = false;
+            routeListReady = false;
+            parcelListFilePath = "";
+            routeListFilePath = "";
+            ParcelData = null;
+            RouteData = null;
+
             // reset UI display
             lbl_ErrorMessage.Text = "";
 
@@ -31,21 +39,15 @@ namespace Slap
             lbl_ParcelListFile.Text = "Drag and Drop";
             pb_DND_RouteList.Image = Properties.Resources.fileGrayFrame;
             lbl_RouteListFile.Text = "Drag and Drop";
-
-            // reset parcel data and route data
-            parcelListReady = false;
-            routeListReady = false;
-            ParcelData = null;
-            RouteData = null;
         }
 
         // Functions to Load files (Drag and Drop and Open File Dialog)
-        private void checkParcelListFileType(string[] fileData)
+        private void CheckParcelListFileType(string[] fileData)
         {
             if (fileData.Length > 0)
             {
-                parcelFilePath = fileData[0];
-                string parcelFileName = Path.GetFileName(parcelFilePath);
+                parcelListFilePath = fileData[0];
+                string parcelFileName = Path.GetFileName(parcelListFilePath);
 
                 string fileType = System.IO.Path.GetExtension(parcelFileName);
 
@@ -65,12 +67,12 @@ namespace Slap
             }
         }
 
-        private void checkRouteListFileType(string[] fileData)
+        private void CheckRouteListFileType(string[] fileData)
         {
             if (fileData.Length > 0)
             {
-                routeFilePath = fileData[0];
-                string routeFileName = Path.GetFileName(routeFilePath);
+                routeListFilePath = fileData[0];
+                string routeFileName = Path.GetFileName(routeListFilePath);
 
                 string fileType = System.IO.Path.GetExtension(routeFileName);
 
@@ -93,13 +95,13 @@ namespace Slap
         private void pb_DND_ParcelList_DragDrop(object sender, DragEventArgs e)
         {
             string[] data = e.Data.GetData(DataFormats.FileDrop) as string[];
-            checkParcelListFileType(data);
+            CheckParcelListFileType(data);
         }
 
         private void pb_DND_RouteList_DragDrop(object sender, DragEventArgs e)
         {
             string[] data = e.Data.GetData(DataFormats.FileDrop) as string[];
-            checkRouteListFileType(data);
+            CheckRouteListFileType(data);
         }
 
         private void pb_DND_ParcelList_DragEnter(object sender, DragEventArgs e)
@@ -120,7 +122,7 @@ namespace Slap
                 string[] fileData = new string[1];
                 fileData[0] = openFileDialog1.FileName;
 
-                checkParcelListFileType(fileData);
+                CheckParcelListFileType(fileData);
             }
         }
 
@@ -132,7 +134,7 @@ namespace Slap
                 string[] fileData = new string[1];
                 fileData[0] = openFileDialog1.FileName;
 
-                checkRouteListFileType(fileData);
+                CheckRouteListFileType(fileData);
             }
         }
 
@@ -143,13 +145,14 @@ namespace Slap
             {
                 lbl_ErrorMessage.Text = "";
 
-                ctrl_NewSort_Output1.AddData(parcelFilePath, routeFilePath, ParcelData, RouteData);
+                ctrl_NewSort_Output1.AddData(parcelListFilePath, routeListFilePath, ParcelData, RouteData);
+                
                 bool successfulReadParcels = ctrl_NewSort_Output1.ReadParcels();
                 bool successfulReadRoutes = ctrl_NewSort_Output1.ReadRoutes();
+                
                 if (successfulReadParcels && successfulReadRoutes)
                 {
                     ctrl_NewSort_Output1.Show();
-                    Reset();
                 }
                 else
                 {

@@ -41,6 +41,7 @@
             this.pb_DL_FloorPlan = new System.Windows.Forms.PictureBox();
             this.pb_DL_RouteList = new System.Windows.Forms.PictureBox();
             this.pb_DL_ParcelList = new System.Windows.Forms.PictureBox();
+            this.lbl_Message = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_FileData)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_SortPlan)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_DL_FloorPlan)).BeginInit();
@@ -107,7 +108,7 @@
             this.dgv_FileData.RowHeadersWidth = 51;
             this.dgv_FileData.RowTemplate.Height = 24;
             this.dgv_FileData.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_FileData.Size = new System.Drawing.Size(800, 450);
+            this.dgv_FileData.Size = new System.Drawing.Size(800, 425);
             this.dgv_FileData.TabIndex = 14;
             // 
             // btn_Back
@@ -214,10 +215,23 @@
             this.pb_DL_ParcelList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pb_DL_ParcelList_MouseDown);
             this.pb_DL_ParcelList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pb_DL_ParcelList_MouseUp);
             // 
+            // lbl_ErrorMessage
+            // 
+            this.lbl_Message.BackColor = System.Drawing.Color.Transparent;
+            this.lbl_Message.Font = new System.Drawing.Font("DengXian", 10F, System.Drawing.FontStyle.Italic);
+            this.lbl_Message.ForeColor = System.Drawing.Color.Red;
+            this.lbl_Message.Location = new System.Drawing.Point(350, 500);
+            this.lbl_Message.Name = "lbl_ErrorMessage";
+            this.lbl_Message.Size = new System.Drawing.Size(500, 20);
+            this.lbl_Message.TabIndex = 15;
+            this.lbl_Message.Text = "Error message";
+            this.lbl_Message.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // ctrl_NewSort_Output
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lbl_Message);
             this.Controls.Add(this.lbl_SortPlan);
             this.Controls.Add(this.lbl_FloorPlan);
             this.Controls.Add(this.pb_DL_SortPlan);
@@ -254,5 +268,6 @@
         private System.Windows.Forms.PictureBox pb_DL_SortPlan;
         private System.Windows.Forms.PictureBox pb_DL_FloorPlan;
         private System.Windows.Forms.DataGridView dgv_FileData;
+        private System.Windows.Forms.Label lbl_Message;
     }
 }

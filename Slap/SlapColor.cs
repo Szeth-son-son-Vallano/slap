@@ -3,12 +3,11 @@ using System.Collections.Generic;
 
 namespace Slap
 {
-    class SlapColor
+    static class SlapColor
     {
-        private static readonly List<BaseColor> _color;
         static SlapColor()
         {
-            _color = new List<BaseColor>
+            Color = new List<BaseColor>
             {
                 new BaseColor(128, 128, 128),
 
@@ -35,9 +34,6 @@ namespace Slap
             };
         }
 
-        public static List<BaseColor> Color
-        {
-            get { return _color; }
-        }
+        public static List<BaseColor> Color { get; private set; }
     }
 }
