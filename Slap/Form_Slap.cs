@@ -15,6 +15,8 @@ namespace Slap
         public Form_Slap()
         {
             InitializeComponent();
+
+            Form_Slap_Resize(null, new EventArgs());
             btn_NewSort_Click(null, new EventArgs());
         }
 

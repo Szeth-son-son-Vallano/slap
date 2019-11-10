@@ -10,6 +10,7 @@ namespace Slap
 {
     public partial class ctrl_SortHistory : UserControl
     {
+        private string ImplicitDownloadLocation;
         private string FolderName = "";
         private string ParcelListFilePath = "", RouteListFilePath = "", FloorPlanFilePath = "", SortPlanFilePath = "";
         private int FolderRowIndex = -1;
@@ -18,11 +19,27 @@ namespace Slap
         {
             InitializeComponent();
             Reset();
+
+            SetDownloadLocation();
+        }
+
+        private void SetDownloadLocation()
+        {
+            ImplicitDownloadLocation = Properties.Settings.Default.DownloadLocation;
+
+            if (ImplicitDownloadLocation == null || ImplicitDownloadLocation.Equals(""))
+            {
+                ImplicitDownloadLocation = KnownFolders.GetPath(KnownFolder.Downloads);
+                Properties.Settings.Default.DownloadLocation = ImplicitDownloadLocation;
+                Properties.Settings.Default.Save();
+            }
+            txt_DownloadLocation.Text = ImplicitDownloadLocation;
         }
 
         // reset
         private void Reset()
         {
+            // reset parcel list, route list, floor plan and sort plan data
             FolderName = "";
             ParcelListFilePath = "";
             RouteListFilePath = "";
@@ -31,6 +48,8 @@ namespace Slap
 
             FolderRowIndex = -1;
 
+            // reset UI display
+            lbl_Message.Text = "";
             btn_Download.Enabled = false;
             pb_DL_ParcelList.Enabled = false;
             pb_DL_RouteList.Enabled = false;
@@ -38,6 +57,7 @@ namespace Slap
             pb_DL_SortPlan.Enabled = false;
             pb_DL_ZipFiles.Enabled = false;
 
+            lbl_Message.ForeColor = Color.Red;
             btn_Download.BackColor = Color.Gray;
             pb_DL_ParcelList.Image = Properties.Resources.fileGray;
             pb_DL_RouteList.Image = Properties.Resources.fileGray;
@@ -61,7 +81,36 @@ namespace Slap
             pb_DL_ZipFiles.Image = Properties.Resources.zipOrange;
         }
 
-        // Download and Clear buttons
+        // Download and Clear functions
+        private void pb_UpdateDownloadLocation_Click(object sender, EventArgs e)
+        {
+            string ExplicitDownloadLocation = txt_DownloadLocation.Text;
+            bool validDownloadLocation = false;
+
+            if (ExplicitDownloadLocation != null || !ExplicitDownloadLocation.Equals(""))
+            {
+                if (Directory.Exists(ExplicitDownloadLocation))
+                {
+                    MessageBox.Show("Download Location has been updated");
+                    Properties.Settings.Default.DownloadLocation = ExplicitDownloadLocation;
+                    Properties.Settings.Default.Save();
+
+                    validDownloadLocation = true;
+                }
+            }
+
+            if (validDownloadLocation)
+            {
+                txt_DownloadLocation.Text = ExplicitDownloadLocation;
+                ImplicitDownloadLocation = ExplicitDownloadLocation;
+            }
+            else
+            {
+                //ImplicitDownloadLocation = KnownFolders.GetPath(KnownFolder.Downloads);
+                txt_DownloadLocation.Text = ImplicitDownloadLocation;
+            }
+        }
+
         private void pb_Search_Click(object sender, EventArgs e)
         {
             Reset();
@@ -115,30 +164,45 @@ namespace Slap
         {
             if (FolderRowIndex != -1)
             {
+                lbl_Message.Text = "Download in progress . . .";
+                lbl_Message.ForeColor = Color.Red;
+
                 FolderName = dgv_FileData.Rows[FolderRowIndex].Cells[0].Value.ToString();
                 List<string> filePaths = GoogleDrive.DownloadFiles(FolderName);
-
-                foreach(var filePath in filePaths)
+                
+                if (filePaths != null)
                 {
-                    if (filePath.Contains("ParcelList"))
-                    {
-                        ParcelListFilePath = filePath;
-                    }
-                    else if (filePath.Contains("RouteList"))
-                    {
-                        RouteListFilePath = filePath;
-                    }
-                    else if (filePath.Contains("FloorPlan"))
-                    {
-                        FloorPlanFilePath = filePath;
-                    }
-                    else if (filePath.Contains("SortPlan"))
-                    {
-                        SortPlanFilePath = filePath;
-                    }
-                }
+                    lbl_Message.Text = "Download complete";
+                    lbl_Message.ForeColor = Color.Green;
 
-                EnableViewFile();
+                    foreach (var filePath in filePaths)
+                    {
+                        if (filePath.Contains("ParcelList"))
+                        {
+                            ParcelListFilePath = filePath;
+                        }
+                        else if (filePath.Contains("RouteList"))
+                        {
+                            RouteListFilePath = filePath;
+                        }
+                        else if (filePath.Contains("FloorPlan"))
+                        {
+                            FloorPlanFilePath = filePath;
+                        }
+                        else if (filePath.Contains("SortPlan"))
+                        {
+                            SortPlanFilePath = filePath;
+                        }
+                    }
+
+                    EnableViewFile();
+                }
+                else
+                {
+                    lbl_Message.Text = "Download failed";
+                    lbl_Message.ForeColor = Color.Red;
+
+                }
             }
         }
 
@@ -181,7 +245,7 @@ namespace Slap
         private void pb_DL_ZipFiles_Click(object sender, EventArgs e)
         {
             // Create and open a new ZIP file
-            string DownloadsPath = KnownFolders.GetPath(KnownFolder.Downloads);
+            string DownloadsPath = Properties.Settings.Default.DownloadLocation;
             FolderName += ".zip";
             string zipFolderName = FolderName;
 
@@ -220,6 +284,25 @@ namespace Slap
             zip.Dispose();
 
             Reset();
+
+            lbl_Message.Text = "Zip complete";
+            lbl_Message.ForeColor = Color.Green;
+        }
+
+        private void txt_DownloadLocation_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                pb_UpdateDownloadLocation_Click(null, e);
+            }
+        }
+
+        private void dtp_SearchDate_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                pb_Search_Click(null, e);
+            }
         }
 
         private void pb_DL_RouteList_MouseUp(object sender, MouseEventArgs e)

@@ -8,6 +8,8 @@ using Google.Apis.Drive.v3.Data;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
 using Google.Apis.Download;
+using System.Windows.Forms;
+using System.Drawing;
 
 namespace Slap
 {
@@ -46,7 +48,7 @@ namespace Slap
             });
         }
 
-        public static bool FindFolder(string folderName)
+        public static FileList GetFolders(string folderName)
         {
             using (DriveService service = GetDriveService())
             {
@@ -64,14 +66,16 @@ namespace Slap
 
                 if (result.Files.Count > 0)
                 {
-                    return true;
+                    return result;
+                }
+                else
+                {
+                    return null;
                 }
             }
-
-            return false;
         }
 
-        public static FileList FindFileIdList_Pdf_Csv(string searchFileName)
+        public static FileList GetFiles_PDF_CSV(string searchFileName)
         {
             using (DriveService service = GetDriveService())
             {
@@ -153,7 +157,7 @@ namespace Slap
                 List<string> filePaths = new List<string>();
 
                 searchFileName = searchFileName + "_";
-                FileList fileList = FindFileIdList_Pdf_Csv(searchFileName);
+                FileList fileList = GetFiles_PDF_CSV(searchFileName);
 
                 if (fileList != null)
                 {
@@ -172,8 +176,8 @@ namespace Slap
                                     break;
 
                                     case DownloadStatus.Completed:
-                                    //MessageBox.Show("Download Complete: " + file.Name);
-                                    break;
+                                        //MessageBox.Show("Download Complete: " + file.Name);
+                                        break;
 
                                     case DownloadStatus.Failed:
                                     //MessageBox.Show("Download failed: " + file.Name);
@@ -182,27 +186,41 @@ namespace Slap
                             };
 
                             request.Download(memoryStream);
-                            string DownloadsPath = KnownFolders.GetPath(KnownFolder.Downloads);
-                            string fileName = file.Name;
+                            string DownloadsPath = Properties.Settings.Default.DownloadLocation;
+                            string FolderPath = Path.Combine(DownloadsPath, searchFileName.Substring(0, searchFileName.Length - 1));
+                            string FileName = file.Name;
 
-                            int i = 0;
-                            while (System.IO.File.Exists(Path.Combine(DownloadsPath, fileName)))
+                            if (Directory.Exists(FolderPath))
                             {
-                                i++;
-                                fileName = Path.GetFileNameWithoutExtension(file.Name) + "(" + i + ")" + Path.GetExtension(file.Name);
+                                int i = 0;
+                                while (System.IO.File.Exists(Path.Combine(FolderPath, FileName)))
+                                {
+                                    i++;
+                                    FileName = Path.GetFileNameWithoutExtension(file.Name) + "(" + i + ")" + Path.GetExtension(file.Name);
+                                }
                             }
-                            fileName = Path.Combine(DownloadsPath, fileName);
+                            else
+                            {
+                                Directory.CreateDirectory(FolderPath);
+                            }
+                            
+                            FileName = Path.Combine(FolderPath, FileName);
 
-                            using (var fileStream = new FileStream(fileName, FileMode.Create, FileAccess.Write))
+                            using (var fileStream = new FileStream(FileName, FileMode.Create, FileAccess.Write))
                             {
                                 fileStream.Write(memoryStream.GetBuffer(), 0, memoryStream.GetBuffer().Length);
 
-                                filePaths.Add(fileName);
+                                filePaths.Add(FileName);
                             }
                         }
                     }
+                    return filePaths;
                 }
-                return filePaths;
+                else
+                {
+                    MessageBox.Show("Files containing '" + searchFileName + "' could be found");
+                    return null;
+                }
             }
         }
     }
