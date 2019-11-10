@@ -53,7 +53,7 @@
             // 
             // pb_FedexLogo
             // 
-            this.pb_FedexLogo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.pb_FedexLogo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pb_FedexLogo.Image = global::Slap.Properties.Resources.fedexLogo;
             this.pb_FedexLogo.Location = new System.Drawing.Point(453, 0);

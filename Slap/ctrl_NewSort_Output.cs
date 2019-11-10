@@ -75,7 +75,7 @@ namespace Slap
             pb_DL_FloorPlan.Image = Properties.Resources.fileGray;
             pb_DL_SortPlan.Image = Properties.Resources.fileGray;
         }
-        
+
         // Sort and Back buttons
         private void btn_Sort_MouseDown(object sender, MouseEventArgs e)
         {
@@ -300,7 +300,7 @@ namespace Slap
             {
                 // extract all data from the file
                 string txtData = "";
-                foreach(string line in RouteData)
+                foreach (string line in RouteData)
                 {
                     try
                     {
@@ -312,7 +312,7 @@ namespace Slap
                         return false;
                     }
                 }
-                
+
                 string[] txtDataLines = txtData.Split('\n');
 
                 // to remove occurence of empty last line
@@ -322,17 +322,17 @@ namespace Slap
                     Array.Copy(txtDataLines, 0, txtDataTemp, 0, txtDataLines.Length - 1);
                     txtDataLines = txtDataTemp;
                 }
-                
+
                 // create Regex object
                 Regex CSVParser = new Regex(",(?=(?:[^\"]*\"[^\"]*\")*(?![^\"]*\"))");
 
                 // process RouteGroup data
                 int routeGroupID = 0;
                 routeGroupList = new List<RouteGroup>();
-                
+
                 // add one RouteGroup for parcels that are on HOLD
                 routeGroupList.Add(new RouteGroup(routeGroupID++, new List<string>()));
-                
+
                 for (int row = 0; row < txtDataLines.Length; row++)
                 {
                     string[] routeGroups = CSVParser.Split(txtDataLines[row]);
@@ -346,7 +346,7 @@ namespace Slap
                         routeGroups[i] = routeGroups[i].TrimStart(' ', '"');
                         routeGroups[i] = routeGroups[i].TrimEnd('"');
                     }
-                    
+
                     // read the column data of each row
                     foreach (var routeGroup in routeGroups)
                     {
@@ -447,7 +447,7 @@ namespace Slap
                 }
 
                 dgv_FileData.DataSource = dt;
-                
+
                 return true;
             }
 
@@ -631,9 +631,9 @@ namespace Slap
                 GoogleDrive.UploadFile(FloorPlanFilePath, Path.GetFileName(GoogleDrive_FloorPlanFilePath), folderID);
                 lbl_Message.Text = "Upload in progress . . . 1/4";
                 GoogleDrive.UploadFile(SortPlanFilePath, Path.GetFileName(GoogleDrive_SortPlanFilePath), folderID);
-                lbl_Message.Text = "Upload in progress . . . 2/4"; 
+                lbl_Message.Text = "Upload in progress . . . 2/4";
                 GoogleDrive.UploadFile(ParcelListFilePath, Path.GetFileName(GoogleDrive_ParcelListFilePath), folderID);
-                lbl_Message.Text = "Upload in progress . . . 3/4"; 
+                lbl_Message.Text = "Upload in progress . . . 3/4";
                 GoogleDrive.UploadFile(RouteListFilePath, Path.GetFileName(GoogleDrive_RouteListFilePath), folderID);
                 lbl_Message.Text = "Upload in progress . . . 4/4";
 
@@ -659,7 +659,7 @@ namespace Slap
             pb_DL_RouteList.Enabled = true;
             pb_DL_FloorPlan.Enabled = true;
             pb_DL_SortPlan.Enabled = true;
-            
+
             pb_DL_ParcelList.Image = Properties.Resources.filePurple;
             pb_DL_RouteList.Image = Properties.Resources.filePurple;
             pb_DL_FloorPlan.Image = Properties.Resources.filePurple;
@@ -718,7 +718,7 @@ namespace Slap
                                     MinimumHeight = minimumHeight,
                                     BackgroundColor = SlapColor.Color[colorShift]
                                 };
-                                
+
                                 table.AddCell(cell);
 
 
