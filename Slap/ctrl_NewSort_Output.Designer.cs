@@ -215,13 +215,13 @@
             this.pb_DL_ParcelList.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pb_DL_ParcelList_MouseDown);
             this.pb_DL_ParcelList.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pb_DL_ParcelList_MouseUp);
             // 
-            // lbl_ErrorMessage
+            // lbl_Message
             // 
             this.lbl_Message.BackColor = System.Drawing.Color.Transparent;
             this.lbl_Message.Font = new System.Drawing.Font("DengXian", 10F, System.Drawing.FontStyle.Italic);
             this.lbl_Message.ForeColor = System.Drawing.Color.Red;
             this.lbl_Message.Location = new System.Drawing.Point(350, 500);
-            this.lbl_Message.Name = "lbl_ErrorMessage";
+            this.lbl_Message.Name = "lbl_Message";
             this.lbl_Message.Size = new System.Drawing.Size(500, 20);
             this.lbl_Message.TabIndex = 15;
             this.lbl_Message.Text = "Error message";
