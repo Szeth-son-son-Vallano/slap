@@ -245,55 +245,66 @@ namespace Slap
 
         private void pb_DL_ZipFiles_Click(object sender, EventArgs e)
         {
-            // Create and open a new ZIP file
-            string DownloadsPath = Properties.Settings.Default.DownloadLocation;
-            string folderName = FolderName + ".zip";
-            string zipFolderName = folderName;
-
-            int i = 0;
-            while (System.IO.File.Exists(Path.Combine(DownloadsPath, zipFolderName)))
+            try
             {
-                i++;
-                zipFolderName = Path.GetFileNameWithoutExtension(folderName) + "(" + i + ")" + Path.GetExtension(folderName);
+                // Create and open a new ZIP file
+                string DownloadsPath = Properties.Settings.Default.DownloadLocation;
+                string folderName = FolderName + ".zip";
+                string zipFolderName = folderName;
+
+                int i = 0;
+                while (System.IO.File.Exists(Path.Combine(DownloadsPath, zipFolderName)))
+                {
+                    i++;
+                    zipFolderName = Path.GetFileNameWithoutExtension(folderName) + "(" + i + ")" + Path.GetExtension(folderName);
+                }
+                zipFolderName = Path.Combine(DownloadsPath, zipFolderName);
+
+                var zip = ZipFile.Open(zipFolderName, ZipArchiveMode.Create);
+
+                if (File.Exists(ParcelListFilePath))
+                {
+                    zip.CreateEntryFromFile(ParcelListFilePath, Path.GetFileName(ParcelListFilePath), CompressionLevel.Optimal);
+                    File.Delete(ParcelListFilePath);
+                }
+                if (File.Exists(RouteListFilePath))
+                {
+                    zip.CreateEntryFromFile(FloorPlanFilePath, Path.GetFileName(RouteListFilePath), CompressionLevel.Optimal);
+                    File.Delete(RouteListFilePath);
+                }
+                if (File.Exists(FloorPlanFilePath))
+                {
+                    zip.CreateEntryFromFile(FloorPlanFilePath, Path.GetFileName(FloorPlanFilePath), CompressionLevel.Optimal);
+                    File.Delete(FloorPlanFilePath);
+                }
+                if (File.Exists(SortPlanFilePath))
+                {
+                    zip.CreateEntryFromFile(SortPlanFilePath, Path.GetFileName(SortPlanFilePath), CompressionLevel.Optimal);
+                    File.Delete(SortPlanFilePath);
+                }
+
+                // Dispose of the object when we are done
+                zip.Dispose();
+
+                // Remove empty folders
+                string removeFolderName = Path.Combine(DownloadsPath, Path.GetFileNameWithoutExtension(FolderName));
+                if (!Directory.EnumerateFileSystemEntries(removeFolderName).Any())
+                {
+                    Directory.Delete(removeFolderName);
+                }
+
+                Reset();
+
+                lbl_Message.Text = "Zip complete";
+                lbl_Message.ForeColor = Color.Green;
             }
-            zipFolderName = Path.Combine(DownloadsPath, zipFolderName);
-
-            var zip = ZipFile.Open(zipFolderName, ZipArchiveMode.Create);
-
-            if (File.Exists(ParcelListFilePath))
+            catch (Exception exception)
             {
-                zip.CreateEntryFromFile(ParcelListFilePath, Path.GetFileName(ParcelListFilePath), CompressionLevel.Optimal);
-                File.Delete(ParcelListFilePath);
-            }
-            if (File.Exists(RouteListFilePath))
-            {
-                zip.CreateEntryFromFile(FloorPlanFilePath, Path.GetFileName(RouteListFilePath), CompressionLevel.Optimal);
-                File.Delete(RouteListFilePath);
-            }
-            if (File.Exists(FloorPlanFilePath))
-            {
-                zip.CreateEntryFromFile(FloorPlanFilePath, Path.GetFileName(FloorPlanFilePath), CompressionLevel.Optimal);
-                File.Delete(FloorPlanFilePath);
-            }
-            if (File.Exists(SortPlanFilePath))
-            {
-                zip.CreateEntryFromFile(SortPlanFilePath, Path.GetFileName(SortPlanFilePath), CompressionLevel.Optimal);
-                File.Delete(SortPlanFilePath);
-            }
+                lbl_Message.Text = "Zip failed";
+                lbl_Message.ForeColor = Color.Red;
 
-            // Dispose of the object when we are done
-            zip.Dispose();
-
-            string removeFolderName = Path.Combine(DownloadsPath, Path.GetFileNameWithoutExtension(FolderName));
-            if (!Directory.EnumerateFileSystemEntries(removeFolderName).Any())
-            {
-                Directory.Delete(removeFolderName);
+                Console.WriteLine(exception.Message);
             }
-
-            Reset();
-
-            lbl_Message.Text = "Zip complete";
-            lbl_Message.ForeColor = Color.Green;
         }
 
         private void txt_DownloadLocation_KeyPress(object sender, KeyPressEventArgs e)
