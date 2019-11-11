@@ -5,6 +5,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO.Compression;
+using System.Linq;
 
 namespace Slap
 {
@@ -246,14 +247,14 @@ namespace Slap
         {
             // Create and open a new ZIP file
             string DownloadsPath = Properties.Settings.Default.DownloadLocation;
-            FolderName += ".zip";
-            string zipFolderName = FolderName;
+            string folderName = FolderName + ".zip";
+            string zipFolderName = folderName;
 
             int i = 0;
             while (System.IO.File.Exists(Path.Combine(DownloadsPath, zipFolderName)))
             {
                 i++;
-                zipFolderName = Path.GetFileNameWithoutExtension(FolderName) + "(" + i + ")" + Path.GetExtension(FolderName);
+                zipFolderName = Path.GetFileNameWithoutExtension(folderName) + "(" + i + ")" + Path.GetExtension(folderName);
             }
             zipFolderName = Path.Combine(DownloadsPath, zipFolderName);
 
@@ -282,6 +283,12 @@ namespace Slap
 
             // Dispose of the object when we are done
             zip.Dispose();
+
+            string removeFolderName = Path.Combine(DownloadsPath, Path.GetFileNameWithoutExtension(FolderName));
+            if (!Directory.EnumerateFileSystemEntries(removeFolderName).Any())
+            {
+                Directory.Delete(removeFolderName);
+            }
 
             Reset();
 

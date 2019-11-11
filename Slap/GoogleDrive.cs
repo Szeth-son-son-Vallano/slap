@@ -77,28 +77,35 @@ namespace Slap
 
         public static FileList GetFiles_PDF_CSV(string searchFileName)
         {
-            using (DriveService service = GetDriveService())
+            try
             {
-                string pageToken = null;
-
-                var request = service.Files.List();
-
-                // Query to search for file/folder
-                request.Q =
-                    "name contains '" + searchFileName + "' and " +
-                    "(mimeType = 'application/pdf' or mimeType = 'application/vnd.ms-excel')";
-                request.PageToken = pageToken;
-
-                var result = request.Execute();
-
-                if (result.Files.Count > 0)
+                using (DriveService service = GetDriveService())
                 {
-                    return result;
+                    string pageToken = null;
+
+                    var request = service.Files.List();
+
+                    // Query to search for file/folder
+                    request.Q =
+                        "name contains '" + searchFileName + "' and " +
+                        "(mimeType = 'application/pdf' or mimeType = 'application/vnd.ms-excel')";
+                    request.PageToken = pageToken;
+
+                    var result = request.Execute();
+
+                    if (result.Files.Count > 0)
+                    {
+                        return result;
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 }
-                else
-                {
-                    return null;
-                }
+            }
+            catch (Exception e)
+            {
+                return null;
             }
         }
 
