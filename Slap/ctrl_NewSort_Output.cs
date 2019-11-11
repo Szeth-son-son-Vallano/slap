@@ -101,26 +101,62 @@ namespace Slap
         // On Click functions for Individual File Download
         private void pb_DL_ParcelList_MouseDown(object sender, MouseEventArgs e)
         {
-            pb_DL_ParcelList.Image = Properties.Resources.fileLightPurple;
-            System.Diagnostics.Process.Start(ParcelListFilePath);
+            try
+            {
+                pb_DL_ParcelList.Image = Properties.Resources.fileLightPurple;
+                System.Diagnostics.Process.Start(ParcelListFilePath);
+            }
+            catch (Exception exception)
+            {
+                lbl_Message.Text = "View file failed";
+                lbl_Message.ForeColor = Color.Red;
+                Console.WriteLine(exception.Message);
+            }
         }
 
         private void pb_DL_RouteList_MouseDown(object sender, MouseEventArgs e)
         {
-            pb_DL_RouteList.Image = Properties.Resources.fileLightPurple;
-            System.Diagnostics.Process.Start(RouteListFilePath);
+            try
+            {
+                pb_DL_RouteList.Image = Properties.Resources.fileLightPurple;
+                System.Diagnostics.Process.Start(RouteListFilePath);
+            }
+            catch (Exception exception)
+            {
+                lbl_Message.Text = "View file failed";
+                lbl_Message.ForeColor = Color.Red;
+                Console.WriteLine(exception.Message);
+            }
         }
 
         private void pb_DL_FloorPlan_MouseDown(object sender, MouseEventArgs e)
         {
-            pb_DL_FloorPlan.Image = Properties.Resources.fileLightPurple;
-            System.Diagnostics.Process.Start(FloorPlanFilePath);
+            try
+            {
+                pb_DL_FloorPlan.Image = Properties.Resources.fileLightPurple;
+                System.Diagnostics.Process.Start(FloorPlanFilePath);
+            }
+            catch (Exception exception)
+            {
+                lbl_Message.Text = "View file failed";
+                lbl_Message.ForeColor = Color.Red;
+                Console.WriteLine(exception.Message);
+            }
         }
 
         private void pb_DL_SortPlan_MouseDown(object sender, MouseEventArgs e)
         {
-            pb_DL_SortPlan.Image = Properties.Resources.fileLightPurple;
-            System.Diagnostics.Process.Start(SortPlanFilePath);
+            try
+            {
+                pb_DL_SortPlan.Image = Properties.Resources.fileLightPurple;
+                System.Diagnostics.Process.Start(SortPlanFilePath);
+            }
+            catch (Exception exception)
+            {
+                lbl_Message.Text = "View file failed";
+                lbl_Message.ForeColor = Color.Red;
+                Console.WriteLine(exception.Message);
+            }
         }
 
         private void pb_DL_ParcelList_MouseUp(object sender, MouseEventArgs e)

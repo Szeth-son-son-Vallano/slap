@@ -129,105 +129,122 @@ namespace Slap
             }
         }
 
-        public static void UploadFile(string FilePath, string fileName, string folderID)
+        public static bool UploadFile(string FilePath, string fileName, string folderID)
         {
-            using (DriveService service = GetDriveService())
+            try
             {
-                var fileMetadata = new Google.Apis.Drive.v3.Data.File
+                using (DriveService service = GetDriveService())
                 {
-                    Name = fileName,
-                    Parents = new List<String> { folderID }
-                };
-
-                FilesResource.CreateMediaUpload request;
-
-                using (var stream = new FileStream(FilePath, FileMode.Open))
-                {
-                    if (Path.GetExtension(fileName).Equals(".pdf"))
+                    var fileMetadata = new Google.Apis.Drive.v3.Data.File
                     {
-                        request = service.Files.Create(fileMetadata, stream, "application/pdf");
-                        request.Upload();
-                    }
-                    else if (Path.GetExtension(fileName).Equals(".csv"))
+                        Name = fileName,
+                        Parents = new List<String> { folderID }
+                    };
+
+                    FilesResource.CreateMediaUpload request;
+
+                    using (var stream = new FileStream(FilePath, FileMode.Open))
                     {
-                        request = service.Files.Create(fileMetadata, stream, "application/vnd.ms-excel");
-                        request.Upload();
+                        if (Path.GetExtension(fileName).Equals(".pdf"))
+                        {
+                            request = service.Files.Create(fileMetadata, stream, "application/pdf");
+                            request.Upload();
+                        }
+                        else if (Path.GetExtension(fileName).Equals(".csv"))
+                        {
+                            request = service.Files.Create(fileMetadata, stream, "application/vnd.ms-excel");
+                            request.Upload();
+                        }
                     }
                 }
+                return true;
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+                return false;
             }
         }
 
         public static List<string> DownloadFiles(string searchFileName)
         {
-            using (DriveService service = GetDriveService())
+            try
             {
-                List<string> filePaths = new List<string>();
-
-                searchFileName = searchFileName + "_";
-                FileList fileList = GetFiles_PDF_CSV(searchFileName);
-
-                if (fileList != null)
+                using (DriveService service = GetDriveService())
                 {
-                    foreach (var file in fileList.Files)
+                    List<string> filePaths = new List<string>();
+
+                    searchFileName = searchFileName + "_";
+                    FileList fileList = GetFiles_PDF_CSV(searchFileName);
+
+                    if (fileList != null)
                     {
-                        var request = service.Files.Get(file.Id);
-
-                        using (var memoryStream = new MemoryStream())
+                        foreach (var file in fileList.Files)
                         {
-                            request.MediaDownloader.ProgressChanged += (IDownloadProgress progress) =>
-                            {
-                                switch (progress.Status)
-                                {
-                                    case DownloadStatus.Downloading:
-                                    //MessageBox.Show(progress.BytesDownloaded.ToString());
-                                    break;
+                            var request = service.Files.Get(file.Id);
 
-                                    case DownloadStatus.Completed:
+                            using (var memoryStream = new MemoryStream())
+                            {
+                                request.MediaDownloader.ProgressChanged += (IDownloadProgress progress) =>
+                                {
+                                    switch (progress.Status)
+                                    {
+                                        case DownloadStatus.Downloading:
+                                        //MessageBox.Show(progress.BytesDownloaded.ToString());
+                                        break;
+
+                                        case DownloadStatus.Completed:
                                         //MessageBox.Show("Download Complete: " + file.Name);
                                         break;
 
-                                    case DownloadStatus.Failed:
-                                    //MessageBox.Show("Download failed: " + file.Name);
-                                    break;
-                                }
-                            };
+                                        case DownloadStatus.Failed:
+                                        //MessageBox.Show("Download failed: " + file.Name);
+                                        break;
+                                    }
+                                };
 
-                            request.Download(memoryStream);
-                            string DownloadsPath = Properties.Settings.Default.DownloadLocation;
-                            string FolderPath = Path.Combine(DownloadsPath, searchFileName.Substring(0, searchFileName.Length - 1));
-                            string FileName = file.Name;
+                                request.Download(memoryStream);
+                                string DownloadsPath = Properties.Settings.Default.DownloadLocation;
+                                string FolderPath = Path.Combine(DownloadsPath, searchFileName.Substring(0, searchFileName.Length - 1));
+                                string FileName = file.Name;
 
-                            if (Directory.Exists(FolderPath))
-                            {
-                                int i = 0;
-                                while (System.IO.File.Exists(Path.Combine(FolderPath, FileName)))
+                                if (Directory.Exists(FolderPath))
                                 {
-                                    i++;
-                                    FileName = Path.GetFileNameWithoutExtension(file.Name) + "(" + i + ")" + Path.GetExtension(file.Name);
+                                    int i = 0;
+                                    while (System.IO.File.Exists(Path.Combine(FolderPath, FileName)))
+                                    {
+                                        i++;
+                                        FileName = Path.GetFileNameWithoutExtension(file.Name) + "(" + i + ")" + Path.GetExtension(file.Name);
+                                    }
                                 }
-                            }
-                            else
-                            {
-                                Directory.CreateDirectory(FolderPath);
-                            }
-                            
-                            FileName = Path.Combine(FolderPath, FileName);
+                                else
+                                {
+                                    Directory.CreateDirectory(FolderPath);
+                                }
 
-                            using (var fileStream = new FileStream(FileName, FileMode.Create, FileAccess.Write))
-                            {
-                                fileStream.Write(memoryStream.GetBuffer(), 0, memoryStream.GetBuffer().Length);
+                                FileName = Path.Combine(FolderPath, FileName);
 
-                                filePaths.Add(FileName);
+                                using (var fileStream = new FileStream(FileName, FileMode.Create, FileAccess.Write))
+                                {
+                                    fileStream.Write(memoryStream.GetBuffer(), 0, memoryStream.GetBuffer().Length);
+
+                                    filePaths.Add(FileName);
+                                }
                             }
                         }
+                        return filePaths;
                     }
-                    return filePaths;
+                    else
+                    {
+                        MessageBox.Show("Files containing '" + searchFileName + "' could be found");
+                        return null;
+                    }
                 }
-                else
-                {
-                    MessageBox.Show("Files containing '" + searchFileName + "' could be found");
-                    return null;
-                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+                return null;
             }
         }
     }

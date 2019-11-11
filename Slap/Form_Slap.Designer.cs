@@ -53,7 +53,7 @@
             // 
             // pb_FedexLogo
             // 
-            this.pb_FedexLogo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.pb_FedexLogo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pb_FedexLogo.Image = global::Slap.Properties.Resources.fedexLogo;
             this.pb_FedexLogo.Location = new System.Drawing.Point(453, 0);
@@ -114,7 +114,6 @@
             // 
             // ctrl_SortHistory1
             // 
-            this.ctrl_SortHistory1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.ctrl_SortHistory1.Location = new System.Drawing.Point(0, 190);
             this.ctrl_SortHistory1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ctrl_SortHistory1.Name = "ctrl_SortHistory1";
@@ -123,7 +122,6 @@
             // 
             // ctrl_NewSort_Input1
             // 
-            this.ctrl_NewSort_Input1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.ctrl_NewSort_Input1.Location = new System.Drawing.Point(0, 190);
             this.ctrl_NewSort_Input1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ctrl_NewSort_Input1.Name = "ctrl_NewSort_Input1";
