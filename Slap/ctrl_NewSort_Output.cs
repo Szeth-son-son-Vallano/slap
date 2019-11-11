@@ -10,7 +10,6 @@ using iTextSharp.text.pdf;
 using ZXing;
 using System.Drawing;
 using ZXing.QrCode;
-using System.IO.Compression;
 using Google.Apis.Drive.v3.Data;
 
 namespace Slap
@@ -94,6 +93,24 @@ namespace Slap
 
         private void btn_Back_MouseDown(object sender, MouseEventArgs e)
         {
+            // remove temporary storage for FloorPlan and SortPlan
+            try
+            {
+                if (System.IO.File.Exists(FloorPlanFilePath))
+                {
+                    System.IO.File.Delete(FloorPlanFilePath);
+                }
+                
+                if (System.IO.File.Exists(SortPlanFilePath))
+                {
+                    System.IO.File.Delete(SortPlanFilePath);
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
+
             Hide();
             Reset();
         }

@@ -30,9 +30,12 @@ namespace Slap
 
             if (ImplicitDownloadLocation == null || ImplicitDownloadLocation.Equals(""))
             {
-                ImplicitDownloadLocation = KnownFolders.GetPath(KnownFolder.Downloads);
-                Properties.Settings.Default.DownloadLocation = ImplicitDownloadLocation;
-                Properties.Settings.Default.Save();
+                if (!Directory.Exists(ImplicitDownloadLocation))
+                {
+                    ImplicitDownloadLocation = KnownFolders.GetPath(KnownFolder.Downloads);
+                    Properties.Settings.Default.DownloadLocation = ImplicitDownloadLocation;
+                    Properties.Settings.Default.Save();
+                }
             }
             txt_DownloadLocation.Text = ImplicitDownloadLocation;
         }
