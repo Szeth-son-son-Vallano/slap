@@ -114,6 +114,7 @@
             // 
             // ctrl_SortHistory1
             // 
+            this.ctrl_SortHistory1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.ctrl_SortHistory1.Location = new System.Drawing.Point(0, 190);
             this.ctrl_SortHistory1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ctrl_SortHistory1.Name = "ctrl_SortHistory1";
@@ -122,6 +123,7 @@
             // 
             // ctrl_NewSort_Input1
             // 
+            this.ctrl_NewSort_Input1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.ctrl_NewSort_Input1.Location = new System.Drawing.Point(0, 190);
             this.ctrl_NewSort_Input1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ctrl_NewSort_Input1.Name = "ctrl_NewSort_Input1";
