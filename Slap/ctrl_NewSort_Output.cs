@@ -729,10 +729,13 @@ namespace Slap
                 PdfWriter writer = PdfWriter.GetInstance(doc, fs);
                 doc.Open();
 
-                // create table
+                // create table for floor grid
                 int gridRows = RouteGroup.PalletCount;
                 int gridCols = 28;
-                PdfPTable table = new PdfPTable(gridRows + 2);
+                int legendRows = sortedRouteGroupList.Count;
+                int legendCols = 3;
+                PdfPTable gridTable = new PdfPTable(gridRows + 2);
+                PdfPTable legendTable = new PdfPTable(legendCols);
 
                 iTextSharp.text.Font font = new iTextSharp.text.Font(FontFactory.GetFont("Times New Roman", 8));
 
@@ -742,6 +745,11 @@ namespace Slap
                 titleCell.Rotation = 270;
                 titleCell.HorizontalAlignment = 1;
 
+                PdfPCell legendTitleCell = new PdfPCell(new Phrase("FLOOR PLAN - " + dateTimeStr));
+                legendTitleCell.Colspan = legendCols;
+                legendTitleCell.HorizontalAlignment = 1;
+                legendTable.AddCell(legendTitleCell);
+                
                 // fill in the used lanes
                 int currentLane = 0;
                 float minimumHeight = 25.0f;
@@ -752,6 +760,40 @@ namespace Slap
                 {
                     if (!routeGroup.Lanes.Equals("HOLD"))
                     {
+                        // insert into legend table
+                        PdfPCell legendCellColor = new PdfPCell(new Phrase(""))
+                        {
+                            Colspan = 1,
+                            MinimumHeight = minimumHeight,
+                            BackgroundColor = SlapColor.Color[colorShift]
+                        };
+
+                        PdfPCell legendCellLanes = new PdfPCell(new Phrase(routeGroup.Lanes, font))
+                        {
+                            Colspan = 1,
+                            MinimumHeight = minimumHeight
+                        };
+
+                        string routes = "";
+                        for (int i = 0; i < routeGroup.CourierRoutes.Count; i++)
+                        {
+                            if (i != 0)
+                            {
+                                routes += ", ";
+                            }
+                            routes += routeGroup.CourierRoutes[i];
+                        }
+                        PdfPCell legendCellRoutes = new PdfPCell(new Phrase(routes, font))
+                        {
+                            Colspan = 1,
+                            MinimumHeight = minimumHeight
+                        };
+
+                        legendTable.AddCell(legendCellColor);
+                        legendTable.AddCell(legendCellLanes);
+                        legendTable.AddCell(legendCellRoutes);
+
+                        // insert into grid table
                         foreach (char lane in routeGroup.Lanes)
                         {
                             PdfPCell cellLane = new PdfPCell(new Phrase(Char.ToString(lane), font))
@@ -760,7 +802,7 @@ namespace Slap
                                 Colspan = 1,
                                 MinimumHeight = minimumHeight
                             };
-                            table.AddCell(cellLane);
+                            gridTable.AddCell(cellLane);
 
                             for (int row = 0; row < gridRows; row++)
                             {
@@ -772,12 +814,12 @@ namespace Slap
                                     BackgroundColor = SlapColor.Color[colorShift]
                                 };
 
-                                table.AddCell(cell);
+                                gridTable.AddCell(cell);
 
 
                                 if (!insertTitle && row == gridRows - 1)
                                 {
-                                    table.AddCell(titleCell);
+                                    gridTable.AddCell(titleCell);
                                     insertTitle = true;
                                 }
                             }
@@ -796,7 +838,7 @@ namespace Slap
                         Colspan = 1,
                         MinimumHeight = minimumHeight
                     };
-                    table.AddCell(cellLane);
+                    gridTable.AddCell(cellLane);
                     for (int row = 0; row < gridRows; row++)
                     {
                         PdfPCell cell = new PdfPCell(new Phrase(" "))
@@ -806,7 +848,7 @@ namespace Slap
                             BackgroundColor = SlapColor.Color[SlapColor.Color.Count - 1]
                         };
 
-                        table.AddCell(cell);
+                        gridTable.AddCell(cell);
                     }
                 }
 
@@ -821,7 +863,7 @@ namespace Slap
                             Colspan = 1,
                             MinimumHeight = minimumHeight
                         };
-                        table.AddCell(cellLane);
+                        gridTable.AddCell(cellLane);
 
                         for (int row = 0; row < gridRows; row++)
                         {
@@ -832,12 +874,14 @@ namespace Slap
                                 BackgroundColor = SlapColor.Color[0]
                             };
 
-                            table.AddCell(cell);
+                            gridTable.AddCell(cell);
                         }
                     }
                 }
 
-                doc.Add(table);
+                doc.Add(gridTable);
+                doc.NewPage();
+                doc.Add(legendTable);
 
                 doc.Close();
                 writer.Close();
