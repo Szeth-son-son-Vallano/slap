@@ -298,42 +298,58 @@ namespace Slap
                 string DownloadsPath = Properties.Settings.Default.DownloadLocation;
                 if (Directory.EnumerateFileSystemEntries(Path.Combine(DownloadsPath, FolderName)).Any())
                 {
-                    string folderName = FolderName + ".zip";
-                    string zipFolderName = folderName;
+                    FileInfo fi1 = new FileInfo(ParcelListFilePath);
+                    FileInfo fi2 = new FileInfo(RouteListFilePath);
+                    FileInfo fi3 = new FileInfo(FloorPlanFilePath);
+                    FileInfo fi4 = new FileInfo(SortPlanFilePath);
 
-                    int i = 0;
-                    while (System.IO.File.Exists(Path.Combine(DownloadsPath, zipFolderName)))
+                    if (!IsFileLocked(fi1) &&
+                        !IsFileLocked(fi2) &&
+                        !IsFileLocked(fi3) &&
+                        !IsFileLocked(fi4))
                     {
-                        i++;
-                        zipFolderName = Path.GetFileNameWithoutExtension(folderName) + "(" + i + ")" + Path.GetExtension(folderName);
-                    }
-                    zipFolderName = Path.Combine(DownloadsPath, zipFolderName);
+                        string folderName = FolderName + ".zip";
+                        string zipFolderName = folderName;
 
-                    var zip = ZipFile.Open(zipFolderName, ZipArchiveMode.Create);
+                        int i = 0;
+                        while (System.IO.File.Exists(Path.Combine(DownloadsPath, zipFolderName)))
+                        {
+                            i++;
+                            zipFolderName = Path.GetFileNameWithoutExtension(folderName) + "(" + i + ")" + Path.GetExtension(folderName);
+                        }
+                        zipFolderName = Path.Combine(DownloadsPath, zipFolderName);
 
-                    if (File.Exists(ParcelListFilePath))
-                    {
-                        zip.CreateEntryFromFile(ParcelListFilePath, Path.GetFileName(ParcelListFilePath), CompressionLevel.Optimal);
+                        var zip = ZipFile.Open(zipFolderName, ZipArchiveMode.Create);
+
+                        if (File.Exists(ParcelListFilePath))
+                        {
+                            zip.CreateEntryFromFile(ParcelListFilePath, Path.GetFileName(ParcelListFilePath), CompressionLevel.Optimal);
+                        }
+                        if (File.Exists(RouteListFilePath))
+                        {
+                            zip.CreateEntryFromFile(RouteListFilePath, Path.GetFileName(RouteListFilePath), CompressionLevel.Optimal);
+                        }
+                        if (File.Exists(FloorPlanFilePath))
+                        {
+                            zip.CreateEntryFromFile(FloorPlanFilePath, Path.GetFileName(FloorPlanFilePath), CompressionLevel.Optimal);
+                        }
+                        if (File.Exists(SortPlanFilePath))
+                        {
+                            zip.CreateEntryFromFile(SortPlanFilePath, Path.GetFileName(SortPlanFilePath), CompressionLevel.Optimal);
+                        }
+
+                        // Dispose of the object when we are done
+                        zip.Dispose();
+
                         File.Delete(ParcelListFilePath);
-                    }
-                    if (File.Exists(RouteListFilePath))
-                    {
-                        zip.CreateEntryFromFile(FloorPlanFilePath, Path.GetFileName(RouteListFilePath), CompressionLevel.Optimal);
                         File.Delete(RouteListFilePath);
-                    }
-                    if (File.Exists(FloorPlanFilePath))
-                    {
-                        zip.CreateEntryFromFile(FloorPlanFilePath, Path.GetFileName(FloorPlanFilePath), CompressionLevel.Optimal);
                         File.Delete(FloorPlanFilePath);
-                    }
-                    if (File.Exists(SortPlanFilePath))
-                    {
-                        zip.CreateEntryFromFile(SortPlanFilePath, Path.GetFileName(SortPlanFilePath), CompressionLevel.Optimal);
                         File.Delete(SortPlanFilePath);
                     }
-
-                    // Dispose of the object when we are done
-                    zip.Dispose();
+                    else
+                    {
+                        throw new Exception();
+                    }
 
                     // Remove empty folders
                     string removeFolderName = Path.Combine(DownloadsPath, Path.GetFileNameWithoutExtension(FolderName));
@@ -360,6 +376,28 @@ namespace Slap
 
                 Console.WriteLine(exception.Message);
             }
+        }
+
+        protected virtual bool IsFileLocked(FileInfo file)
+        {
+            try
+            {
+                using (FileStream stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None))
+                {
+                    stream.Close();
+                }
+            }
+            catch (IOException)
+            {
+                //the file is unavailable because it is:
+                //still being written to
+                //or being processed by another thread
+                //or does not exist (has already been processed)
+                return true;
+            }
+
+            //file is not locked
+            return false;
         }
 
         private void txt_DownloadLocation_KeyPress(object sender, KeyPressEventArgs e)
