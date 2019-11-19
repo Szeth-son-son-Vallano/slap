@@ -34,6 +34,8 @@ namespace Slap
             btn_MenuNewSort.BackColor = Color.BlueViolet;
             btn_MenuNewSort.ForeColor = Color.White;
             ctrl_NewSort_Input1.BringToFront();
+            ctrl_NewSort_Input1.Visible = true;
+            ctrl_SortHistory1.Visible = false;
         }
 
         private void btn_SortHistory_Click(object sender, EventArgs e)
@@ -42,6 +44,8 @@ namespace Slap
             btn_MenuSortHistory.BackColor = Color.FromArgb(255, 128, 0);
             btn_MenuSortHistory.ForeColor = Color.White;
             ctrl_SortHistory1.BringToFront();
+            ctrl_SortHistory1.Visible = true;
+            ctrl_NewSort_Input1.Visible = false;
         }
 
         private void Form_Slap_Resize(object sender, EventArgs e)

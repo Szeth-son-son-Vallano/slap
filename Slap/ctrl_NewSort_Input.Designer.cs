@@ -48,7 +48,7 @@
             // 
             this.lbl_ParcelListFile.BackColor = System.Drawing.Color.Transparent;
             this.lbl_ParcelListFile.Font = new System.Drawing.Font("DengXian", 12F, System.Drawing.FontStyle.Italic);
-            this.lbl_ParcelListFile.Location = new System.Drawing.Point(175, 420);
+            this.lbl_ParcelListFile.Location = new System.Drawing.Point(175, 450);
             this.lbl_ParcelListFile.Name = "lbl_ParcelListFile";
             this.lbl_ParcelListFile.Size = new System.Drawing.Size(300, 30);
             this.lbl_ParcelListFile.TabIndex = 3;
@@ -59,7 +59,7 @@
             // 
             this.lbl_RouteListFile.BackColor = System.Drawing.Color.Transparent;
             this.lbl_RouteListFile.Font = new System.Drawing.Font("DengXian", 12F, System.Drawing.FontStyle.Italic);
-            this.lbl_RouteListFile.Location = new System.Drawing.Point(725, 420);
+            this.lbl_RouteListFile.Location = new System.Drawing.Point(725, 450);
             this.lbl_RouteListFile.Name = "lbl_RouteListFile";
             this.lbl_RouteListFile.Size = new System.Drawing.Size(300, 30);
             this.lbl_RouteListFile.TabIndex = 4;
@@ -69,10 +69,10 @@
             // pb_DND_RouteList
             // 
             this.pb_DND_RouteList.Image = ((System.Drawing.Image)(resources.GetObject("pb_DND_RouteList.Image")));
-            this.pb_DND_RouteList.Location = new System.Drawing.Point(700, 125);
+            this.pb_DND_RouteList.Location = new System.Drawing.Point(750, 175);
             this.pb_DND_RouteList.Margin = new System.Windows.Forms.Padding(0);
             this.pb_DND_RouteList.Name = "pb_DND_RouteList";
-            this.pb_DND_RouteList.Size = new System.Drawing.Size(350, 350);
+            this.pb_DND_RouteList.Size = new System.Drawing.Size(250, 250);
             this.pb_DND_RouteList.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb_DND_RouteList.TabIndex = 1;
             this.pb_DND_RouteList.TabStop = false;
@@ -83,10 +83,10 @@
             // pb_DND_ParcelList
             // 
             this.pb_DND_ParcelList.Image = global::Slap.Properties.Resources.fileGrayFrame;
-            this.pb_DND_ParcelList.Location = new System.Drawing.Point(150, 125);
+            this.pb_DND_ParcelList.Location = new System.Drawing.Point(200, 175);
             this.pb_DND_ParcelList.Margin = new System.Windows.Forms.Padding(0);
             this.pb_DND_ParcelList.Name = "pb_DND_ParcelList";
-            this.pb_DND_ParcelList.Size = new System.Drawing.Size(350, 350);
+            this.pb_DND_ParcelList.Size = new System.Drawing.Size(250, 250);
             this.pb_DND_ParcelList.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pb_DND_ParcelList.TabIndex = 0;
             this.pb_DND_ParcelList.TabStop = false;
@@ -98,7 +98,7 @@
             // 
             this.lbl_RouteList.BackColor = System.Drawing.Color.Transparent;
             this.lbl_RouteList.Font = new System.Drawing.Font("DengXian", 12F, System.Drawing.FontStyle.Bold);
-            this.lbl_RouteList.Location = new System.Drawing.Point(725, 75);
+            this.lbl_RouteList.Location = new System.Drawing.Point(725, 125);
             this.lbl_RouteList.Name = "lbl_RouteList";
             this.lbl_RouteList.Size = new System.Drawing.Size(300, 30);
             this.lbl_RouteList.TabIndex = 9;
@@ -109,7 +109,7 @@
             // 
             this.lbl_ParcelList.BackColor = System.Drawing.Color.Transparent;
             this.lbl_ParcelList.Font = new System.Drawing.Font("DengXian", 12F, System.Drawing.FontStyle.Bold);
-            this.lbl_ParcelList.Location = new System.Drawing.Point(175, 75);
+            this.lbl_ParcelList.Location = new System.Drawing.Point(175, 125);
             this.lbl_ParcelList.Name = "lbl_ParcelList";
             this.lbl_ParcelList.Size = new System.Drawing.Size(300, 30);
             this.lbl_ParcelList.TabIndex = 8;
@@ -192,10 +192,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.ctrl_NewSort_Output1);
+            this.Controls.Add(this.lbl_RouteListFile);
+            this.Controls.Add(this.lbl_ParcelListFile);
             this.Controls.Add(this.lbl_ParcelList);
             this.Controls.Add(this.lbl_RouteList);
-            this.Controls.Add(this.lbl_ParcelListFile);
-            this.Controls.Add(this.lbl_RouteListFile);
             this.Controls.Add(this.pb_DND_ParcelList);
             this.Controls.Add(this.pb_DND_RouteList);
             this.Controls.Add(this.lbl_ErrorMessage);

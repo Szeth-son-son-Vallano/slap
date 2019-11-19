@@ -52,24 +52,24 @@
             // lbl_RouteList
             // 
             this.lbl_RouteList.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_RouteList.Font = new System.Drawing.Font("DengXian", 12F, System.Drawing.FontStyle.Bold);
-            this.lbl_RouteList.Location = new System.Drawing.Point(1025, 50);
+            this.lbl_RouteList.Font = new System.Drawing.Font("DengXian", 10F, System.Drawing.FontStyle.Bold);
+            this.lbl_RouteList.Location = new System.Drawing.Point(1025, 125);
             this.lbl_RouteList.Name = "lbl_RouteList";
-            this.lbl_RouteList.Size = new System.Drawing.Size(150, 30);
+            this.lbl_RouteList.Size = new System.Drawing.Size(150, 50);
             this.lbl_RouteList.TabIndex = 9;
             this.lbl_RouteList.Text = "ROUTE LIST";
-            this.lbl_RouteList.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_RouteList.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // lbl_ParcelList
             // 
             this.lbl_ParcelList.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_ParcelList.Font = new System.Drawing.Font("DengXian", 12F, System.Drawing.FontStyle.Bold);
-            this.lbl_ParcelList.Location = new System.Drawing.Point(875, 50);
+            this.lbl_ParcelList.Font = new System.Drawing.Font("DengXian", 10F, System.Drawing.FontStyle.Bold);
+            this.lbl_ParcelList.Location = new System.Drawing.Point(875, 125);
             this.lbl_ParcelList.Name = "lbl_ParcelList";
-            this.lbl_ParcelList.Size = new System.Drawing.Size(150, 30);
+            this.lbl_ParcelList.Size = new System.Drawing.Size(150, 50);
             this.lbl_ParcelList.TabIndex = 8;
             this.lbl_ParcelList.Text = "PARCEL LIST";
-            this.lbl_ParcelList.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_ParcelList.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // openFileDialog1
             // 
@@ -78,37 +78,37 @@
             // lbl_SortPlan
             // 
             this.lbl_SortPlan.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_SortPlan.Font = new System.Drawing.Font("DengXian", 12F, System.Drawing.FontStyle.Bold);
-            this.lbl_SortPlan.Location = new System.Drawing.Point(1025, 275);
+            this.lbl_SortPlan.Font = new System.Drawing.Font("DengXian", 10F, System.Drawing.FontStyle.Bold);
+            this.lbl_SortPlan.Location = new System.Drawing.Point(1025, 325);
             this.lbl_SortPlan.Name = "lbl_SortPlan";
-            this.lbl_SortPlan.Size = new System.Drawing.Size(150, 30);
+            this.lbl_SortPlan.Size = new System.Drawing.Size(150, 50);
             this.lbl_SortPlan.TabIndex = 13;
             this.lbl_SortPlan.Text = "SORT PLAN";
-            this.lbl_SortPlan.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_SortPlan.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // lbl_FloorPlan
             // 
             this.lbl_FloorPlan.BackColor = System.Drawing.Color.Transparent;
-            this.lbl_FloorPlan.Font = new System.Drawing.Font("DengXian", 12F, System.Drawing.FontStyle.Bold);
-            this.lbl_FloorPlan.Location = new System.Drawing.Point(875, 275);
+            this.lbl_FloorPlan.Font = new System.Drawing.Font("DengXian", 10F, System.Drawing.FontStyle.Bold);
+            this.lbl_FloorPlan.Location = new System.Drawing.Point(875, 325);
             this.lbl_FloorPlan.Name = "lbl_FloorPlan";
-            this.lbl_FloorPlan.Size = new System.Drawing.Size(150, 30);
+            this.lbl_FloorPlan.Size = new System.Drawing.Size(150, 50);
             this.lbl_FloorPlan.TabIndex = 12;
             this.lbl_FloorPlan.Text = "FLOOR PLAN";
-            this.lbl_FloorPlan.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lbl_FloorPlan.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // dgv_FileData
             // 
             this.dgv_FileData.AllowUserToAddRows = false;
             this.dgv_FileData.AllowUserToDeleteRows = false;
             this.dgv_FileData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_FileData.Location = new System.Drawing.Point(50, 50);
+            this.dgv_FileData.Location = new System.Drawing.Point(50, 125);
             this.dgv_FileData.Name = "dgv_FileData";
             this.dgv_FileData.ReadOnly = true;
             this.dgv_FileData.RowHeadersWidth = 51;
             this.dgv_FileData.RowTemplate.Height = 24;
             this.dgv_FileData.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgv_FileData.Size = new System.Drawing.Size(800, 425);
+            this.dgv_FileData.Size = new System.Drawing.Size(800, 350);
             this.dgv_FileData.TabIndex = 14;
             // 
             // btn_Back
@@ -163,7 +163,7 @@
             // 
             this.pb_DL_SortPlan.Enabled = false;
             this.pb_DL_SortPlan.Image = ((System.Drawing.Image)(resources.GetObject("pb_DL_SortPlan.Image")));
-            this.pb_DL_SortPlan.Location = new System.Drawing.Point(1050, 325);
+            this.pb_DL_SortPlan.Location = new System.Drawing.Point(1050, 375);
             this.pb_DL_SortPlan.Margin = new System.Windows.Forms.Padding(0);
             this.pb_DL_SortPlan.Name = "pb_DL_SortPlan";
             this.pb_DL_SortPlan.Size = new System.Drawing.Size(100, 100);
@@ -177,7 +177,7 @@
             // 
             this.pb_DL_FloorPlan.Enabled = false;
             this.pb_DL_FloorPlan.Image = ((System.Drawing.Image)(resources.GetObject("pb_DL_FloorPlan.Image")));
-            this.pb_DL_FloorPlan.Location = new System.Drawing.Point(900, 325);
+            this.pb_DL_FloorPlan.Location = new System.Drawing.Point(900, 375);
             this.pb_DL_FloorPlan.Margin = new System.Windows.Forms.Padding(0);
             this.pb_DL_FloorPlan.Name = "pb_DL_FloorPlan";
             this.pb_DL_FloorPlan.Size = new System.Drawing.Size(100, 100);
@@ -191,7 +191,7 @@
             // 
             this.pb_DL_RouteList.Enabled = false;
             this.pb_DL_RouteList.Image = ((System.Drawing.Image)(resources.GetObject("pb_DL_RouteList.Image")));
-            this.pb_DL_RouteList.Location = new System.Drawing.Point(1050, 100);
+            this.pb_DL_RouteList.Location = new System.Drawing.Point(1050, 175);
             this.pb_DL_RouteList.Margin = new System.Windows.Forms.Padding(0);
             this.pb_DL_RouteList.Name = "pb_DL_RouteList";
             this.pb_DL_RouteList.Size = new System.Drawing.Size(100, 100);
@@ -205,7 +205,7 @@
             // 
             this.pb_DL_ParcelList.Enabled = false;
             this.pb_DL_ParcelList.Image = global::Slap.Properties.Resources.filePurple;
-            this.pb_DL_ParcelList.Location = new System.Drawing.Point(900, 100);
+            this.pb_DL_ParcelList.Location = new System.Drawing.Point(900, 175);
             this.pb_DL_ParcelList.Margin = new System.Windows.Forms.Padding(0);
             this.pb_DL_ParcelList.Name = "pb_DL_ParcelList";
             this.pb_DL_ParcelList.Size = new System.Drawing.Size(100, 100);
@@ -231,15 +231,15 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.pb_DL_SortPlan);
+            this.Controls.Add(this.pb_DL_FloorPlan);
+            this.Controls.Add(this.pb_DL_RouteList);
+            this.Controls.Add(this.pb_DL_ParcelList);
             this.Controls.Add(this.lbl_Message);
             this.Controls.Add(this.lbl_SortPlan);
             this.Controls.Add(this.lbl_FloorPlan);
-            this.Controls.Add(this.pb_DL_SortPlan);
-            this.Controls.Add(this.pb_DL_FloorPlan);
             this.Controls.Add(this.lbl_RouteList);
             this.Controls.Add(this.lbl_ParcelList);
-            this.Controls.Add(this.pb_DL_RouteList);
-            this.Controls.Add(this.pb_DL_ParcelList);
             this.Controls.Add(this.dgv_FileData);
             this.Controls.Add(this.btn_Sort);
             this.Controls.Add(this.btn_Back);
