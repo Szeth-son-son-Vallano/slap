@@ -48,7 +48,7 @@
             // 
             this.lbl_ParcelListFile.BackColor = System.Drawing.Color.Transparent;
             this.lbl_ParcelListFile.Font = new System.Drawing.Font("DengXian", 12F, System.Drawing.FontStyle.Italic);
-            this.lbl_ParcelListFile.Location = new System.Drawing.Point(175, 450);
+            this.lbl_ParcelListFile.Location = new System.Drawing.Point(175, 375);
             this.lbl_ParcelListFile.Name = "lbl_ParcelListFile";
             this.lbl_ParcelListFile.Size = new System.Drawing.Size(300, 30);
             this.lbl_ParcelListFile.TabIndex = 3;
@@ -59,7 +59,7 @@
             // 
             this.lbl_RouteListFile.BackColor = System.Drawing.Color.Transparent;
             this.lbl_RouteListFile.Font = new System.Drawing.Font("DengXian", 12F, System.Drawing.FontStyle.Italic);
-            this.lbl_RouteListFile.Location = new System.Drawing.Point(725, 450);
+            this.lbl_RouteListFile.Location = new System.Drawing.Point(725, 375);
             this.lbl_RouteListFile.Name = "lbl_RouteListFile";
             this.lbl_RouteListFile.Size = new System.Drawing.Size(300, 30);
             this.lbl_RouteListFile.TabIndex = 4;
@@ -69,7 +69,7 @@
             // pb_DND_RouteList
             // 
             this.pb_DND_RouteList.Image = ((System.Drawing.Image)(resources.GetObject("pb_DND_RouteList.Image")));
-            this.pb_DND_RouteList.Location = new System.Drawing.Point(750, 175);
+            this.pb_DND_RouteList.Location = new System.Drawing.Point(750, 100);
             this.pb_DND_RouteList.Margin = new System.Windows.Forms.Padding(0);
             this.pb_DND_RouteList.Name = "pb_DND_RouteList";
             this.pb_DND_RouteList.Size = new System.Drawing.Size(250, 250);
@@ -83,7 +83,7 @@
             // pb_DND_ParcelList
             // 
             this.pb_DND_ParcelList.Image = global::Slap.Properties.Resources.fileGrayFrame;
-            this.pb_DND_ParcelList.Location = new System.Drawing.Point(200, 175);
+            this.pb_DND_ParcelList.Location = new System.Drawing.Point(200, 100);
             this.pb_DND_ParcelList.Margin = new System.Windows.Forms.Padding(0);
             this.pb_DND_ParcelList.Name = "pb_DND_ParcelList";
             this.pb_DND_ParcelList.Size = new System.Drawing.Size(250, 250);
@@ -98,7 +98,7 @@
             // 
             this.lbl_RouteList.BackColor = System.Drawing.Color.Transparent;
             this.lbl_RouteList.Font = new System.Drawing.Font("DengXian", 12F, System.Drawing.FontStyle.Bold);
-            this.lbl_RouteList.Location = new System.Drawing.Point(725, 125);
+            this.lbl_RouteList.Location = new System.Drawing.Point(725, 50);
             this.lbl_RouteList.Name = "lbl_RouteList";
             this.lbl_RouteList.Size = new System.Drawing.Size(300, 30);
             this.lbl_RouteList.TabIndex = 9;
@@ -109,7 +109,7 @@
             // 
             this.lbl_ParcelList.BackColor = System.Drawing.Color.Transparent;
             this.lbl_ParcelList.Font = new System.Drawing.Font("DengXian", 12F, System.Drawing.FontStyle.Bold);
-            this.lbl_ParcelList.Location = new System.Drawing.Point(175, 125);
+            this.lbl_ParcelList.Location = new System.Drawing.Point(175, 50);
             this.lbl_ParcelList.Name = "lbl_ParcelList";
             this.lbl_ParcelList.Size = new System.Drawing.Size(300, 30);
             this.lbl_ParcelList.TabIndex = 8;
@@ -125,7 +125,7 @@
             this.lbl_ErrorMessage.BackColor = System.Drawing.Color.Transparent;
             this.lbl_ErrorMessage.Font = new System.Drawing.Font("DengXian", 10F, System.Drawing.FontStyle.Italic);
             this.lbl_ErrorMessage.ForeColor = System.Drawing.Color.Red;
-            this.lbl_ErrorMessage.Location = new System.Drawing.Point(350, 500);
+            this.lbl_ErrorMessage.Location = new System.Drawing.Point(350, 425);
             this.lbl_ErrorMessage.Name = "lbl_ErrorMessage";
             this.lbl_ErrorMessage.Size = new System.Drawing.Size(500, 20);
             this.lbl_ErrorMessage.TabIndex = 10;
@@ -148,7 +148,7 @@
             this.btn_Read.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Read.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
             this.btn_Read.ForeColor = System.Drawing.Color.White;
-            this.btn_Read.Location = new System.Drawing.Point(475, 525);
+            this.btn_Read.Location = new System.Drawing.Point(475, 450);
             this.btn_Read.Name = "btn_Read";
             this.btn_Read.Size = new System.Drawing.Size(250, 60);
             this.btn_Read.TabIndex = 6;
@@ -172,7 +172,7 @@
             this.btn_Clear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Clear.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
             this.btn_Clear.ForeColor = System.Drawing.Color.White;
-            this.btn_Clear.Location = new System.Drawing.Point(475, 600);
+            this.btn_Clear.Location = new System.Drawing.Point(475, 525);
             this.btn_Clear.Name = "btn_Clear";
             this.btn_Clear.Size = new System.Drawing.Size(250, 60);
             this.btn_Clear.TabIndex = 7;

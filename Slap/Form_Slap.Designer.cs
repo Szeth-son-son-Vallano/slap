@@ -33,8 +33,8 @@
             this.panel_Tab = new System.Windows.Forms.Panel();
             this.btn_MenuSortHistory = new System.Windows.Forms.Button();
             this.btn_MenuNewSort = new System.Windows.Forms.Button();
-            this.ctrl_SortHistory1 = new Slap.ctrl_SortHistory();
             this.ctrl_NewSort_Input1 = new Slap.ctrl_NewSort_Input();
+            this.ctrl_SortHistory1 = new Slap.ctrl_SortHistory();
             this.panel_Logo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_FedexLogo)).BeginInit();
             this.panel_Tab.SuspendLayout();
@@ -112,23 +112,23 @@
             this.btn_MenuNewSort.UseVisualStyleBackColor = false;
             this.btn_MenuNewSort.Click += new System.EventHandler(this.btn_NewSort_Click);
             // 
-            // ctrl_SortHistory1
-            // 
-            this.ctrl_SortHistory1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.ctrl_SortHistory1.Location = new System.Drawing.Point(0, 200);
-            this.ctrl_SortHistory1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.ctrl_SortHistory1.Name = "ctrl_SortHistory1";
-            this.ctrl_SortHistory1.Size = new System.Drawing.Size(1200, 700);
-            this.ctrl_SortHistory1.TabIndex = 3;
-            // 
             // ctrl_NewSort_Input1
             // 
-            this.ctrl_NewSort_Input1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.ctrl_NewSort_Input1.Location = new System.Drawing.Point(0, -500);
+            this.ctrl_NewSort_Input1.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.ctrl_NewSort_Input1.Location = new System.Drawing.Point(0, 175);
             this.ctrl_NewSort_Input1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ctrl_NewSort_Input1.Name = "ctrl_NewSort_Input1";
             this.ctrl_NewSort_Input1.Size = new System.Drawing.Size(1200, 700);
             this.ctrl_NewSort_Input1.TabIndex = 2;
+            // 
+            // ctrl_SortHistory1
+            // 
+            this.ctrl_SortHistory1.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.ctrl_SortHistory1.Location = new System.Drawing.Point(0, 175);
+            this.ctrl_SortHistory1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.ctrl_SortHistory1.Name = "ctrl_SortHistory1";
+            this.ctrl_SortHistory1.Size = new System.Drawing.Size(1200, 700);
+            this.ctrl_SortHistory1.TabIndex = 3;
             // 
             // Form_Slap
             // 
@@ -138,8 +138,8 @@
             this.ClientSize = new System.Drawing.Size(1200, 900);
             this.Controls.Add(this.panel_Tab);
             this.Controls.Add(this.panel_Logo);
-            this.Controls.Add(this.ctrl_NewSort_Input1);
             this.Controls.Add(this.ctrl_SortHistory1);
+            this.Controls.Add(this.ctrl_NewSort_Input1);
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "Form_Slap";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

@@ -33,7 +33,6 @@ namespace Slap
             ButtonReset();
             btn_MenuNewSort.BackColor = Color.BlueViolet;
             btn_MenuNewSort.ForeColor = Color.White;
-            ctrl_NewSort_Input1.BringToFront();
             ctrl_NewSort_Input1.Visible = true;
             ctrl_SortHistory1.Visible = false;
         }
@@ -43,7 +42,6 @@ namespace Slap
             ButtonReset();
             btn_MenuSortHistory.BackColor = Color.FromArgb(255, 128, 0);
             btn_MenuSortHistory.ForeColor = Color.White;
-            ctrl_SortHistory1.BringToFront();
             ctrl_SortHistory1.Visible = true;
             ctrl_NewSort_Input1.Visible = false;
         }

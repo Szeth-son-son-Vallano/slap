@@ -53,7 +53,7 @@
             // 
             this.lbl_RouteList.BackColor = System.Drawing.Color.Transparent;
             this.lbl_RouteList.Font = new System.Drawing.Font("DengXian", 10F, System.Drawing.FontStyle.Bold);
-            this.lbl_RouteList.Location = new System.Drawing.Point(1025, 125);
+            this.lbl_RouteList.Location = new System.Drawing.Point(1025, 50);
             this.lbl_RouteList.Name = "lbl_RouteList";
             this.lbl_RouteList.Size = new System.Drawing.Size(150, 50);
             this.lbl_RouteList.TabIndex = 9;
@@ -64,7 +64,7 @@
             // 
             this.lbl_ParcelList.BackColor = System.Drawing.Color.Transparent;
             this.lbl_ParcelList.Font = new System.Drawing.Font("DengXian", 10F, System.Drawing.FontStyle.Bold);
-            this.lbl_ParcelList.Location = new System.Drawing.Point(875, 125);
+            this.lbl_ParcelList.Location = new System.Drawing.Point(875, 50);
             this.lbl_ParcelList.Name = "lbl_ParcelList";
             this.lbl_ParcelList.Size = new System.Drawing.Size(150, 50);
             this.lbl_ParcelList.TabIndex = 8;
@@ -79,7 +79,7 @@
             // 
             this.lbl_SortPlan.BackColor = System.Drawing.Color.Transparent;
             this.lbl_SortPlan.Font = new System.Drawing.Font("DengXian", 10F, System.Drawing.FontStyle.Bold);
-            this.lbl_SortPlan.Location = new System.Drawing.Point(1025, 325);
+            this.lbl_SortPlan.Location = new System.Drawing.Point(1025, 250);
             this.lbl_SortPlan.Name = "lbl_SortPlan";
             this.lbl_SortPlan.Size = new System.Drawing.Size(150, 50);
             this.lbl_SortPlan.TabIndex = 13;
@@ -90,7 +90,7 @@
             // 
             this.lbl_FloorPlan.BackColor = System.Drawing.Color.Transparent;
             this.lbl_FloorPlan.Font = new System.Drawing.Font("DengXian", 10F, System.Drawing.FontStyle.Bold);
-            this.lbl_FloorPlan.Location = new System.Drawing.Point(875, 325);
+            this.lbl_FloorPlan.Location = new System.Drawing.Point(875, 250);
             this.lbl_FloorPlan.Name = "lbl_FloorPlan";
             this.lbl_FloorPlan.Size = new System.Drawing.Size(150, 50);
             this.lbl_FloorPlan.TabIndex = 12;
@@ -102,7 +102,7 @@
             this.dgv_FileData.AllowUserToAddRows = false;
             this.dgv_FileData.AllowUserToDeleteRows = false;
             this.dgv_FileData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_FileData.Location = new System.Drawing.Point(50, 125);
+            this.dgv_FileData.Location = new System.Drawing.Point(50, 50);
             this.dgv_FileData.Name = "dgv_FileData";
             this.dgv_FileData.ReadOnly = true;
             this.dgv_FileData.RowHeadersWidth = 51;
@@ -127,7 +127,7 @@
             this.btn_Back.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Back.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
             this.btn_Back.ForeColor = System.Drawing.Color.White;
-            this.btn_Back.Location = new System.Drawing.Point(475, 600);
+            this.btn_Back.Location = new System.Drawing.Point(475, 525);
             this.btn_Back.Name = "btn_Back";
             this.btn_Back.Size = new System.Drawing.Size(250, 60);
             this.btn_Back.TabIndex = 7;
@@ -151,7 +151,7 @@
             this.btn_Sort.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Sort.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
             this.btn_Sort.ForeColor = System.Drawing.Color.White;
-            this.btn_Sort.Location = new System.Drawing.Point(475, 525);
+            this.btn_Sort.Location = new System.Drawing.Point(475, 450);
             this.btn_Sort.Name = "btn_Sort";
             this.btn_Sort.Size = new System.Drawing.Size(250, 60);
             this.btn_Sort.TabIndex = 6;
@@ -163,7 +163,7 @@
             // 
             this.pb_DL_SortPlan.Enabled = false;
             this.pb_DL_SortPlan.Image = ((System.Drawing.Image)(resources.GetObject("pb_DL_SortPlan.Image")));
-            this.pb_DL_SortPlan.Location = new System.Drawing.Point(1050, 375);
+            this.pb_DL_SortPlan.Location = new System.Drawing.Point(1050, 300);
             this.pb_DL_SortPlan.Margin = new System.Windows.Forms.Padding(0);
             this.pb_DL_SortPlan.Name = "pb_DL_SortPlan";
             this.pb_DL_SortPlan.Size = new System.Drawing.Size(100, 100);
@@ -177,7 +177,7 @@
             // 
             this.pb_DL_FloorPlan.Enabled = false;
             this.pb_DL_FloorPlan.Image = ((System.Drawing.Image)(resources.GetObject("pb_DL_FloorPlan.Image")));
-            this.pb_DL_FloorPlan.Location = new System.Drawing.Point(900, 375);
+            this.pb_DL_FloorPlan.Location = new System.Drawing.Point(900, 300);
             this.pb_DL_FloorPlan.Margin = new System.Windows.Forms.Padding(0);
             this.pb_DL_FloorPlan.Name = "pb_DL_FloorPlan";
             this.pb_DL_FloorPlan.Size = new System.Drawing.Size(100, 100);
@@ -191,7 +191,7 @@
             // 
             this.pb_DL_RouteList.Enabled = false;
             this.pb_DL_RouteList.Image = ((System.Drawing.Image)(resources.GetObject("pb_DL_RouteList.Image")));
-            this.pb_DL_RouteList.Location = new System.Drawing.Point(1050, 175);
+            this.pb_DL_RouteList.Location = new System.Drawing.Point(1050, 100);
             this.pb_DL_RouteList.Margin = new System.Windows.Forms.Padding(0);
             this.pb_DL_RouteList.Name = "pb_DL_RouteList";
             this.pb_DL_RouteList.Size = new System.Drawing.Size(100, 100);
@@ -205,7 +205,7 @@
             // 
             this.pb_DL_ParcelList.Enabled = false;
             this.pb_DL_ParcelList.Image = global::Slap.Properties.Resources.filePurple;
-            this.pb_DL_ParcelList.Location = new System.Drawing.Point(900, 175);
+            this.pb_DL_ParcelList.Location = new System.Drawing.Point(900, 100);
             this.pb_DL_ParcelList.Margin = new System.Windows.Forms.Padding(0);
             this.pb_DL_ParcelList.Name = "pb_DL_ParcelList";
             this.pb_DL_ParcelList.Size = new System.Drawing.Size(100, 100);
@@ -220,7 +220,7 @@
             this.lbl_Message.BackColor = System.Drawing.Color.Transparent;
             this.lbl_Message.Font = new System.Drawing.Font("DengXian", 10F, System.Drawing.FontStyle.Italic);
             this.lbl_Message.ForeColor = System.Drawing.Color.Red;
-            this.lbl_Message.Location = new System.Drawing.Point(350, 500);
+            this.lbl_Message.Location = new System.Drawing.Point(350, 425);
             this.lbl_Message.Name = "lbl_Message";
             this.lbl_Message.Size = new System.Drawing.Size(500, 20);
             this.lbl_Message.TabIndex = 15;

@@ -355,7 +355,7 @@ namespace Slap
             }
             catch (Exception exception)
             {
-                lbl_Message.Text = "Zip failed";
+                lbl_Message.Text = "Zip failed - Please close the files to allow before zipping";
                 lbl_Message.ForeColor = Color.Red;
 
                 Console.WriteLine(exception.Message);
