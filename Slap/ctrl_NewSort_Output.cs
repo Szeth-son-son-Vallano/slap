@@ -733,21 +733,25 @@ namespace Slap
                 int gridRows = RouteGroup.PalletCount;
                 int gridCols = 28;
                 int legendRows = sortedRouteGroupList.Count;
-                int legendCols = 3;
+                int legendCols = 4;
                 PdfPTable gridTable = new PdfPTable(gridRows + 2);
                 PdfPTable legendTable = new PdfPTable(legendCols);
 
                 iTextSharp.text.Font font = new iTextSharp.text.Font(FontFactory.GetFont("Times New Roman", 8));
 
                 // create table title
-                PdfPCell titleCell = new PdfPCell(new Phrase("FLOOR PLAN - " + dateTimeStr));
-                titleCell.Rowspan = gridCols;
-                titleCell.Rotation = 270;
-                titleCell.HorizontalAlignment = 1;
+                PdfPCell titleCell = new PdfPCell(new Phrase("FLOOR PLAN - " + dateTimeStr))
+                {
+                    Rowspan = gridCols,
+                    Rotation = 270,
+                    HorizontalAlignment = 1
+                };
 
-                PdfPCell legendTitleCell = new PdfPCell(new Phrase("FLOOR PLAN - " + dateTimeStr));
-                legendTitleCell.Colspan = legendCols;
-                legendTitleCell.HorizontalAlignment = 1;
+                PdfPCell legendTitleCell = new PdfPCell(new Phrase("FLOOR PLAN - " + dateTimeStr))
+                {
+                    Colspan = legendCols,
+                    HorizontalAlignment = 1
+                };
                 legendTable.AddCell(legendTitleCell);
                 
                 // fill in the used lanes
@@ -755,6 +759,35 @@ namespace Slap
                 float minimumHeight = 25.0f;
                 bool insertTitle = false;
                 int colorShift = 1;
+
+                PdfPCell legendHeaderCell1 = new PdfPCell(new Phrase("Colour", font))
+                {
+                    Colspan = 1,
+                    MinimumHeight = minimumHeight
+                };
+
+                PdfPCell legendHeaderCell2 = new PdfPCell(new Phrase("Lanes", font))
+                {
+                    Colspan = 1,
+                    MinimumHeight = minimumHeight
+                };
+
+                PdfPCell legendHeaderCell3 = new PdfPCell(new Phrase("Routes", font))
+                {
+                    Colspan = 1,
+                    MinimumHeight = minimumHeight
+                };
+
+                PdfPCell legendHeaderCell4 = new PdfPCell(new Phrase("Parcel Count", font))
+                {
+                    Colspan = 1,
+                    MinimumHeight = minimumHeight
+                };
+
+                legendTable.AddCell(legendHeaderCell1);
+                legendTable.AddCell(legendHeaderCell2);
+                legendTable.AddCell(legendHeaderCell3);
+                legendTable.AddCell(legendHeaderCell4);
 
                 foreach (RouteGroup routeGroup in sortedRouteGroupList)
                 {
@@ -789,9 +822,23 @@ namespace Slap
                             MinimumHeight = minimumHeight
                         };
 
+                        int count = 0;
+
+                        foreach(var parcel in routeGroup.ParcelList)
+                        {
+                            count++;
+                        }
+
+                        PdfPCell legendCellCount = new PdfPCell(new Phrase(count.ToString(), font))
+                        {
+                            Colspan = 1,
+                            MinimumHeight = minimumHeight
+                        };
+
                         legendTable.AddCell(legendCellColor);
                         legendTable.AddCell(legendCellLanes);
                         legendTable.AddCell(legendCellRoutes);
+                        legendTable.AddCell(legendCellCount);
 
                         // insert into grid table
                         foreach (char lane in routeGroup.Lanes)
