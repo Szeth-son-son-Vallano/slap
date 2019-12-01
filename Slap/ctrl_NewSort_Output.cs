@@ -760,25 +760,25 @@ namespace Slap
                 bool insertTitle = false;
                 int colorShift = 1;
 
-                PdfPCell legendHeaderCell1 = new PdfPCell(new Phrase("Colour", font))
+                PdfPCell legendHeaderCell1 = new PdfPCell(new Phrase("COLOUR", font))
                 {
                     Colspan = 1,
                     MinimumHeight = minimumHeight
                 };
 
-                PdfPCell legendHeaderCell2 = new PdfPCell(new Phrase("Lanes", font))
+                PdfPCell legendHeaderCell2 = new PdfPCell(new Phrase("LANES", font))
                 {
                     Colspan = 1,
                     MinimumHeight = minimumHeight
                 };
 
-                PdfPCell legendHeaderCell3 = new PdfPCell(new Phrase("Routes", font))
+                PdfPCell legendHeaderCell3 = new PdfPCell(new Phrase("ROUTES", font))
                 {
                     Colspan = 1,
                     MinimumHeight = minimumHeight
                 };
 
-                PdfPCell legendHeaderCell4 = new PdfPCell(new Phrase("Parcel Count", font))
+                PdfPCell legendHeaderCell4 = new PdfPCell(new Phrase("PARCEL COUNT", font))
                 {
                     Colspan = 1,
                     MinimumHeight = minimumHeight
